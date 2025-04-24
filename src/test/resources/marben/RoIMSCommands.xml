@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<diameter-command-dictionary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:noNamespaceSchemaLocation="xsd/diameter-command.xsd">
+    <dictionary>
+        <!-- Currently supported values for attribute 'name': "Credit-Control-Request" and "Credit-Control-Answer" -->
+        <command name="Credit-Control-Request" code="272" request="true">
+            <!-- supported values for attribute 'multiplicity': "0+|1|1+|0-1" -->
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Realm" code="283" vendor="0" multiplicity="1" flags="RIUT"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="Service-Context-Id" code="461" vendor="0" multiplicity="1" flags="RIUT"/>
+            <avp name="CC-Request-Type" code="416" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Number" code="415" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Host" code="293" vendor="0" multiplicity="0-1" flags="RIUT"/>
+            <avp name="User-Name" code="1" vendor="0" multiplicity="0-1" flags="RIUT"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="Event-Timestamp" code="55" vendor="0" multiplicity="0-1"/>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="1+" flags="RIUT"/>
+            <avp name="AoC-Request-Type" code="2055" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+            <avp name="Termination-Cause" code="295" vendor="0" multiplicity="0-1" flags="RT"/>
+            <avp name="Multiple-Services-Indicator" code="455" vendor="0" multiplicity="1" flags="RIUT"/>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="1+"/>
+            <avp name="User-Equipment-Info" code="458" vendor="0" multiplicity="0-1" flags="RIUT"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+            <avp name="Service-Information" code="873" vendor="10415" multiplicity="1" flags="RIUT"/>
+        </command>
+        <command name="Credit-Control-Answer" code="272" request="false">
+            <!-- supported values for attribute 'multiplicity': "0+|1|1+|0-1" -->
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Result-Code" code="268" vendor="0" multiplicity="1" flags="AIUT"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Type" code="416" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Number" code="415" vendor="0" multiplicity="1"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="CC-Session-Failover" code="418" vendor="0" multiplicity="1" flags="AIU"/>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="1+"/>
+            <avp name="Credit-Control-Failure-Handling" code="427" vendor="0" multiplicity="0-1" flags="AIUT"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+            <avp name="Failed-AVP" code="272" vendor="0" multiplicity="0+" flags="AIUT"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Event-Timestamp" code="55" vendor="0" multiplicity="0-1"/>
+        </command>
+        <!--This section describes all grouped avp for all commands-->
+        <grouped-avp-defn>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="0+" flags="RIUT">
+                <avp name="Subscription-Id-Type" code="450" vendor="0" multiplicity="1" flags="RIUT"/>
+                <avp name="Subscription-Id-Data" code="444" vendor="0" multiplicity="1" flags="RIUT"/>
+            </avp>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="0+">
+                <avp name="Requested-Service-Unit" code="437" vendor="0" multiplicity="0-1" flags="RIU">
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1" flags="RIU"/>
+                    <avp name="CC-Service-Specific-Units" code="417" vendor="0" multiplicity="0-1" flags="RIU"/>
+                </avp>
+                <avp name="Used-Service-Unit" code="446" vendor="0" multiplicity="0+" flags="RU">
+                    <avp name="Reporting-Reason" code="872" vendor="10415" multiplicity="0-1" flags="RU"/>
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1" flags="RU"/>
+                </avp>
+                <avp name="Service-Identifier" code="439" vendor="0" multiplicity="0+"/>
+                <avp name="Rating-Group" code="432" vendor="0" multiplicity="0-1" flags="RIUT"/>
+                <avp name="Reporting-Reason" code="872" vendor="10415" multiplicity="0+" flags="RUT"/>
+                <avp name="Trigger" code="1264" vendor="10415" multiplicity="0-1">
+                    <avp name="Trigger-Type" code="870" vendor="10415" multiplicity="0+"/>
+                </avp>
+                <avp name="Granted-Service-Unit" code="431" vendor="0" multiplicity="0+" flags="AIU">
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1" flags="AIU"/>
+                </avp>
+                <avp name="Validity-Time" code="448" vendor="0" multiplicity="0-1" flags="AIU"/>
+                <avp name="Final-Unit-Indication" code="430" vendor="0" multiplicity="0-1" flags="AIU">
+                    <avp name="Final-Unit-Action" code="449" vendor="0" multiplicity="1" flags="AIU"/>
+                </avp>
+                <avp name="Volume-Quota-Threshold" code="869" vendor="10415" multiplicity="0-1" flags="AIUT"/>
+                <avp name="Result-Code" code="268" vendor="0" multiplicity="0-1" flags="AIUT"/>
+                <avp name="Check-Balance-Result" code="422" vendor="0" multiplicity="0-1" flags="A"/>
+            </avp>
+            <avp name="User-Equipment-Info" code="458" vendor="0" multiplicity="0-1" flags="RIUT">
+                <avp name="User-Equipment-Info-Type" code="459" vendor="0" multiplicity="0-1" flags="RIUT"/>
+                <avp name="User-Equipment-Info-Value" code="460" vendor="0" multiplicity="0-1" flags="RIUT"/>
+            </avp>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+">
+                <avp name="Proxy-Host" code="280" vendor="0" multiplicity="1"/>
+                <avp name="Proxy-State" code="33" vendor="0" multiplicity="1"/>
+            </avp>
+            <avp name="Service-Information" code="873" vendor="10415" multiplicity="0+" flags="RIUT">
+                <avp name="IMS-Information" code="876" vendor="10415" multiplicity="1" flags="RIUT">
+                    <avp name="Event-Type" code="823" vendor="10415" multiplicity="0-1" flags="RIUT">
+                        <avp name="SIP-Method" code="824" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    </avp>
+                    <avp name="Role-Of-Node" code="829" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    <avp name="Node-Functionality" code="862" vendor="10415" multiplicity="1" flags="RIUT"/>
+                    <avp name="User-Session-Id" code="830" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    <avp name="Outgoing-Session-Id" code="2320" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    <avp name="Session-Priority" code="650" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    <avp name="Calling-Party-Address" code="831" vendor="10415" multiplicity="0+" flags="RIUT"/>
+                    <avp name="Called-Party-Address" code="832" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    <avp name="Called-Asserted-Identity" code="1250" vendor="10415" multiplicity="0+" flags="RUT"/>
+                    <avp name="Number-Portability-Routing-Information" code="2024" vendor="10415" multiplicity="0-1" flags="RI"/>
+                    <avp name="Carrier-Select-Routing-Information" code="2023" vendor="10415" multiplicity="0-1" flags="RI"/>
+                    <avp name="Requested-Party-Address" code="1251" vendor="10415" multiplicity="0+" flags="RI"/>
+                    <avp name="Time-Stamps" code="833" vendor="10415" multiplicity="0-1" flags="RIUT">
+                        <avp name="SIP-Request-Timestamp" code="834" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                        <avp name="SIP-Response-Timestamp" code="835" vendor="10415" multiplicity="0-1" flags="RUT"/>
+                        <avp name="SIP-Request-Timestamp-Fraction" code="2301" vendor="10415" multiplicity="0-1" flags="RUT"/>
+                        <avp name="SIP-Response-Timestamp-Fraction" code="2302" vendor="10415" multiplicity="0-1" flags="RUT"/>
+                    </avp>
+                    <avp name="Inter-Operator-Identifier" code="838" vendor="10415" multiplicity="0+" flags="RIUT">
+                        <avp name="Originating-IOI" code="839" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                        <avp name="Terminating-IOI" code="840" vendor="10415" multiplicity="0-1" flags="RUT"/>
+                    </avp>
+                    <avp name="IMS-Charging-Identifier" code="841" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    <avp name="SDP-Session-Description" code="842" vendor="10415" multiplicity="0+" flags="RIU"/>
+                    <avp name="SDP-Media-Component" code="843" vendor="10415" multiplicity="0+" flags="RIU">
+                        <avp name="SDP-Media-Name" code="844" vendor="10415" multiplicity="0-1" flags="RIU"/>
+                        <avp name="SDP-Media-Description" code="845" vendor="10415" multiplicity="0+" flags="RIU"/>
+                        <avp name="Media-Initiator-Flag" code="882" vendor="10415" multiplicity="0-1" flags="RIU"/>
+                        <avp name="SDP-Type" code="2036" vendor="10415" multiplicity="0-1" flags="RIU"/>
+                    </avp>
+                    <avp name="Service-Specific-Info" code="1249" vendor="10415" multiplicity="0+" flags="RIUT">
+                        <avp name="Service-Specific-Data" code="863" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                        <avp name="Service-Specific-Type" code="1257" vendor="10415" multiplicity="0-1" flags="RIUT"/>
+                    </avp>
+                    <avp name="Cause-Code" code="861" vendor="10415" multiplicity="0-1" flags="RT"/>
+                    <avp name="Reason-Header" code="3401" vendor="10415" multiplicity="0+" flags="RT"/>
+                    <avp name="Access-Network-Information" code="1263" vendor="10415" multiplicity="0+" flags="RIUT"/>
+                </avp>
+            </avp>
+            <avp name="Failed-AVP" code="279" vendor="0" multiplicity="0+" flags="AIUT">
+                <avp name="AVP" code="279" vendor="0" multiplicity="0+" flags="AIUT"/>   <!-- TODO: here can be any AVP, need to handle this correctly -->
+            </avp>
+        </grouped-avp-defn>
+    </dictionary>
+</diameter-command-dictionary>

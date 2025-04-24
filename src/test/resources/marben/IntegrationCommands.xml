@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<diameter-command-dictionary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:noNamespaceSchemaLocation="xsd/diameter-command.xsd">
+    <dictionary>
+        <command name="Credit-Control-Request" code="272" request="true">
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="NC-Call-Direction" code="22830" vendor="666" multiplicity="0-1"/>
+            <avp name="NC-Roaming-Indicator" code="22831" vendor="666" multiplicity="0-1"/>
+            <avp name="NC-Service-Context-Id" code="22832" vendor="666" multiplicity="0-1"/>
+            <avp name="NC-Originating-Country-Code" code="22833" vendor="666" multiplicity="0-1"/>
+            <avp name="NC-SMSC-Address" code="22834" vendor="666" multiplicity="0-1"/>
+            <avp name="NC-Premium-Indicator" code="22837" vendor="666" multiplicity="0-1"/>
+            <avp name="NC-VLR-Number" code="22838" vendor="666" multiplicity="0-1"/>
+            <avp name="NC-MSC-Address" code="22839" vendor="666" multiplicity="0-1"/>
+            <avp name="MMS-Message-Size" code="22840" vendor="666" multiplicity="0-1"/>
+		    <avp name="NC-TADIG" code="22842" vendor="666" multiplicity="0-1" flags="R"/>
+            <avp name="NC-MMS-Message-Size" code="22841" vendor="666" multiplicity="0-1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Realm" code="283" vendor="0" multiplicity="1" flags="R"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="Service-Context-Id" code="461" vendor="0" multiplicity="1" flags="R"/>
+            <avp name="CC-Request-Type" code="416" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Number" code="415" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Host" code="293" vendor="0" multiplicity="0-1" flags="R"/>
+            <avp name="Event-Timestamp" code="55" vendor="0" multiplicity="0-1"/>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="1+" flags="R"/>
+            <avp name="AoC-Request-Type" code="2055" vendor="10415" multiplicity="0-1"/>
+            <avp name="Multiple-Services-Indicator" code="455" vendor="0" multiplicity="0-1" flags="R"/>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="0+"/>
+            <avp name="CC-Correlation-Id" code="411" vendor="0" multiplicity="0-1"/>
+            <avp name="Termination-Cause" code="295" vendor="0" multiplicity="0-1"/>
+            <avp name="Multiple-Services-Indicator" code="455" vendor="0" multiplicity="1"/>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="1+"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+            <avp name="User-Name" code="1" vendor="0" multiplicity="0-1"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="Requested-Action" code="436" vendor="0" multiplicity="0-1"/>
+            <avp name="User-Equipment-Info" code="458" vendor="0" multiplicity="0-1"/>
+            <avp name="Service-Information" code="873" vendor="10415" multiplicity="0-1" flags="R"/>
+        </command>
+        <command name="Credit-Control-Answer" code="272" request="false">
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Result-Code" code="268" vendor="0" multiplicity="1" flags="A"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Type" code="416" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Number" code="415" vendor="0" multiplicity="1"/>
+            <avp name="CC-Session-Failover" code="418" vendor="0" multiplicity="1" flags="A"/>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="0+"/>
+            <avp name="Direct-Debiting-Failure-Handling" code="428" vendor="0" multiplicity="1" flags="A"/>
+            <avp name="Failed-AVP" code="272" vendor="0" multiplicity="0+" flags="A"/>
+        </command>
+        <!--This section describes all grouped avp for all commands-->
+        <grouped-avp-defn>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="0+" flags="R">
+                <avp name="Subscription-Id-Type" code="450" vendor="0" multiplicity="1" flags="R"/>
+                <avp name="Subscription-Id-Data" code="444" vendor="0" multiplicity="1" flags="R"/>
+            </avp>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="0+">
+                <avp name="Requested-Service-Unit" code="437" vendor="0" multiplicity="0-1" flags="R">
+                    <avp name="CC-Total-Octets" code="421" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Input-Octets" code="412" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Output-Octets" code="414" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Service-Specific-Units" code="417" vendor="0" multiplicity="0-1" flags="R"/>
+                </avp>
+                <avp name="Used-Service-Unit" code="446" vendor="0" multiplicity="0-1" flags="R">
+                    <avp name="Reporting-Reason" code="872" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Tariff-Change-Usage" code="452" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Total-Octets" code="421" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Input-Octets" code="412" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Output-Octets" code="414" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="CC-Service-Specific-Units" code="417" vendor="0" multiplicity="0-1" flags="R"/>
+                </avp>
+                <avp name="Check-Balance-Result" code="422" vendor="0" multiplicity="0-1"/>
+                <avp name="Service-Identifier" code="439" vendor="0" multiplicity="0+"/>
+                <avp name="Rating-Group" code="432" vendor="0" multiplicity="0-1"/>
+                <avp name="Reporting-Reason" code="872" vendor="10415" multiplicity="0+" flags="R"/>
+                <avp name="Trigger" code="1264" vendor="10415" multiplicity="0-1">
+                    <avp name="Trigger-Type" code="870" vendor="10415" multiplicity="0+"/>
+                </avp>
+                <avp name="AF-Correlation-Information" code="1276" vendor="10415" multiplicity="0+">
+                    <avp name="AF-Charging-Identifier" code="505" vendor="10415" multiplicity="0+"/>
+                </avp>
+            </avp>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+">
+                <avp name="Proxy-Host" code="280" vendor="0" multiplicity="1"/>
+                <avp name="Proxy-State" code="33" vendor="0" multiplicity="1"/>
+            </avp>
+            <avp name="User-Equipment-Info" code="458" vendor="0" multiplicity="0+">
+                <avp name="User-Equipment-Info-Type" code="459" vendor="0" multiplicity="0-1"/>
+                <avp name="User-Equipment-Info-Value" code="460" vendor="0" multiplicity="0-1"/>
+            </avp>
+            <avp name="Service-Information" code="873" vendor="10415" multiplicity="0-1" flags="R">
+                <avp name="MMTel-Information" code="2030" vendor="10415" multiplicity="0-1" flags="R">
+                      <avp name="Supplementary-Service" code="2048" vendor="10415" multiplicity="0+" flags="R">
+                            <avp name="Associated-Party-Address" code="2035" vendor="10415" multiplicity="0-1" flags="R"/>
+                     </avp>
+                </avp>
+                <avp name="PS-Information" code="874" vendor="10415" multiplicity="0-1" flags="R">
+                    <avp name="TGPP-Charging-Id" code="2" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="PDN-Connection-ID" code="2050" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-PDP-Type" code="3" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="PDP-Address" code="1227" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="QoS-Information" code="1016" vendor="10415" multiplicity="0-1" flags="R">
+                        <avp name="QoS-Class-Identifier" code="1028" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Allocation-Retention-Priority" code="1034" vendor="10415" multiplicity="0-1" flags="R">
+                            <avp name="Priority-Level" code="1046" vendor="10415" multiplicity="1" flags="R"/>
+                            <avp name="Pre-emption-Capability" code="1047" vendor="10415" multiplicity="1" flags="R"/>
+                            <avp name="Pre-emption-Vulnerability" code="1048" vendor="10415" multiplicity="1" flags="R"/>
+                        </avp>
+                        <avp name="APN-Aggregate-Max-Bitrate-UL" code="1041" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="APN-Aggregate-Max-Bitrate-DL" code="1040" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Dynamic-Address-Flag" code="2051" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SGSN-Address" code="1228" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="GGSN-Address" code="847" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="Serving-Node-Type" code="2047" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-IMSI-MCC-MNC" code="8" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-GGSN-MCC-MNC" code="9" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-NSAPI" code="10" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-Selection-Mode" code="12" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-Charging-Characteristics" code="13" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-SGSN-MCC-MNC" code="18" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-MS-TimeZone" code="23" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-User-Location-Info" code="22" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="TGPP-RAT-Type" code="21" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Called-Station-Id" code="30" vendor="0" multiplicity="0-1" flags="R"/>
+                    <avp name="PDP-Context-Type" code="1247" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Start-Time" code="2041" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Stop-Time" code="2042" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="User-Equipment-Info" code="458" vendor="0" multiplicity="0-1" flags="R">
+                        <avp name="User-Equipment-Info-Type" code="459" vendor="0" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Charging-Characteristics-Selection-Mode" code="2066" vendor="10415" multiplicity="0-1" flags="R"/>
+                </avp>
+                <avp name="IMS-Information" code="876" vendor="10415" multiplicity="0-1" flags="R">
+                    <avp name="Event-Type" code="823" vendor="10415" multiplicity="0-1" flags="R">
+                        <avp name="SIP-Method" code="824" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Role-of-Node" code="829" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Node-Functionality" code="862" vendor="10415" multiplicity="1" flags="R"/>
+                    <avp name="User-Session-ID" code="830" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Outgoing-Session-ID" code="2320" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Session-Priority" code="650" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Calling-Party-Address" code="831" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="Called-Party-Address" code="832" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Called-Assertred-Identity" code="1250" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="Number-Portability-Routing-Information" code="2024" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Carrier-Select-Routing-Information" code="2023" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Requested-Party-Address" code="1251" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="Time-Stamps" code="833" vendor="10415" multiplicity="0-1" flags="R">
+                        <avp name="SIP-Request-Timestamp" code="834" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="SIP-Response-Timestamp" code="835" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="SIP-Request-Timestamp-Fraction" code="2301" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="SIP-Response-Timestamp-Fraction" code="2302" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Inter-Operator-Identifier" code="838" vendor="10415" multiplicity="0+" flags="R">
+                        <avp name="Originating-IOI" code="839" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Terminating-IOI" code="840" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="IMS-Charging-Identifier" code="841" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SDP-Session-Description" code="842" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="SDP-Media-Component" code="843" vendor="10415" multiplicity="0+" flags="R">
+                        <avp name="SDP-Media-Name" code="844" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="SDP-Media-Description" code="845" vendor="10415" multiplicity="0+" flags="R"/>
+                        <avp name="Media-Initiator-Flag" code="882" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="SDP-Type" code="2036" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Service-Specific-Info" code="1249" vendor="10415" multiplicity="0+" flags="R">
+                        <avp name="Service-Specific-Data" code="863" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Service-Specific-Type" code="1257" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Cause-Code" code="861" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Reason-Header" code="3401" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="Access-Network-Information" code="1263" vendor="10415" multiplicity="0+" flags="R"/>
+                    <avp name="Service-Id" code="855" vendor="10415" multiplicity="0-1" flags="R"/>
+                </avp>
+                <avp name="SMS-Information" code="2000" vendor="10415" multiplicity="0-1" flags="R">
+                    <avp name="SMS-Node" code="2016" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Client-Address" code="2018" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Originator-SCCP-Address" code="2008" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SMSC-Address" code="2017" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Data-Coding-Scheme" code="2001" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-Discharge-Time" code="2012" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-Message-Type" code="2007" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Originator-Interface" code="2009" vendor="10415" multiplicity="0-1" flags="R">
+                        <avp name="Interface-Id" code="2003" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Interface-Text" code="2005" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Interface-Port" code="2004" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Interface-Type" code="2006" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="SM-Protocol-ID" code="2013" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Reply-Path-Requested" code="2011" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-Status" code="2014" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-User-Data-Header" code="2015" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Number-Of-Messages-Sent" code="2019" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-Sequence-Number" code="3408" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Recipient-Info" code="2026" vendor="10415" multiplicity="0+" flags="R">
+                        <avp name="Destination-Interface" code="2002" vendor="10415" multiplicity="0-1" flags="R">
+                            <avp name="Interface-Id" code="2003" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Interface-Text" code="2005" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Interface-Port" code="2004" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Interface-Type" code="2006" vendor="10415" multiplicity="0-1" flags="R"/>
+                        </avp>
+                        <avp name="Recipient-Address" code="1201" vendor="10415" multiplicity="0+" flags="R">
+                            <avp name="Address-Type" code="899" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Data" code="897" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Domain" code="898" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Addressee-Type" code="1208" vendor="10415" multiplicity="0-1" flags="R"/>
+                        </avp>
+                        <avp name="Recipient-Received-Address" code="2028" vendor="10415" multiplicity="0+" flags="R">
+                            <avp name="Address-Type" code="899" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Data" code="897" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Domain" code="898" vendor="10415" multiplicity="0-1" flags="R"/>
+                        </avp>
+                        <avp name="Recipient-SCCP-Address" code="2010" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="SM-Protocol-ID" code="2013" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Originator-Received-Address" code="2027" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-Service-Type" code="2029" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SMS-Result" code="3409" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-Device-Trigger-Indicator" code="3407" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="SM-Device-Trigger-Information" code="3405" vendor="10415" multiplicity="0-1" flags="R"/>
+                </avp>
+                <avp name="MMS-Information" code="877" vendor="10415" multiplicity="0-1" flags="R">
+                    <avp name="Originator-Address" code="886" vendor="10415" multiplicity="0-1" flags="R">
+                         <avp name="Address-Type" code="899" vendor="10415" multiplicity="0-1" flags="R"/>
+                         <avp name="Address-Data" code="897" vendor="10415" multiplicity="0-1" flags="R"/>
+                         <avp name="Address-Domain" code="898" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Recipient-Info" code="1201" vendor="10415" multiplicity="0-1" flags="R">
+                        <avp name="Destination-Interface" code="2002" vendor="10415" multiplicity="0-1" flags="R">
+                            <avp name="Interface-Id" code="2003" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Interface-Text" code="2005" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Interface-Port" code="2004" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Interface-Type" code="2006" vendor="10415" multiplicity="0-1" flags="R"/>
+                        </avp>
+                        <avp name="Recipient-Address" code="1201" vendor="10415" multiplicity="0+" flags="R">
+                            <avp name="Address-Type" code="899" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Data" code="897" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Domain" code="898" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Addressee-Type" code="1208" vendor="10415" multiplicity="0-1" flags="R"/>
+                        </avp>
+                        <avp name="Recipient-Received-Address" code="2028" vendor="10415" multiplicity="0+" flags="R">
+                            <avp name="Address-Type" code="899" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Data" code="897" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Address-Domain" code="898" vendor="10415" multiplicity="0-1" flags="R"/>
+                        </avp>
+                        <avp name="Recipient-SCCP-Address" code="2010" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="SM-Protocol-ID" code="2013" vendor="10415" multiplicity="0-1" flags="R"/>
+                    </avp>
+                    <avp name="Submission-Time" code="1202" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="MM-Content-Type" code="1203" vendor="10415" multiplicity="0-1" flags="R">
+                        <avp name="Type-Number" code="1204" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Additional-Type-Information" code="1205" vendor = "10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Content-Size" code="1206" vendor="10415" multiplicity="0-1" flags="R"/>
+                        <avp name="Additional-Content-Information" code="1207" vendor="10415" multiplicity="0+" flags="R">
+                            <avp name="Type-Number" code="1204" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Additional-Type-Information" code="1205" vendor="10415" multiplicity="0-1" flags="R"/>
+                            <avp name="Content-Size" code="1206" vendor="10415" multiplicity="0-1" flags="R"/>
+                        </avp>
+                    </avp>
+                    <avp name="Priority" code="1209" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Message-ID" code="1210" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Message-Type" code="1211" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Message-Size" code="1212" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Message-Class" code="1213" vendor ="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Delivery-Report-Requested" code="1216" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Read-Reply-Requested" code="1222" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="MMBox-Storage-Requested" code="1248" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Applic-ID" code="1218" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Reply-Applic-ID" code="1223" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Aux-Applic-Info" code="1219" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Content-Class" code="1220" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="DRM-Content" code="1221" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Adaptations" code="1217" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="VASP-Id" code="1101" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="VAS-Id" code="1102" vendor="10415" multiplicity="0-1" flags="R"/>
+                </avp>
+                <avp name="VCS-Information" code="3410" vendor="10415" multiplicity="0-1" flags="R">
+                    <avp name="MSC-Address" code="3417" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="VLR-Number" code="3420" vendor="10415" multiplicity="0-1" flags="R"/>
+                    <avp name="Bearer-Capability" code="3412" vendor="10415" multiplicity="0-1" flags="R"/>
+                </avp>
+                <avp name="LCS-Information" code="878" vendor="10415" multiplicity="0-1" flags="R">
+                    <avp name="TGPP-IMSI" code="1" vendor="10415" multiplicity="0-1" flags="R"/>
+                </avp>
+            </avp>
+            <avp name="Failed-AVP" code="279" vendor="0" multiplicity="0+" flags="A">
+                <avp name="AVP" code="279" vendor="0" multiplicity="0+" flags="A"/>
+                <!-- TODO: here can be any AVP, need to handle this correctly -->
+            </avp>
+        </grouped-avp-defn>
+    </dictionary>
+</diameter-command-dictionary>

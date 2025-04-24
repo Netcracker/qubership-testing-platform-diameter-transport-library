@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<dictionary>
+  <!-- This dictionary contains Diameter Base Protocol [RFC3588]
+       definitions --> 
+  <vendor id="0" name="base">
+    <returnCode name="DIAMETER_SUCCESS" code="2001"/>
+    <returnCode name="DIAMETER_LIMITED_SUCCESS" code="2002"/>
+    <returnCode name="DIAMETER_COMMAND_UNSUPPORTED" code="3001"/>
+    <returnCode name="DIAMETER_UNABLE_TO_DELIVER" code="3002"/>
+    <returnCode name="DIAMETER_REALM_NOT_SERVED" code="3003"/>
+    <returnCode name="DIAMETER_TOO_BUSY" code="3004"/>
+    <returnCode name="DIAMETER_LOOP_DETECTED" code="3005"/>
+    <returnCode name="DIAMETER_REDIRECT_INDICATION" code="3006"/>
+    <returnCode name="DIAMETER_APPLICATION_UNSUPPORTED" code="3007"/>
+    <returnCode name="DIAMETER_INVALID_HDR_BITS" code="3008"/>
+    <returnCode name="DIAMETER_INVALID_AVP_BITS" code="3009"/>
+    <returnCode name="DIAMETER_UNKNOWN_PEER" code="3010" />
+    <returnCode name="DIAMETER_AUTHENTICATION_REJECTED" code="4001" />
+    <returnCode name="DIAMETER_OUT_OF_SPACE" code="4002" />
+    <returnCode name="ELECTION_LOST" code="4003" />
+    <returnCode name="DIAMETER_AVP_UNSUPPORTED" code="5001" />
+    <returnCode name="DIAMETER_UNKNOWN_SESSION_ID" code="5002" />
+    <returnCode name="DIAMETER_AUTHORIZATION_REJECTED" code="5003" />
+    <returnCode name="DIAMETER_INVALID_AVP_VALUE" code="5004" />
+    <returnCode name="DIAMETER_MISSING_AVP" code="5005" />
+    <returnCode name="DIAMETER_RESOURCES_EXCEEDED" code="5006" />
+    <returnCode name="DIAMETER_CONTRADICTING_AVPS" code="5007" />
+    <returnCode name="DIAMETER_AVP_NOT_ALLOWED" code="5008" />
+    <returnCode name="DIAMETER_AVP_OCCURS_TOO_MANY_TIMES" code="5009"/>
+    <returnCode name="DIAMETER_NO_COMMON_APPLICATION" code="5010" />
+    <returnCode name="DIAMETER_UNSUPPORTED_VERSION" code="5011" />
+    <returnCode name="DIAMETER_UNABLE_TO_COMPLY" code="5012" />
+    <returnCode name="DIAMETER_INVALID_BIT_IN_HEADER" code="5013" />
+    <returnCode name="DIAMETER_INVALID_AVP_LENGTH" code="5014" />
+    <returnCode name="DIAMETER_INVALID_MESSAGE_LENGTH" code="5015" />
+    <returnCode name="DIAMETER_INVALID_AVP_BIT_COMBO" code="5016" />
+    <returnCode name="DIAMETER_NO_COMMON_SECURITY" code="5017" />
+
+    <avp name="Acct-Interim-Interval" code="85" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Accounting-Realtime-Required" code="483" 
+         mandatory="must" protected="may" may-encrypt="yes">
+      <type type-name="Enumerated"/>
+        <enum name="DELIVER_AND_GRANT" code="1"/>
+        <enum name="GRANT_AND_STORE" code="2"/>
+        <enum name="GRANT_AND_LOSE" code="3"/>
+    </avp>
+    
+    <avp name="Accounting-Multi-Session-Id" code="50" 
+         mandatory="must" protected="may" may-encrypt="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+    
+    <avp name="Accounting-Record-Number" code="485" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Accounting-Record-Type" code="480" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="Enumerated"/>
+        <enum name="EVENT_RECORD" code="1"/>
+        <enum name="START_RECORD" code="2"/>
+        <enum name="INTERIM_RECORD" code="3"/>
+        <enum name="STOP_RECORD" code="4"/>
+    </avp>
+<!-- 6.15.  E2E-Sequence AVP
+    
+   The E2E-Sequence AVP (AVP Code 300) provides anti-replay protection
+   for end to end messages and is of type grouped.  It contains a random
+   value (an OctetString with a nonce) and counter (an Integer).  For
+   each end-to-end peer with which a node communicates (or remembers
+   communicating) a different nonce value MUST be used and the counter
+   is initiated at zero and increases by one each time this AVP is
+   emitted to that peer.  This AVP MUST be included in all messages
+   which use end-to-end protection (e.g., CMS signing or encryption).
+    <avp name="E2E-Sequence" code="300" mandatory="must"
+     protected="may" may-encrypt="yes">
+      <grouped>
+        <gavp name="random"/>
+        <gavp name="integer"/>
+      </grouped>
+    </avp>
+-->      
+    <avp name="Accounting-Session-Id" code="44" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="OctetString"/>
+    </avp>
+    
+    <avp name="Accounting-Sub-Session-Id" code="287" 
+         mandatory="must" protected="may" may-encrypt="yes">
+      <type type-name="Unsigned64"/>
+    </avp>
+    
+    <avp name="Acct-Application-Id" code="259" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Auth-Application-Id" code="258" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Auth-Request-Type" code="274" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Enumerated"/>
+        <enum name="AUTHENTICATE_ONLY" code="1"/>
+        <enum name="AUTHORIZE_ONLY" code="2"/>
+        <enum name="AUTHORIZE_AUTHENTICATE" code="3"/>
+    </avp>
+    
+    <avp name="Authorization-Lifetime" code="291" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Auth-Grace-Period" code="276" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Auth-Session-State" code="277" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Enumerated"/>
+        <enum name="STATE_MAINTAINED" code="0"/>
+        <enum name="NO_STATE_MAINTAINED" code="1"/>
+    </avp>
+    
+    <avp name="Re-Auth-Request-Type" code="285" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Enumerated"/>
+        <enum name="AUTHORIZE_ONLY" code="0"/>
+        <enum name="AUTHORIZE_AUTHENTICATE" code="1"/>
+    </avp>
+    
+    <avp name="Class" code="25" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="OctetString"/>
+    </avp>
+    
+    <avp name="Destination-Host" code="293" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+    
+    <avp name="Destination-Realm" code="283" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+    <avp name="Disconnect-Cause" code="273" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Enumerated"/>
+        <enum name="REBOOTING" code="0"/>
+        <enum name="BUSY" code="1"/>
+        <enum name="DO_NOT_WANT_TO_TALK_TO_YOU" code="2"/>
+    </avp>
+    <!--  CAUTION : AVP contents?, mandatory=? 
+    --> 
+
+    <avp name="Error-Message" code="281" mandatory="mustnot" 
+    protected="may" may-encrypt="no">
+         <type type-name="UTF8String" /> 
+    </avp>
+    <avp name="Error-Reporting-Host" code="294" mandatory="mustnot" 
+    protected="may" may-encrypt="no">
+  <type type-name="DiameterIdentity" /> 
+    </avp>
+  <!--  CAUTION : type=Time 
+  --> 
+    <avp name="Event-Timestamp" code="55" mandatory="must" 
+    protected="may" may-encrypt="no">
+  <type type-name="Time" /> 
+    </avp>
+    <avp name="Experimental-Result" code="297" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <grouped>
+  <gavp name="Vendor-Id" /> 
+  <gavp name="Experimental-Result-Code" /> 
+      </grouped>
+    </avp>
+  <avp name="Experimental-Result-Code" code="298" mandatory="must" 
+       protected="may" may-encrypt="no">
+  <type type-name="Unsigned32" /> 
+  </avp>
+<!-- 
+7.5.  Failed-AVP AVP
+
+   The Failed-AVP AVP (AVP Code 279) is of type Grouped and provides
+   debugging information in cases where a request is rejected or not
+   fully processed due to erroneous information in a specific AVP.  The
+   value of the Result-Code AVP will provide information on the reason
+   for the Failed-AVP AVP.
+
+   The possible reasons for this AVP are the presence of an improperly
+   constructed AVP, an unsupported or unrecognized AVP, an invalid AVP
+   value, the omission of a required AVP, the presence of an explicitly
+   excluded AVP (see tables in Section 10), or the presence of two or
+   more occurrences of an AVP which is restricted to 0, 1, or 0-1
+   occurrences.
+
+   A Diameter message MAY contain one Failed-AVP AVP, containing the
+   entire AVP that could not be processed successfully.  If the failure
+   reason is omission of a required AVP, an AVP with the missing AVP
+   code, the missing vendor id, and a zero filled payload of the minimum
+   required length for the omitted AVP will be added.
+
+   AVP Format
+      <Failed-AVP> ::= <AVP Header: 279 >
+                    1* {AVP}
+
+    <avp name="Failed-AVP" code="279" mandatory="mustnot"
+  may-encrypt="no">
+      <grouped> <gavp name=""/> <gavp name=""/> </grouped>
+    </avp>
+--> 
+  <!--  CAUTION : AVP Contents?, mandatory= must if failed AVP detected 
+  --> 
+    <!-- <avp name="Failed-AVP" code="279" mandatory="must" 
+         may-encrypt="no"> <type type-name="OctetString"/>
+    </avp> -->
+    
+    <avp name="Failed-AVP" code="279" mandatory="must" 
+	     may-encrypt="no">
+	      <grouped>
+      </grouped>	     
+	</avp>
+    
+    <avp name="Firmware-Revision" code="267" mandatory="mustnot" 
+    protected="mustnot" may-encrypt="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Host-IP-Address" code="257" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Address"/>
+    </avp>
+    
+    <avp name="Inband-Security-Id" code="299" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Multi-Round-Time-Out" code="272" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Origin-Host" code="264" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+    
+    <avp name="Origin-Realm" code="296" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+    
+    <avp name="Origin-State-Id" code="278" mandatory="must" 
+    protected="may" may-encrypt="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+    
+    <avp name="Product-Name" code="269" mandatory="mustnot" 
+    protected="mustnot" may-encrypt="no">
+      <type type-name="UTF8String"/>
+    </avp>
+    
+    <avp name="Proxy-Host" code="280" mandatory="must" 
+         may-encrypt="no" protected="mustnot">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+    
+    <avp name="Proxy-Info" code="284" mandatory="must" 
+         may-encrypt="no" protected="mustnot">
+      <grouped>
+       <gavp name="Proxy-Host"/>
+       <gavp name="Proxy-State"/>
+      </grouped>
+    </avp>
+    <avp name="Proxy-State" code="33" mandatory="must" 
+         may-encrypt="no" protected="mustnot">
+      <type type-name="OctetString"/>
+    </avp>
+
+  <!--  CAUTION : Type = DiamURI 
+  --> 
+    <avp name="Redirect-Host" code="292" mandatory="must" 
+         may-encrypt="no" protected="may">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+    
+  <!--  RFC-6.12: DiamURI 
+  -->     
+    <avp name="Redirect-Host-Usage" code="261" mandatory="must" 
+    may-encrypt="no" protected="may">
+      <type type-name="Enumerated"/>
+        <enum name="DONT_CACHE" code="0"/>
+        <enum name="ALL_SESSION" code="1"/>
+        <enum name="ALL_REALM" code="2"/>
+        <enum name="REALM_AND_APPLICATION" code="3"/>
+        <enum name="ALL_APPLICATION" code="4"/>
+        <enum name="ALL_HOST" code="5"/>
+        <enum name="ALL_USER" code="6"/>
+    </avp>
+    <avp name="Redirect-Max-Cache-Time" code="262" mandatory="must" 
+    may-encrypt="no" protected="may">
+      <type type-name="Unsigned32"/>
+    </avp>
+    <avp name="Result-Code" code="268" mandatory="must" 
+    may-encrypt="no" protected="may">
+      <type type-name="Unsigned32"/>
+    </avp>
+    <avp name="Route-Record" code="282" mandatory="must" 
+    may-encrypt="no" protected="mustnot">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+    <avp name="Session-Id" code="263" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+    <avp name="Session-Timeout" code="27" mandatory="mustnot" 
+    may-encrypt="no" protected="may">
+      <type type-name="Unsigned32"/>
+    </avp>
+  <!--  CAUTION : Discrepancy RFC table 4.5 and def. AVP in 8.17 
+  --> 
+    <avp name="Session-Binding" code="270" mandatory="mustnot" 
+    protected="may" may-encrypt="yes">
+      <type type-name="Enumerated"/>
+        <enum name="RE_AUTH" code="1"/>
+        <enum name="STR" code="2"/>
+        <enum name="ACCOUNTING" code="4"/>
+    </avp>
+    <avp name="Session-Server-Failover" code="271" mandatory="must" 
+    protected="may" may-encrypt="yes">
+      <type type-name="Enumerated"/>
+        <enum name="REFUSE_SERVICE" code="0"/>
+        <enum name="TRY_AGAIN" code="1"/>
+        <enum name="ALLOW_SERVICE" code="2"/>
+        <enum name="TRY_AGAIN_ALLOW_SERVICE" code="3"/>
+    </avp>
+    <avp name="Supported-Vendor-Id" code="265" mandatory="must" 
+    may-encrypt="no" protected="may">
+      <type type-name="Unsigned32"/> 
+       <!--  ref = IANA [ASSIGNNO] --> 
+    </avp>
+    <avp name="Termination-Cause" code="295" mandatory="must" 
+    may-encrypt="no" protected="may">
+      <type type-name="Enumerated"/>
+        <!-- IANA values for RFC6733 -->
+        <enum name="DIAMETER_LOGOUT" code="1"/>
+        <enum name="DIAMETER_SERVICE_NOT_PROVIDED" code="2"/>
+        <enum name="DIAMETER_BAD_ANSWER" code="3"/>
+        <enum name="DIAMETER_ADMINISTRATIVE" code="4"/>
+        <enum name="DIAMETER_LINK_BROKEN" code="5"/>
+        <enum name="DIAMETER_AUTH_EXPIRED" code="6"/>
+        <enum name="DIAMETER_USER_MOVED" code="7"/>
+        <enum name="DIAMETER_SESSION_TIMEOUT" code="8"/>
+        <!-- IANA values for RFC7155 -->
+        <enum name="USER_REQUEST" code="11"/>
+        <enum name="LOST_CARRIER" code="12"/>
+        <enum name="LOST_SERVICE" code="13"/>
+        <enum name="IDLE_TIMEOUT" code="14"/>
+        <enum name="SESSION_TIMEOUT" code="15"/>
+        <enum name="ADMIN_RESET" code="16"/>
+        <enum name="ADMIN_REBOOT" code="17"/>
+        <enum name="PORT_ERROR" code="18"/>
+        <enum name="NAS_ERROR" code="19"/>
+        <enum name="NAS_REQUEST" code="20"/>
+        <enum name="NAS_REBOOT" code="21"/>
+        <enum name="PORT_UNNEEDED" code="22"/>
+        <enum name="PORT_PREEMPTED" code="23"/>
+        <enum name="PORT_SUSPENDED" code="24"/>
+        <enum name="SERVICE_UNAVAILABLE" code="25"/>
+        <enum name="CALLBACK" code="26"/>
+        <enum name="USER_ERROR" code="27"/>
+        <enum name="HOST_REQUEST" code="28"/>
+        <enum name="SUPPLICANT_RESTART" code="29"/>
+        <enum name="REAUTHENTICATION_FAILURE" code="30"/>
+        <enum name="PORT_REINITIALIZED" code="31"/>
+        <enum name="PORT_ADMINISTRATIVELY_DISABLED" code="32"/>
+    </avp>
+    <avp name="User-Name" code="1" mandatory="must" 
+    may-encrypt="yes" protected="may">
+      <type type-name="UTF8String"/>
+    </avp>
+    <avp name="Vendor-Id" code="266" mandatory="must" 
+    may-encrypt="no" protected="may">
+      <type type-name="Unsigned32"/>
+    </avp>
+    <avp name="Vendor-Specific-Application-Id" code="260" 
+         mandatory="must" protected="may" may-encrypt="no">
+      <grouped>
+       <gavp name="Vendor-Id"/>
+       <gavp name="Auth-Application-Id"/>
+       <gavp name="Acct-Application-Id"/>
+      </grouped>
+    </avp>
+    <avp name="Example-AVP" code="999999" mandatory="mustnot" 
+         protected="may" may-encrypt="no">
+      <grouped>
+       <gavp name="Origin-Host"/>
+       <gavp name="Host-IP-Address"/>
+       <!--  *[ AVP ]  --> 
+      </grouped>
+    </avp>
+  </vendor>
+  <base uri="http://www.ietf.org/rfc/rfc3588.txt">
+        <!--  Diameter Base Protocol Command Codes --> 
+    <command name="Abort-Session" code="274" />
+    <command name="Accounting" code="271" />
+    <command name="Capabilities-Exchange" code="257" />
+    <command name="Device-Watchdog" code="280" />
+    <command name="Disconnect-Peer" code="282" />
+    <command name="Re-Auth" code="258" />
+    <command name="Session-Termination" code="275" />
+        <!--  *** End Commands ***  --> 
+  </base>
+  <base uri="https://tools.ietf.org/rfc/rfc6737.txt">
+    <command name="Capabilities-Update" code="328" />
+  </base>
+</dictionary>

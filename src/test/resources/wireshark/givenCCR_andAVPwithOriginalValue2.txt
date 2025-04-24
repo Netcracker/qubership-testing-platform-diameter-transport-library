@@ -1,0 +1,18 @@
+Diameter Protocol
+    Version: 0x01
+    Length: 936
+    Flags: 0x80, Request, Proxyable
+    Command Code: 272 Credit-Control
+    ApplicationId: Diameter Credit Control Application (4)
+    Hop-by-Hop Identifier: 0x2f7e94f8
+    End-to-End Identifier: 0x1b0d1f6e
+    [Answer In: 1169]
+    AVP: SGSN-Address(1228) l=18 f=VM- vnd=TGPP val=217.72.232.5
+        AVP Code: 1228 SGSN-Address
+        AVP Flags: 0xc0, Vendor-Specific: Set, Mandatory: Set
+        AVP Length: 18
+        AVP Vendor Id: 3GPP (10415)
+        SGSN-Address: 0001d948e803
+            SGSN-Address Address Family: IPv4 (1)
+            SGSN-Address Address: 217.72.232.3
+        Padding: 0000

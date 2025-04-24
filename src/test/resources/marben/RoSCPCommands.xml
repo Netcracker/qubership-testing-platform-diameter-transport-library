@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<diameter-command-dictionary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:noNamespaceSchemaLocation="xsd/diameter-command.xsd">
+    <dictionary>
+        <!-- Currently supported values for attribute 'name': "Credit-Control-Request" -->
+        <command name="Credit-Control-Request" code="272" request="true">
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Realm" code="283" vendor="0" multiplicity="1" flags="R"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="Service-Context-Id" code="461" vendor="0" multiplicity="1" flags="R"/>
+            <avp name="CC-Request-Type" code="416" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Number" code="415" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Host" code="293" vendor="0" multiplicity="0-1" flags="R"/>
+            <avp name="User-Name" code="1" vendor="0" multiplicity="0-1" flags="R"/>
+            <avp name="Event-Timestamp" code="55" vendor="0" multiplicity="0-1"/>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="1" flags="R"/>
+            <avp name="Multiple-Services-Indicator" code="455" vendor="0" multiplicity="0-1" flags="R"/>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="0+"/>
+            <avp name="CS-Service-Info" code="270" vendor="13421" multiplicity="1"/>
+            <avp name="Termination-Cause" code="295" vendor="0" multiplicity="0-1" flags="R"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+        </command>
+        <command name="Credit-Control-Answer" code="272" request="false">
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Result-Code" code="268" vendor="0" multiplicity="1" flags="AIUT"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Type" code="416" vendor="0" multiplicity="1"/>
+            <avp name="CC-Request-Number" code="415" vendor="0" multiplicity="1"/>
+            <avp name="CS-Service-Info" code="270" vendor="13421" multiplicity="0-1" flags="I"/>
+            <avp name="CC-Session-Failover" code="418" vendor="0" multiplicity="1" flags="AIU"/>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="1+"/>
+            <avp name="Credit-Control-Failure-Handling" code="427" vendor="0" multiplicity="0-1" flags="AIUT"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+            <avp name="Failed-AVP" code="272" vendor="0" multiplicity="0+" flags="AIUT"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Event-Timestamp" code="55" vendor="0" multiplicity="0-1"/>
+        </command>
+        <!--This section describes all grouped avp for all commands-->
+        <grouped-avp-defn>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="0+" flags="RIUT">
+                <avp name="Subscription-Id-Type" code="444" vendor="0" multiplicity="1"/>
+                <avp name="Subscription-Id-Data" code="450" vendor="0" multiplicity="1"/>
+            </avp>
+            <avp name="Multiple-Services-Credit-Control" code="456" vendor="0" multiplicity="0+">
+                <avp name="Requested-Service-Unit" code="437" vendor="0" multiplicity="0-1" flags="RI">
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1"/>
+                </avp>
+                <avp name="Used-Service-Unit" code="446" vendor="0" multiplicity="0+" flags="RUT">
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1"/>
+                </avp>
+                <avp name="Trigger" code="1264" vendor="10415" multiplicity="0-1">
+                    <avp name="Trigger-Type" code="870" vendor="10415" multiplicity="0+"/>
+                </avp>
+                <avp name="Granted-Service-Unit" code="431" vendor="0" multiplicity="0+" flags="AIU">
+                    <avp name="CC-Time" code="420" vendor="0" multiplicity="0-1" flags="AIU"/>
+                </avp>
+                <avp name="Validity-Time" code="448" vendor="0" multiplicity="0-1" flags="AIU"/>
+                <avp name="Final-Unit-Indication" code="430" vendor="0" multiplicity="0-1" flags="AIU">
+                    <avp name="Final-Unit-Action" code="449" vendor="0" multiplicity="1" flags="AIU"/>
+                </avp>
+                <avp name="Rating-Group" code="432" vendor="0" multiplicity="0-1" flags="RAIU"/>
+                <avp name="Check-Balance-Result" code="422" vendor="0" multiplicity="0-1" flags="A"/>
+            </avp>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+">
+                <avp name="Proxy-Host" code="280" vendor="0" multiplicity="1"/>
+                <avp name="Proxy-State" code="33" vendor="0" multiplicity="1"/>
+            </avp>
+            <avp name="CS-Service-Info" code="270" vendor="13421" multiplicity="1">
+                <avp name="Connect-To-Number" code="283" vendor="13421" multiplicity="0-1" flags="AI"/>
+                <avp name="Calling-Party-Number" code="275" vendor="13421" multiplicity="1" flags="R"/>
+                <avp name="Called-Party-Number" code="276" vendor="13421" multiplicity="1" flags="R"/>
+                <avp name="Original-Called-Party-Id" code="277" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="Redirecting-Party-Id" code="278" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="IVR-Number" code="279" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="TGPP-User-Location-Info" code="22" vendor="10415" multiplicity="0+" flags="R"/>
+                <avp name="Call-Reference-Number" code="280" vendor="13421" multiplicity="1" flags="R"/>
+                <avp name="MSC-Address" code="281" vendor="13421" multiplicity="1" flags="R"/>
+                <avp name="TGPP-MS-TimeZone" code="23" vendor="10415" multiplicity="1" flags="R"/>
+                <avp name="Teleservice-Code" code="282" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="Location-Number" code="292" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="VLR-Number" code="293" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="Redirection-Information" code="296" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="GSM-Forwarding-Pending" code="297" vendor="13421" multiplicity="0+" flags="R"/>
+                <avp name="CS-Cause-Code" code="298" vendor="13421" multiplicity="0-1" flags="RT"/>
+                <avp name="Calling-Party-Address-Information" code="1501" vendor="13421" multiplicity="0-1" flags="R"/>
+            </avp>
+            <avp name="Calling-Party-Address-Information" code="1501" vendor="13421" multiplicity="0-1">
+                <avp name="Nature-Of-Address-Indicator" code="1500" vendor="13421" multiplicity="0-1" flags="R"/>
+                <avp name="Numbering-Plan-Indicator" code="1502" vendor="13421" multiplicity="0-1" flags="R"/>
+                <avp name="Address-Presentation-Restricted-Indicator" code="1503" vendor="13421" multiplicity="0-1" flags="R"/>
+                <avp name="Screening-Indicator" code="1504" vendor="13421" multiplicity="0-1" flags="R"/>
+            </avp>
+            <avp name="Failed-AVP" code="279" vendor="0" multiplicity="0+" flags="AIUT">
+                <avp name="AVP" code="279" vendor="0" multiplicity="0+" flags="AIUT"/>   <!-- TODO: here can be any AVP, need to handle this correctly -->
+            </avp>
+        </grouped-avp-defn>
+    </dictionary>
+</diameter-command-dictionary>
+

@@ -1,0 +1,41 @@
+Diameter Protocol
+    Version: 0x01
+    Length: 476
+    Flags: 0x80, Request
+    Command Code: 272 Credit-Control
+    ApplicationId: Diameter Credit Control Application (4)
+    AVP: Session-Id(263) l=20 f=-M- val=320742049458
+    AVP: Origin-Host(264) l=32 f=-M- val=some-address.our-company.com
+    AVP: Origin-Realm(296) l=22 f=-M- val=our-company.com
+    AVP: Destination-Realm(283) l=22 f=-M- val=our-company.com
+    AVP: Destination-Host(293) l=38 f=-M- val=another-address.our-company.com
+    AVP: Auth-Application-Id(258) l=12 f=-M- val=Diameter Credit Control Application (4)
+    AVP: Service-Context-Id(461) l=22 f=-M- val=32251@3gpp.org
+    AVP: Event-Timestamp(55) l=12 f=--- val=2017-09-07 06:14:13
+    AVP: CC-Request-Type(416) l=12 f=-M- val=INITIAL_REQUEST (1)
+    AVP: CC-Request-Number(415) l=12 f=-M- val=0
+    AVP: Subscription-Id(443) l=40 f=-M-
+            AVP: Subscription-Id-Type(450) l=12 f=-M- val=END_USER_E164 (0)
+            AVP: Subscription-Id-Data(444) l=19 f=-M- val=12001115979
+    AVP: Multiple-Services-Indicator(455) l=12 f=-M- val=MULTIPLE_SERVICES_SUPPORTED (1)
+    AVP: Multiple-Services-Credit-Control(456) l=32 f=-M-
+            AVP: Rating-Group(432) l=12 f=-M- val=1
+            AVP: Service-Identifier(439) l=12 f=-M- val=1
+    AVP: Service-Information(873) l=160 f=VM- vnd=TGPP
+        AVP Vendor Id: 3GPP (10415)
+            AVP: PS-Information(874) l=148 f=VM- vnd=TGPP
+                AVP Vendor Id: 3GPP (10415)
+                    AVP: 3GPP-GGSN-MCC-MNC(9) l=17 f=V-- vnd=TGPP val=26002
+                        AVP Code: 9 3GPP-GGSN-MCC-MNC
+                        AVP Vendor Id: 3GPP (10415)
+                    AVP: 3GPP-SGSN-MCC-MNC(18) l=17 f=V-- vnd=TGPP val=26002
+                        AVP Vendor Id: 3GPP (10415)
+                    AVP: 3GPP-Selection-Mode(12) l=13 f=V-- vnd=TGPP val=1
+                        AVP Vendor Id: 3GPP (10415)
+                    AVP: 3GPP-Charging-Characteristics(13) l=16 f=V-- vnd=TGPP val=F100
+                        AVP Vendor Id: 3GPP (10415)
+                    AVP: 3GPP-Charging-Id(2) l=21 f=V-- vnd=TGPP val=313637373732313730
+                        AVP Vendor Id: 3GPP (10415)
+                    AVP: 3GPP-PDP-Type(3) l=16 f=V-- vnd=TGPP val=IPv4 (0)
+                        AVP Vendor Id: 3GPP (10415)
+                    AVP: Called-Station-Id(30) l=23 f=-M- val=erainternet.csg

@@ -1,0 +1,54 @@
+Diameter Protocol
+    Version: 0x01
+    Length: 176
+    Flags: 0x80, Request
+    Command Code: 257 Capabilities-Exchange
+    ApplicationId: Diameter Common Messages (0)
+    Hop-by-Hop Identifier: 0x00000000
+    End-to-End Identifier: 0x00000000
+    [Answer In: 34374]
+    AVP: Origin-Host(264) l=32 f=-M- val=some-address.our-company.com
+        AVP Code: 264 Origin-Host
+        AVP Flags: 0x40, Mandatory: Set
+        AVP Length: 32
+        Origin-Host: some-address.our-company.com
+    AVP: Origin-Realm(296) l=22 f=-M- val=our-company.com
+        AVP Code: 296 Origin-Realm
+        AVP Flags: 0x40, Mandatory: Set
+        AVP Length: 22
+        Origin-Realm: our-company.com
+        Padding: 0000
+    AVP: Host-IP-Address(257) l=16 f=-M- val=373030373439
+        AVP Code: 257 Host-IP-Address
+        AVP Flags: 0x40, Mandatory: Set
+        AVP Length: 16
+        Host-IP-Address: 3041373030373439
+            Host-IP-Address Address Family: Unknown (12353)
+            Host-IP-Address Address: 373030373439
+    AVP: Vendor-Id(266) l=12 f=--- val=193
+        AVP Code: 266 Vendor-Id
+        AVP Flags: 0x00
+        AVP Length: 12
+        Vendor-Id: 193
+        VendorId: Ericsson AB (193)
+    AVP: Product-Name(269) l=35 f=--- val=DSC, (c) Ericsson GmbH 2012
+        AVP Code: 269 Product-Name
+        AVP Flags: 0x00
+        AVP Length: 35
+        Product-Name: DSC, (c) Ericsson GmbH 2012
+        Padding: 00
+    AVP: Auth-Application-Id(258) l=12 f=-M- val=Diameter Credit Control Application (4)
+        AVP Code: 258 Auth-Application-Id
+        AVP Flags: 0x40, Mandatory: Set
+        AVP Length: 12
+        Auth-Application-Id: Diameter Credit Control Application (4)
+    AVP: Inband-Security-Id(299) l=12 f=-M- val=NO_INBAND_SECURITY (0)
+        AVP Code: 299 Inband-Security-Id
+        AVP Flags: 0x40, Mandatory: Set
+        AVP Length: 12
+        Inband-Security-Id: NO_INBAND_SECURITY (0)
+    AVP: Firmware-Revision(267) l=12 f=-M- val=1
+        AVP Code: 267 Firmware-Revision
+        AVP Flags: 0x40, Mandatory: Set
+        AVP Length: 12
+        Firmware-Revision: 1

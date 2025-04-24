@@ -1,0 +1,4903 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- ======================================================================= -->
+<!-- ======= Diameter Protocol Dictionary for the 3GPP Gy interface ======== -->
+<!-- =================== Based on 3GPP TS32.299 V13.6.0 ==================== -->
+<!-- ======================================================================= -->
+
+<dictionary>
+
+  <!-- The diameter base protocol RFC 3588. -->
+  <vendor id="0" name="base">
+    <!-- =================================================================== -->
+    <!-- ===================== Gy base Specific AVP's ====================== -->
+    <!-- =================================================================== -->
+
+    <!-- Ref = [base - RFC4006] 8.3 -->
+    <avp name="CC-Request-Type" code="416" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="INITIAL_REQUEST" code="1"/>
+      <enum name="UPDATE_REQUEST" code="2"/>
+      <enum name="TERMINATION_REQUEST" code="3"/>
+      <!-- <enum name="EVENT_REQUEST" code="4"/> CCR-E is not supported by Gy adapter -->
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.41 -->
+    <avp name="Requested-Action" code="436" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="DIRECT_DEBITING" code="0"/>
+      <!-- other actions are not supported by this adapter type
+      <enum name="REFUND_ACCOUNT" code="1"/>
+      <enum name="CHECK_BALANCE" code="2"/>
+      <enum name="PRICE_ENQUIRY" code="3"/> -->
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.40 -->
+    <avp name="Multiple-Services-Indicator" code="455" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="MULTIPLE_SERVICES_NOT_SUPPORTED" code="0"/>
+      <enum name="MULTIPLE_SERVICES_SUPPORTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.4 -->
+    <avp name="CC-Session-Failover" code="418" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="FAILOVER_NOT_SUPPORTED" code="0"/>
+      <enum name="FAILOVER_SUPPORTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.14 -->
+    <avp name="Credit-Control-Failure-Handling" code="427" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="TERMINATE" code="0"/>
+      <enum name="CONTINUE" code="1"/>
+      <enum name="RETRY_AND_TERMINATE" code="2"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.15 -->
+    <avp name="Direct-Debiting-Failure-Handling" code="428" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="TERMINATE_OR_BUFFER" code="0"/>
+      <enum name="CONTINUE" code="1"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.47 -->
+    <avp name="Subscription-Id-Type" code="450" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="END_USER_E164" code="0"/>
+      <enum name="END_USER_IMSI" code="1"/>
+      <!-- other types are not supported by this adapter type
+      <enum name="END_USER_SIP_URI" code="2"/>
+      <enum name="END_USER_NAI" code="3"/>
+      <enum name="END_USER_PRIVATE" code="4"/> -->
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.50 -->
+    <avp name="User-Equipment-Info-Type" code="459" mandatory="may"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="IMEISV" code="0"/>
+      <enum name="MAC" code="1"/>
+      <enum name="EUI64" code="2"/>
+      <enum name="MODIFIED_EUI64" code="3"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.27 -->
+    <avp name="Tariff-Change-Usage" code="452" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="UNIT_BEFORE_TARIFF_CHANGE" code="0"/>
+      <enum name="UNIT_AFTER_TARIFF_CHANGE" code="1"/>
+      <enum name="UNIT_INDETERMINATE" code="2"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.32 -->
+    <avp name="CC-Unit-Type" code="454" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="TIME" code="0"/>
+      <enum name="MONEY" code="1"/>
+      <enum name="TOTAL_OCTETS" code="2"/>
+      <enum name="INPUT_OCTETS" code="3"/>
+      <enum name="OUTPUT_OCTETS" code="4"/>
+      <enum name="SERVICE_SPECIFIC_UNITS" code="5"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.35 -->
+    <avp name="Final-Unit-Action" code="449" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="TERMINATE" code="0"/>
+      <enum name="REDIRECT" code="1"/>
+      <!-- other values are not supported by this adapter type
+      <enum name="RESTRICT_ACCESS" code="2"/> -->
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.38 -->
+    <avp name="Redirect-Address-Type" code="433" mandatory="must"
+          protected="may" may-encrypt="yes" vendor-specific="no">
+          <type type-name="Enumerated"/>
+          <enum name="IPV4_ADDRESS" code="0"/>
+          <enum name="IPV6_ADDRESS" code="1"/>
+          <enum name="URL" code="2"/>
+          <enum name="SIP_URI" code="3"/>
+        </avp>
+
+    <!-- Ref = [base - RFC4006] 8.42 -->
+    <avp name="Service-Context-Id" code="461" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.1 -->
+    <avp name="CC-Correlation-Id" code="411" mandatory="may" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.48 -->
+    <avp name="Subscription-Id-Data" code="444" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.12 -->
+    <avp name="Cost-Unit" code="424" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.20 -->
+    <avp name="Tariff-Time-Change" code="451" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.51 -->
+    <avp name="User-Equipment-Info-Value" code="460" mandatory="may"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.36 -->
+    <avp name="Restriction-Filter-Rule" code="438" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="IPFilterRule"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4005] 6.7 -->
+    <avp name="Filter-Id" code="11" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4005] 4.5 -->
+    <avp name="Called-Station-Id" code="30" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="no">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.39 -->
+    <avp name="Redirect-Server-Address" code="435" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.2 -->
+    <avp name="CC-Request-Number" code="415" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.31 -->
+    <avp name="G-S-U-Pool-Identifier" code="453" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.28 -->
+    <avp name="Service-Identifier" code="439" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.29 -->
+    <avp name="Rating-Group" code="432" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.33 -->
+    <avp name="Validity-Time" code="448" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.11 -->
+    <avp name="Currency-Code" code="425" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.21 -->
+    <avp name="CC-Time" code="420" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.24 -->
+    <avp name="CC-Input-Octets" code="412" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.25 -->
+    <avp name="CC-Output-Octets" code="414" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.26 -->
+    <avp name="CC-Service-Specific-Units" code="417" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.23 -->
+    <avp name="CC-Total-Octets" code="421" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4005] 8.1 -->
+    <avp name="Accounting-Input-Octets" code="363" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4005] 8.2 -->
+    <avp name="Accounting-Output-Octets" code="364" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.9 -->
+    <avp name="Exponent" code="429" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.10 -->
+    <avp name="Value-Digits" code="447" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Integer64"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.46 -->
+    <avp name="Subscription-Id" code="443" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Subscription-Id-Type"/>
+        <gavp name="Subscription-Id-Data"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.16 -->
+    <avp name="Multiple-Services-Credit-Control" code="456" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Granted-Service-Unit"/>
+        <gavp name="Requested-Service-Unit"/>
+        <gavp name="Used-Service-Unit"/>
+        <gavp name="Service-Identifier"/>
+        <gavp name="Rating-Group"/>
+        <gavp name="G-S-U-Pool-Reference"/>
+        <gavp name="Validity-Time"/>
+        <gavp name="Result-Code"/>
+        <gavp name="Final-Unit-Indication"/>
+        <gavp name="Time-Quota-Threshold"/>
+        <gavp name="Volume-Quota-Threshold"/>
+        <gavp name="Unit-Quota-Threshold"/>
+        <gavp name="Quota-Holding-Time"/>
+        <gavp name="Quota-Consumption-Time"/>
+        <gavp name="Reporting-Reason"/>
+        <gavp name="Trigger"/>
+        <gavp name="PS-Furnish-Charging-Information"/>
+        <gavp name="Refund-Information"/>
+        <gavp name="AF-Correlation-Information"/>
+        <gavp name="Envelope"/>
+        <gavp name="Envelope-Reporting"/>
+        <gavp name="Time-Quota-Mechanism"/>
+        <gavp name="Service-Specific-Info"/>
+        <gavp name="QoS-Information"/>
+        <gavp name="Announcement-Information"/>
+        <gavp name="TGPP-RAT-Type"/>
+        <gavp name="Related-Trigger"/>
+        <gavp name="Check-Balance-Result"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.49 -->
+    <avp name="User-Equipment-Info" code="458" mandatory="may" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="User-Equipment-Info-Type"/>
+        <gavp name="User-Equipment-Info-Value"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.7 -->
+    <avp name="Cost-Information" code="423" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Unit-Value"/>
+        <gavp name="Currency-Code"/>
+        <gavp name="Cost-Unit"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.17 -->
+    <avp name="Granted-Service-Unit" code="431" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Tariff-Time-Change"/>
+        <gavp name="CC-Time"/>
+        <gavp name="CC-Money"/>
+        <gavp name="CC-Total-Octets"/>
+        <gavp name="CC-Input-Octets"/>
+        <gavp name="CC-Output-Octets"/>
+        <gavp name="CC-Service-Specific-Units"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.18 -->
+    <avp name="Requested-Service-Unit" code="437" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="CC-Time"/>
+        <gavp name="CC-Money"/>
+        <gavp name="CC-Total-Octets"/>
+        <gavp name="CC-Input-Octets"/>
+        <gavp name="CC-Output-Octets"/>
+        <gavp name="CC-Service-Specific-Units"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.19 -->
+    <avp name="Used-Service-Unit" code="446" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Reporting-Reason"/>
+        <gavp name="Tariff-Change-Usage"/>
+        <gavp name="CC-Time"/>
+        <gavp name="CC-Total-Octets"/>
+        <gavp name="CC-Input-Octets"/>
+        <gavp name="CC-Output-Octets"/>
+        <gavp name="CC-Service-Specific-Units"/>
+        <gavp name="Event-Charging-TimeStamp"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.30 -->
+    <avp name="G-S-U-Pool-Reference" code="457" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="G-S-U-Pool-Identifier"/>
+        <gavp name="CC-Unit-Type"/>
+        <gavp name="Unit-Value"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.34 -->
+    <avp name="Final-Unit-Indication" code="430" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Final-Unit-Action"/>
+        <gavp name="Restriction-Filter-Rule"/>
+        <gavp name="Filter-Id"/>
+        <gavp name="Redirect-Server"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.8 -->
+    <avp name="Unit-Value" code="445" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Value-Digits"/>
+        <gavp name="Exponent"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.22 -->
+    <avp name="CC-Money" code="413" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Unit-Value"/>
+        <gavp name="Currency-Code"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.37 -->
+    <avp name="Redirect-Server" code="434" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Redirect-Address-Type"/>
+        <gavp name="Redirect-Server-Address"/>
+      </grouped>
+    </avp>
+    
+    <!--  Ref = [base - RFC4006] chap 8.6 -->
+    <avp name="Check-Balance-Result" code="422" mandatory="must" protected="may"
+     may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+        <enum name="ENOUGH_CREDIT" code="0"/>
+        <enum name="NO_CREDIT" code="1"/>
+    </avp>
+
+  </vendor>
+
+  <!-- 3rd Generation Partnership Project. -->
+  <vendor id="10415" name="TGPP">
+    <!-- =================================================================== -->
+    <!-- ================== Ro 3GPP Specific Return Codes ================== -->
+    <!-- =================================================================== -->
+
+    <!-- The OCF denies the service request due to service restrictions (e.g
+    terminate rating group) or limitations related to the end-user, for example
+    the end-user's account could not cover the requested service. -->
+    <returnCode name="DIAMETER_END_USER_SERVICE_DENIED" code="4010"/>
+
+    <!-- The OCF determines that the service can be granted to the end user but
+    no further credit control needed for the service (e.g service is free of
+    charge or is treated for offline charging). -->
+    <returnCode name="DIAMETER_CREDIT_CONTROL_NOT_APPLICABLE" code="4011"/>
+
+    <!-- The OCF denies the service request since the end- user's account could
+    not cover the requested service. If the CCR contained used-service-units
+    they are deducted, if possible. -->
+    <returnCode name="DIAMETER_CREDIT_LIMIT_REACHED" code="4012"/>
+
+    <!-- The OCF denies the service request in order to terminate the service
+    for which credit is requested. For example this error code is used to inform
+    IP CAN bearer has to be terminated in the CCR message or to inform
+    the rating group in the Multiple-Service-Credit-Control AVP. -->
+    <returnCode name="DIAMETER_AUTHORIZATION_REJECTED" code="5003"/>
+
+    <!-- The specified end user could not be found in the OCF. -->
+    <returnCode name="DIAMETER_USER_UNKNOWN" code="5030"/>
+
+    <!-- This error code is used to inform the CTF that the OCF cannot rate the
+    service request due to insufficient rating input, incorrect AVP combination
+    or due to an AVP or an AVP value that is not recognized or supported in the
+    rating. For Flow Based Charging this error code is used if the Rating group
+    is not recognized. The Failed-AVP AVP MUST be included and contain a copy of
+    the entire AVP(s) that could not be processed successfully or an example of
+    the missing AVP complete with the Vendor-Id if applicable. The value field
+    of the missing AVP should be of correct minimum length and contain zeroes.
+    -->
+    <returnCode name="DIAMETER_RATING_FAILED" code="5031"/>
+
+    <!-- =================================================================== -->
+    <!-- ===================== Ro 3GPP Specific AVP's ====================== -->
+    <!-- =================================================================== -->
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.16 -->
+    <avp name="AoC-Request-Type" code="2055" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="AOC_NOT_REQUESTED" code="0"/>
+      <enum name="AOC_FULL" code="1"/>
+      <enum name="AOC_COST_ONLY" code="2"/>
+      <enum name="AOC_TARIFF_ONLY" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.97 -->
+    <avp name="Low-Balance-Indication" code="2020" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NOT_APPLICABLE" code="0"/>
+      <enum name="YES_ENUM_LOW_BALANCE_INDICATION" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.175 -->
+    <avp name="Reporting-Reason" code="872" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="THRESHOLD" code="0"/>
+      <enum name="FINAL" code="2"/>
+      <enum name="QUOTA_EXHAUSTED" code="3"/>
+      <enum name="VALIDITY_TIME" code="4"/>
+      <enum name="RATING_CONDITION_CHANGE" code="6"/>
+      <enum name="FORCED_REAUTHORISATION" code="7"/>
+      <!-- other values are not supported by this adapter type
+      <enum name="QHT" code="1"/>
+      <enum name="OTHER_QUOTA_TYPE" code="5"/>
+      <enum name="POOL_EXHAUSTED" code="8"/> -->
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.61 -->
+    <avp name="Envelope-Reporting" code="1268" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="DO_NOT_REPORT_ENVELOPES" code="0"/>
+      <enum name="REPORT_ENVELOPES" code="1"/>
+      <enum name="REPORT_ENVELOPES_WITH_VOLUME" code="2"/>
+      <enum name="REPORT_ENVELOPES_WITH_EVENTS" code="3"/>
+      <enum name="REPORT_ENVELOPES_WITH_VOLUME_AND_EVENTS" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.236 -->
+    <avp name="Trigger-Type" code="870" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CHANGE_IN_SGSN_IP_ADDRESS" code="1"/>
+      <enum name="CHANGE_IN_QOS" code="2"/>
+      <enum name="CHANGE_IN_LOCATION" code="3"/>
+      <enum name="CHANGE_IN_RAT" code="4"/>
+      <enum name="CHANGE_IN_LOCATION_MCC" code="30"/>
+      <enum name="CHANGE_IN_LOCATION_MNC" code="31"/>
+      <enum name="CHANGE_IN_LOCATION_RAC" code="32"/>
+      <enum name="CHANGE_IN_LOCATION_LAC" code="33"/>
+      <enum name="CHANGE_IN_SERVICE_CONDITION" code="60"/>
+      <enum name="CHANGE_IN_SERVING_NODE" code="61"/>
+      <!-- other values are not supported by this adapter type
+      <enum name="CHANGE_IN_UE_TIMEZONE" code="5"/>
+      <enum name="CHANGE_IN_QOS_TRAFFIC_CLASS" code="10"/>
+      <enum name="CHANGE_IN_QOS_RELIABILITY_CLASS" code="11"/>
+      <enum name="CHANGE_IN_QOS_DELAY_CLASS" code="12"/>
+      <enum name="CHANGE_IN_QOS_PEAK_THROUGHPUT" code="13"/>
+      <enum name="CHANGE_IN_QOS_PRECEDENCE_CLASS" code="14"/>
+      <enum name="CHANGE_IN_QOS_MEAN_THROUGHPUT" code="15"/>
+      <enum name="CHANGE_IN_QOS_MAXIMUM_BIT_RATE_FOR_UPLINK" code="16"/>
+      <enum name="CHANGE_IN_QOS_MAXIMUM_BIT_RATE_FOR_DOWNLINK" code="17"/>
+      <enum name="CHANGE_IN_QOS_RESIDUAL_BER" code="18"/>
+      <enum name="CHANGE_IN_QOS_SDU_ERROR_RATIO" code="19"/>
+      <enum name="CHANGE_IN_QOS_TRANSFER_DELAY" code="20"/>
+      <enum name="CHANGE_IN_QOS_TRAFFIC_HANDLING_PRIORITY" code="21"/>
+      <enum name="CHANGE_IN_QOS_GUARANTEED_BIT_RATE_FOR_UPLINK" code="22"/>
+      <enum name="CHANGE_IN_QOS_GUARANTEED_BIT_RATE_FOR_DOWNLINK" code="23"/>
+      <enum name="CHANGE_IN_QOS_APN_AGGREGATE_MAXIMUM_BIT_RATE" code="24"/>
+      <enum name="CHANGE_IN_LOCATION_CELLID" code="34"/>
+      <enum name="CHANGE_IN_LOCATION_TAC" code="35"/>
+      <enum name="CHANGE_IN_LOCATION_ECGI" code="36"/>
+      <enum name="CHANGE_IN_MEDIA_COMPOSITION" code="40"/>
+      <enum name="CHANGE_IN_PARTICIPANTS_NMB" code="50"/>
+      <enum name="CHANGE_IN_THRSHLD_OF_PARTICIPANTS_NMB" code="51"/>
+      <enum name="CHANGE_IN_USER_PARTICIPATING_TYPE" code="52"/>
+      <enum name="CHANGE_IN_ACCESS_FOR_A_SERVICE_DATA_FLOW" code="62"/>
+      <enum name="CHANGE_IN_USER_CSG_INFORMATION" code="70"/>
+      <enum name="CHANGE_IN_HYBRID_SUBSCRIBED_USER_CSG_INFORMATION" code="71"/>
+      <enum name="CHANGE_IN_HYBRID_UNSUBSCRIBED_USER_CSG_INFORMATION" code="72"/>
+      <enum name="CHANGE_OF_UE_PRESENCE_IN_PRESENCE_REPORTING_AREA" code="73"/>
+      <enum name="CHANGE_IN_SERVING_PLMN_RATE_CONTROL" code="74"/>
+      <enum name="CHANGE_IN_APN_RATE_CONTROL" code="75"/> -->
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.155 -->
+    <avp name="PS-Append-Free-Format-Data" code="867" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="APPEND" code="0"/>
+      <enum name="OVERWRITE" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.230 -->
+    <avp name="Time-Quota-Type" code="1271" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="DISCRETE_TIME_PERIOD" code="0"/>
+      <enum name="CONTINUOUS_TIME_PERIOD" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.17 -->
+    <avp name="QoS-Class-Identifier" code="1028" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="QCI_1" code="1"/>
+      <enum name="QCI_2" code="2"/>
+      <enum name="QCI_3" code="3"/>
+      <enum name="QCI_4" code="4"/>
+      <enum name="QCI_5" code="5"/>
+      <enum name="QCI_6" code="6"/>
+      <enum name="QCI_7" code="7"/>
+      <enum name="QCI_8" code="8"/>
+      <enum name="QCI_9" code="9"/>
+      <enum name="QCI_65" code="65"/>
+      <enum name="QCI_66" code="66"/>
+      <enum name="QCI_69" code="69"/>
+      <enum name="QCI_70" code="70"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-PDP-Type" code="3" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="IPV4" code="0"/>
+      <enum name="PPP" code="1"/>
+      <enum name="IPV6" code="2"/>
+      <enum name="IPV4V6" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.57 -->
+    <avp name="Dynamic-Address-Flag" code="2051" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="STATIC" code="0"/>
+      <enum name="DYNAMIC" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.57A -->
+    <avp name="Dynamic-Address-Flag-Extension" code="2068" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="STATIC" code="0"/>
+      <enum name="DYNAMIC" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.198 -->
+    <avp name="Serving-Node-Type" code="2047" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SGSN" code="0"/>
+      <enum name="PMIPSGW" code="1"/>
+      <enum name="GTPSGW" code="2"/>
+      <enum name="EPDG" code="3"/>
+      <enum name="HSGW" code="4"/>
+      <enum name="MME" code="5"/>
+      <enum name="TWAN" code="6"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.200 -->
+    <avp name="SGW-Change" code="2065" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="ACR_START_NOT_DUE_TO_SGW_CHANGE" code="0"/>
+      <enum name="ACR_START_DUE_TO_SGW_CHANGE" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.78 -->
+    <avp name="IMSI-Unauthenticated-Flag" code="2308" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="AUTHENTICATED" code="0"/>
+      <enum name="UNAUTHENTICATED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.39A -->
+    <avp name="Charging-Characteristics-Selection-Mode" code="2066"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SERVING_NODE_SUPPLIED" code="0"/>
+      <enum name="SUBSCRIPTION_SPECIFIC" code="1"/>
+      <enum name="APN_SPECIFIC" code="2"/>
+      <enum name="HOME_DEFAULT" code="3"/>
+      <enum name="ROAMING_DEFAULT" code="4"/>
+      <enum name="VISITING_DEFAULT" code="5"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.138 -->
+    <avp name="PDP-Context-Type" code="1247" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PRIMARY" code="0"/>
+      <enum name="SECONDARY" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.97A -->
+    <avp name="Low-Priority-Indicator" code="2602" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NO" code="0"/>
+      <enum name="YES" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.41A -->
+    <avp name="CN-Operator-Selection-Entity" code="3421" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="THE_SERVING_NETWORK_HAS_BEEN_SELECTED_BY_THE_UE" code="0"/>
+      <enum name="THE_SERVING_NETWORK_HAS_BEEN_SELECTED_BY_THE_NETWORK" code="1"
+      />
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.177 -->
+    <avp name="Role-Of-Node" code="829" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="ORIGINATING_ROLE" code="0"/>
+      <enum name="TERMINATING_ROLE" code="1"/>
+      <enum name="FORWARDING_ROLE" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.113 -->
+    <avp name="Node-Functionality" code="862" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="S_CSCF" code="0"/>
+      <enum name="P_CSCF" code="1"/>
+      <enum name="I_CSCF" code="2"/>
+      <enum name="MRFC" code="3"/>
+      <enum name="MGCF" code="4"/>
+      <enum name="BGCF" code="5"/>
+      <enum name="AS" code="6"/>
+      <enum name="IBCF" code="7"/>
+      <enum name="S_GW" code="8"/>
+      <enum name="P_GW" code="9"/>
+      <enum name="HSGW_ENUM_NODE_FUNCTIONALITY" code="10"/>
+      <enum name="E_CSCF" code="11"/>
+      <enum name="MME_NODE_FUNCTIONALITY" code="12"/>
+      <enum name="TRF" code="13"/>
+      <enum name="TF" code="14"/>
+      <enum name="ATCF" code="15"/>
+      <enum name="PROXY_FUNCTION" code="16"/>
+      <enum name="EPDG_NODE_FUNCTIONALITY" code="17"/>
+      <enum name="TDF_NODE_FUNCTIONALITY" code="18"/>
+      <enum name="TWAG_NODE_FUNCTIONALITY" code="19"/>
+      <enum name="SCEF_NODE_FUNCTIONALITY" code="20"/>
+      <enum name="IWK_SCEF_NODE_FUNCTIONALITY" code="21"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.229] 6.3.56 -->
+    <avp name="Session-Priority" code="650" mandatory="mustnot" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PRIORITY_0" code="0"/>
+      <enum name="PRIORITY_1" code="1"/>
+      <enum name="PRIORITY_2" code="2"/>
+      <enum name="PRIORITY_3" code="3"/>
+      <enum name="PRIORITY_4" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.122 -->
+    <avp name="Online-Charging-Flag" code="2303" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="ECF_ADDRESS_NOT_PROVIDED" code="0"/>
+      <enum name="ECF_ADDRESS_PROVIDED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.76A -->
+    <avp name="IMS-Emergency-Indicator" code="2322" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NON_EMERGENCY_IMS_EMERGENCY_INDICATOR" code="0"/>
+      <enum name="EMERGENCY_IMS_EMERGENCY_INDICATOR" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.219A -->
+    <avp name="TAD-Identifier" code="2717" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CS_TAD_IDENTIFIER" code="0"/>
+      <enum name="PS_TAD_IDENTIFIER" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154 -->
+    <avp name="Priority" code="1209" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="LOW" code="0"/>
+      <enum name="NORMAL_ENUM_PRIORITY" code="1"/>
+      <enum name="HIGH" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.107 -->
+    <avp name="Message-Type" code="1211" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="M_SEND_REQ" code="1"/>
+      <enum name="M_SEND_CONF" code="2"/>
+      <enum name="M_NOTIFICATION_IND" code="3"/>
+      <enum name="M_NOTIFYRESP_IND" code="4"/>
+      <enum name="M_RETRIEVE_CONF" code="5"/>
+      <enum name="M_ACKNOWLEGE_IND" code="6"/>
+      <enum name="M_DELIVERY_IND" code="7"/>
+      <enum name="M_READ_REC_IND" code="8"/>
+      <enum name="M_READ_ORIG_IND" code="9"/>
+      <enum name="M_FORWARD_REQ" code="10"/>
+      <enum name="M_FORWARD_CONF" code="11"/>
+      <enum name="M_BOX_STORE_CONF" code="12"/>
+      <enum name="M_BOX_VIEW_CONF" code="13"/>
+      <enum name="M_MBOX_UPLOAD_CONF" code="14"/>
+      <enum name="M_MBOX_DELETE_CONF" code="15"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.52 -->
+    <avp name="Delivery-Report-Requested" code="1216" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NO_ENUM_DELIVERY_REPORT_REQUESTED" code="0"/>
+      <enum name="YES_ENUM_DELIVERY_REPORT_REQUESTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.162 -->
+    <avp name="Read-Reply-Report-Requested" code="1222" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NO_ENUM_READ_REPLY_REPORT_REQUESTED" code="0"/>
+      <enum name="YES_ENUM_READ_REPLY_REPORT_REQUESTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.109 -->
+    <avp name="MMBox-Storage-Requested" code="1248" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NO_ENUM_MMBOX_STORAGE_REQUESTED" code="0"/>
+      <enum name="YES_ENUM_MMBOX_STORAGE_REQUESTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.42 -->
+    <avp name="Content-Class" code="1220" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="TEXT" code="0"/>
+      <enum name="IMAGE_BASIC" code="1"/>
+      <enum name="IMAGE_RICH" code="2"/>
+      <enum name="VIDEO_BASIC" code="3"/>
+      <enum name="VIDEO_RICH" code="4"/>
+      <enum name="MEGAPIXEL" code="5"/>
+      <enum name="CONTENT_BASIC" code="6"/>
+      <enum name="CONTENT_RICH" code="7"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.56 -->
+    <avp name="DRM-Content" code="1221" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NO_ENUM_DRM_CONTENT" code="0"/>
+      <enum name="YES_ENUM_DRM_CONTENT" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.4 -->
+    <avp name="Adaptations" code="1217" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="YES_ENUM_ADAPTATIONS" code="0"/>
+      <enum name="NO_ENUM_ADAPTATIONS" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.145 -->
+    <avp name="PoC-Server-Role" code="883" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PARTICIPATING_POC_SERVER" code="0"/>
+      <enum name="CONTROLLING_POC_SERVER" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.148 -->
+    <avp name="PoC-Session-Type" code="884" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="_1_TO_1_POC_SESSION" code="0"/>
+      <enum name="CHAT_POC_GROUP_SESSION" code="1"/>
+      <enum name="PRE_ARRANGED_POC_GROUP_SESSION" code="2"/>
+      <enum name="AD_HOC_POC_GROUP_SESSION" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.147 -->
+    <avp name="PoC-Session-Initiation-type" code="1277" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PRE_ESTABLISHED" code="0"/>
+      <enum name="ON_DEMAND" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.142 -->
+    <avp name="PoC-Event-Type" code="2025" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NORMAL_ENUM_POC_EVENT_TYPE" code="0"/>
+      <enum name="INSTANT_PERSONAL_ALERT_EVENT" code="1"/>
+      <enum name="POC_GROUP_ADVERTISEMENT_EVENT" code="2"/>
+      <enum name="EARLY_SESSION_SETTING_UP_EVENT" code="3"/>
+      <enum name="POC_TALK_BURST" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.9 -->
+    <avp name="MBMS-Service-Type" code="906" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="MULTICAST" code="0"/>
+      <enum name="BROADCAST" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.100 -->
+    <avp name="MBMS-User-Service-Type" code="1225" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="DOWNLOAD" code="1"/>
+      <enum name="STREAMING" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.67 -->
+    <avp name="File-Repair-Supported" code="1224" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SUPPORTED" code="1"/>
+      <enum name="NOT_SUPPORTED" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.10 -->
+    <avp name="MBMS-2G-3G-Indicator" code="907" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="_2G" code="0"/>
+      <enum name="_3G" code="1"/>
+      <enum name="_2G_AND_3G" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.24 -->
+    <avp name="CN-IP-Multicast-Distribution" code="921" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NO_IP_MULTICAST" code="0"/>
+      <enum name="IP_MULTICAST" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.97B -->
+    <avp name="MBMS-Charged-Party" code="2323" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CONTENT_PROVIDER" code="0"/>
+      <enum name="SUBSCRIBER" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.212 -->
+    <avp name="SMS-Node" code="2016" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SMS_ROUTER" code="0"/>
+      <enum name="IP_SM_GW" code="1"/>
+      <enum name="SMS_ROUTER_AND_IP_SM_GW" code="2"/>
+      <enum name="SMS_SC" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.207 -->
+    <avp name="SM-Message-Type" code="2007" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SUBMISSION" code="0"/>
+      <enum name="DELIVERY_REPORT" code="1"/>
+      <enum name="SM_SERVICE_REQUEST" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.174 -->
+    <avp name="Reply-Path-Requested" code="2011" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NO_REPLY_PATH_SET" code="0"/>
+      <enum name="REPLY_PATH_SET" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.205A -->
+    <avp name="SM-Device-Trigger-Indicator" code="3407" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NOT_DEVICE_TRIGGER" code="0"/>
+      <enum name="DEVICE_TRIGGER" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.67aA -->
+    <avp name="Forwarding-Pending" code="3415" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="FORWARDING_NOT_PENDING" code="0"/>
+      <enum name="FORWARDING_PENDING" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.4 -->
+    <avp name="Application-Service-Type" code="2102" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SENDING" code="100"/>
+      <enum name="RECEIVING" code="101"/>
+      <enum name="RETRIEVAL" code="102"/>
+      <enum name="INVITING" code="103"/>
+      <enum name="LEAVING" code="104"/>
+      <enum name="JOINING" code="105"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.46 -->
+    <avp name="Pre-emption-Capability" code="1047" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PRE_EMPTION_CAPABILITY_ENABLED" code="0"/>
+      <enum name="PRE_EMPTION_CAPABILITY_DISABLED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.47 -->
+    <avp name="Pre-emption-Vulnerability" code="1048" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PRE_EMPTION_VULNERABILITY_ENABLED" code="0"/>
+      <enum name="PRE_EMPTION_VULNERABILITY_DISABLED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.27 -->
+    <avp name="IP-CAN-Type" code="1027" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="_3GPP_GPRS" code="0"/>
+      <enum name="DOCSIS" code="1"/>
+      <enum name="XDSL" code="2"/>
+      <enum name="WIMAX" code="3"/>
+      <enum name="_3GPP2" code="4"/>
+      <enum name="_3GPP_EPS" code="5"/>
+      <enum name="NON_3GPP_EPS" code="6"/>
+      <enum name="FBA" code="7"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.31 -->
+    <avp name="RAT-Type" code="1032" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="WLAN" code="0"/>
+      <enum name="VIRTUAL" code="1"/>
+      <enum name="UTRAN" code="1000"/>
+      <enum name="GERAN" code="1001"/>
+      <enum name="GAN" code="1002"/>
+      <enum name="HSPA_EVOLUTION" code="1003"/>
+      <enum name="EUTRAN" code="1004"/>
+      <enum name="EUTRAN_NB_IOT" code="1005"/>
+      <enum name="CDMA2000_1X" code="2000"/>
+      <enum name="HRPD" code="2001"/>
+      <enum name="UMB" code="2002"/>
+      <enum name="EHRPD" code="2003"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.14 -->
+    <avp name="AoC-Format" code="2310" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="MONETARY" code="0"/>
+      <enum name="NON_MONETARY" code="1"/>
+      <enum name="CAI" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.46A -->
+    <avp name="CSG-Access-Mode" code="2317" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CLOSED_MODE" code="0"/>
+      <enum name="HYBRID_MODE" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.46B -->
+    <avp name="CSG-Membership-Indication" code="2318" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NOT_CSG_MEMBER" code="0"/>
+      <enum name="CSG_MEMBER" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.215A -->
+    <avp name="Status-AS-Code" code="2702" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="_4XX_STATUS" code="0"/>
+      <enum name="_5XX_STATUS" code="1"/>
+      <enum name="TIMEOUT_STATUS" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.92A -->
+    <avp name="Local-GW-Inserted-Indication" code="2604" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="LOCAL_GW_NOT_INSERTED" code="0"/>
+      <enum name="LOCAL_GW_INSERTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80A -->
+    <avp name="IP-Realm-Default-Indication" code="2603" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="DEFAULT_IP_REALM_NOT_USED" code="0"/>
+      <enum name="DEFAULT_IP_REALM_USED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.233A -->
+    <avp name="Transcoder-Inserted-Indication" code="2605" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="TRANSCODER_NOT_INSERTED" code="0"/>
+      <enum name="TRANSCODER_INSERTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.101 -->
+    <avp name="Media-Initiator-Flag" code="882" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CALLED_PARTY_ENUM_MEDIA_INITIATOR_FLAG" code="0"/>
+      <enum name="CALLING_PARTY_ENUM_MEDIA_INITIATOR_FLAG" code="1"/>
+      <enum name="UNKNOWN_ENUM_MEDIA_INITIATOR_FLAG" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.186 -->
+    <avp name="SDP-Type" code="2036" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SDP_OFFER" code="0"/>
+      <enum name="SDP_ANSWER" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.124 -->
+    <avp name="Originator" code="864" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CALLING_PARTY_ENUM_ORIGINATOR" code="0"/>
+      <enum name="CALLED_PARTY_ENUM_ORIGINATOR" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.186A -->
+    <avp name="Session-Direction" code="2707" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="INBOUND_SESSION_DIRECTION" code="0"/>
+      <enum name="OUTBOUND_SESSION_DIRECTION" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.112B -->
+    <avp name="NNI-Type" code="2704" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NON_ROAMING" code="0"/>
+      <enum name="ROAMING_WITHOUT_LOOPBACK_NNI_TYPE" code="1"/>
+      <enum name="ROAMING_WITH_LOOPBACK" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.171A -->
+    <avp name="Relationship-Mode" code="2706" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="TRUSTED_RELATIONSHIP_MODE" code="0"/>
+      <enum name="NON_TRUSTED_RELATIONSHIP_MOD" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.1B -->
+    <avp name="Access-Transfer-Type" code="2710" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PS_TO_CS_TRANSFER" code="0"/>
+      <enum name="CS_TO_PS_TRANSFER" code="1"/>
+      <enum name="PS_TO_PS_TRANSFER" code="2"/>
+      <enum name="CS_TO_CS_TRANSFER" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.9 -->
+    <avp name="Address-Type" code="899" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="E_MAIL_ADDRESS" code="0"/>
+      <enum name="MSISDN_ENUM_ADDRESS_TYPE" code="1"/>
+      <enum name="IPV4_ADDRESS_ENUM_ADDRESS_TYPE" code="2"/>
+      <enum name="IPV6_ADDRESS_ENUM_ADDRESS_TYPE" code="3"/>
+      <enum name="NUMERIC_SHORTCODE" code="4"/>
+      <enum name="ALPHANUMERIC_SHORTCODE" code="5"/>
+      <enum name="OTHER" code="6"/>
+      <enum name="IMSI" code="7"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.10 -->
+    <avp name="Addressee-Type" code="1208" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="TO" code="0"/>
+      <enum name="CC" code="1"/>
+      <enum name="BCC" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.238 -->
+    <avp name="Type-Number" code="1204" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="WKV_0x00" code="0"/>
+      <enum name="WKV_0x01" code="1"/>
+      <enum name="WKV_0x02" code="2"/>
+      <enum name="WKV_0x03" code="3"/>
+      <enum name="WKV_0x04" code="4"/>
+      <enum name="WKV_0x05" code="5"/>
+      <enum name="WKV_0x06" code="6"/>
+      <enum name="WKV_0x07" code="7"/>
+      <enum name="WKV_0x08" code="8"/>
+      <enum name="WKV_0x09" code="9"/>
+      <enum name="WKV_0x0A" code="10"/>
+      <enum name="WKV_0x0C" code="12"/>
+      <enum name="WKV_0x0D" code="13"/>
+      <enum name="WKV_0x0E" code="14"/>
+      <enum name="WKV_0x0F" code="15"/>
+      <enum name="WKV_0x10" code="16"/>
+      <enum name="WKV_0x11" code="17"/>
+      <enum name="WKV_0x12" code="18"/>
+      <enum name="WKV_0x13" code="19"/>
+      <enum name="WKV_0x14" code="20"/>
+      <enum name="WKV_0x15" code="21"/>
+      <enum name="WKV_0x16" code="22"/>
+      <enum name="WKV_0x17" code="23"/>
+      <enum name="WKV_0x18" code="24"/>
+      <enum name="WKV_0x19" code="25"/>
+      <enum name="WKV_0x1A" code="26"/>
+      <enum name="WKV_0x1B" code="27"/>
+      <enum name="WKV_0x1C" code="28"/>
+      <enum name="WKV_0x1D" code="29"/>
+      <enum name="WKV_0x1E" code="30"/>
+      <enum name="WKV_0x1F" code="31"/>
+      <enum name="WKV_0x20" code="32"/>
+      <enum name="WKV_0x21" code="33"/>
+      <enum name="WKV_0x22" code="34"/>
+      <enum name="WKV_0x23" code="35"/>
+      <enum name="WKV_0x24" code="36"/>
+      <enum name="WKV_0x25" code="37"/>
+      <enum name="WKV_0x26" code="38"/>
+      <enum name="WKV_0x27" code="39"/>
+      <enum name="WKV_0x28" code="40"/>
+      <enum name="WKV_0x29" code="41"/>
+      <enum name="WKV_0x2A" code="42"/>
+      <enum name="WKV_0x2B" code="43"/>
+      <enum name="WKV_0x2C" code="44"/>
+      <enum name="WKV_0x2D" code="45"/>
+      <enum name="WKV_0x2E" code="46"/>
+      <enum name="WKV_0x2F" code="47"/>
+      <enum name="WKV_0x30" code="48"/>
+      <enum name="WKV_0x31" code="49"/>
+      <enum name="WKV_0x32" code="50"/>
+      <enum name="WKV_0x33" code="51"/>
+      <enum name="WKV_0x34" code="52"/>
+      <enum name="WKV_0x35" code="53"/>
+      <enum name="WKV_0x36" code="54"/>
+      <enum name="WKV_0x37" code="55"/>
+      <enum name="WKV_0x38" code="56"/>
+      <enum name="WKV_0x3A" code="58"/>
+      <enum name="WKV_0x3B" code="59"/>
+      <enum name="WKV_0x3C" code="60"/>
+      <enum name="WKV_0x3D" code="61"/>
+      <enum name="WKV_0x3E" code="62"/>
+      <enum name="WKV_0x3F" code="63"/>
+      <enum name="WKV_0x40" code="64"/>
+      <enum name="WKV_0x41" code="65"/>
+      <enum name="WKV_0x42" code="66"/>
+      <enum name="WKV_0x43" code="67"/>
+      <enum name="WKV_0x44" code="68"/>
+      <enum name="WKV_0x45" code="69"/>
+      <enum name="WKV_0x46" code="70"/>
+      <enum name="WKV_0x47" code="71"/>
+      <enum name="WKV_0x48" code="72"/>
+      <enum name="WKV_0x49" code="73"/>
+      <enum name="WKV_0x4A" code="74"/>
+      <enum name="WKV_0x4B" code="75"/>
+      <enum name="WKV_0x4C" code="76"/>
+      <enum name="WKV_0x4D" code="77"/>
+      <enum name="WKV_0x4E" code="78"/>
+      <enum name="WKV_0x4F" code="79"/>
+      <enum name="WKV_0x50" code="80"/>
+      <enum name="WKV_0x51" code="81"/>
+      <enum name="WKV_0x52" code="82"/>
+      <enum name="WKV_0x53" code="83"/>
+      <enum name="WKV_0x54" code="84"/>
+      <enum name="WKV_0x55" code="85"/>
+      <enum name="WKV_0x56" code="86"/>
+      <enum name="WKV_0x57" code="87"/>
+      <enum name="WKV_0x58" code="88"/>
+      <enum name="WKV_0x5A" code="89"/>
+      <enum name="RGV_0x0201" code="513"/>
+      <enum name="RGV_0x0202" code="514"/>
+      <enum name="RGV_0x0203" code="515"/>
+      <enum name="RGV_0x0204" code="516"/>
+      <enum name="RGV_0x0205" code="517"/>
+      <enum name="RGV_0x0206" code="518"/>
+      <enum name="RGV_0x0207" code="519"/>
+      <enum name="RGV_0x0208" code="520"/>
+      <enum name="RGV_0x0209" code="521"/>
+      <enum name="RGV_0x020A" code="522"/>
+      <enum name="RGV_0x020B" code="523"/>
+      <enum name="RGV_0x020C" code="524"/>
+      <enum name="RGV_0x0300" code="768"/>
+      <enum name="RGV_0x0301" code="769"/>
+      <enum name="RGV_0x0302" code="770"/>
+      <enum name="RGV_0x0305" code="773"/>
+      <enum name="RGV_0x0306" code="774"/>
+      <enum name="RGV_0x0307" code="775"/>
+      <enum name="RGV_0x0308" code="776"/>
+      <enum name="RGV_0x0309" code="777"/>
+      <enum name="RGV_0x030A" code="778"/>
+      <enum name="RGV_0x030B" code="779"/>
+      <enum name="RGV_0x030C" code="780"/>
+      <enum name="RGV_0x030D" code="781"/>
+      <enum name="RGV_0x030E" code="782"/>
+      <enum name="RGV_0x030F" code="783"/>
+      <enum name="RGV_0x0310" code="784"/>
+      <enum name="RGV_0x0311" code="785"/>
+      <enum name="RGV_0x0312" code="786"/>
+      <enum name="RGV_0x0313" code="787"/>
+      <enum name="RGV_0x0314" code="788"/>
+      <enum name="RGV_0x0315" code="789"/>
+      <enum name="RGV_0x0316" code="790"/>
+      <enum name="RGV_0x0317" code="791"/>
+      <enum name="RGV_0x0318" code="792"/>
+      <enum name="RGV_0x0319" code="793"/>
+      <enum name="RGV_0x031A" code="794"/>
+      <enum name="RGV_0x031B" code="795"/>
+      <enum name="RGV_0x031C" code="796"/>
+      <enum name="RGV_0x031D" code="797"/>
+      <enum name="RGV_0x031E" code="798"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.40 -->
+    <avp name="Class-Identifier" code="1214" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PERSONAL" code="0"/>
+      <enum name="ADVERTISEMENT" code="1"/>
+      <enum name="INFORMATIONAL" code="2"/>
+      <enum name="AUTO" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.86 -->
+    <avp name="LCS-Client-Type" code="1241" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="EMERGENCY_SERVICES" code="0"/>
+      <enum name="VALUE_ADDED_SERVICES" code="1"/>
+      <enum name="PLMN_OPERATOR_SERVICES" code="2"/>
+      <enum name="LAWFUL_INTERCEPT_SERVICES" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.95 -->
+    <avp name="Location-Estimate-Type" code="1243" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CURRENT_LOCATION" code="0"/>
+      <enum name="CURRENT_LAST_KNOWN_LOCATION" code="1"/>
+      <enum name="INITIAL_LOCATION" code="2"/>
+      <enum name="ACTIVATE_DEFERRED_LOCATION" code="3"/>
+      <enum name="CANCEL_DEFERRED_LOCATION" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.151 -->
+    <avp name="PoC-User-Role-info-Units" code="1254" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="MODERATOR" code="1"/>
+      <enum name="DISPATCHER" code="2"/>
+      <enum name="SESSION_OWNER" code="3"/>
+      <enum name="SESSION_PARTICIPANT" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.132 -->
+    <avp name="Participant-Access-Priority" code="1259" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PRE_EMPTIVE_PRIORITY" code="1"/>
+      <enum name="HIGH_PRIORITY" code="2"/>
+      <enum name="NORMAL_PRIORITY" code="3"/>
+      <enum name="LOW_PRIORITY" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.241 -->
+    <avp name="User-Participating-Type" code="1279" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NORMAL_ENUM_USER_PARTICIPATING_TYPE" code="0"/>
+      <enum name="NW_POC_BOX" code="1"/>
+      <enum name="UE_POC_BOX" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.139 -->
+    <avp name="PoC-Change-Condition" code="1261" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SERVICE_CHANGE" code="0"/>
+      <enum name="VOLUME_LIMIT" code="1"/>
+      <enum name="TIME_LIMIT" code="2"/>
+      <enum name="NUMBER_OF_TALK_BURST_LIMIT" code="3"/>
+      <enum name="NUMBER_OF_ACTIVE_PARTICIPANTS" code="4"/>
+      <enum name="TARIFF_TIME" code="5"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.74 -->
+    <avp name="Interface-Type" code="2006" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="UNKNOWN_ENUM_INTERFACE_TYPE" code="0"/>
+      <enum name="MOBILE_ORIGINATING" code="1"/>
+      <enum name="MOBILE_TERMINATING" code="2"/>
+      <enum name="APPLICATION_ORIGINATING" code="3"/>
+      <enum name="APPLICATION_TERMINATION" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.368] 6.4.7 -->
+    <avp name="Priority-Indication" code="3006" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NON_PRIORITY" code="0"/>
+      <enum name="PRIORITY" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.133 -->
+    <avp name="Participant-Action-Type" code="2049" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="CREATE_CONF" code="0"/>
+      <enum name="JOIN_CONF" code="1"/>
+      <enum name="INVITE_INTO_CONF" code="2"/>
+      <enum name="QUIT_CONF" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.18 -->
+    <avp name="AoC-Service-Obligatory-Type" code="2312" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NON_BINDING" code="0"/>
+      <enum name="BINDING" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.19 -->
+    <avp name="AoC-Service-Type" code="2313" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NONE" code="0"/>
+      <enum name="AOC_S" code="1"/>
+      <enum name="AOC_D" code="2"/>
+      <enum name="AOC_E" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.88 -->
+    <avp name="LCS-Format-Indicator" code="1237" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="LOGICAL_NAME" code="0"/>
+      <enum name="EMAIL_ADDRESS" code="1"/>
+      <enum name="MSISDN_ENUM_LCS_FORMAT_INDICATOR" code="2"/>
+      <enum name="URL_ENUM_LCS_FORMAT_INDICATOR" code="3"/>
+      <enum name="SIP_URL" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.38A -->
+    <avp name="Charge-Reason-Code" code="2118" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="UNKNOWN" code="0"/>
+      <enum name="USAGE" code="1"/>
+      <enum name="COMMUNICATION_ATTEMPT_CHARGE" code="2"/>
+      <enum name="SETUP_CHARGE" code="3"/>
+      <enum name="ADD_ON_CHARGE" code="4"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.117 -->
+    <avp name="NBIFOM-Mode" code="2830" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="UE_INITIATED" code="0"/>
+      <enum name="NETWORK_INITIATED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.116 -->
+    <avp name="NBIFOM-Support" code="2831" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NBIFOM_NOT_SUPPORTED" code="0"/>
+      <enum name="NBIFOM_SUPPORTED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.46abA -->
+    <avp name="CP-CIoT-EPS-Optimisation-Indicator" code="3930" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NOT_APPLY" code="0"/>
+      <enum name="APPLY" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.238A -->
+    <avp name="UNI-PDU-CP-Only-Flag" code="3932" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="UNI_PDU_BOTH_UP_CP" code="0"/>
+      <enum name="UNI_PDU_CP_ONLY" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.74aA -->
+    <avp name="Inter-UE-Transfer" code="3902" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="INTRA_UE_TRANSFER" code="0"/>
+      <enum name="INTER_UE_TRANSFER" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160aA -->
+    <avp name="Quota-Indicator" code="3912" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="QUOTA_IS_NOT_USED_DURING_PLAYBACK" code="0"/>
+      <enum name="QUOTA_IS_USED_DURING_PLAYBACK" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160aA -->
+    <avp name="Play-Alternative" code="3913" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="SERVED_PARTY" code="0"/>
+      <enum name="REMOTE_PARTY" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154aA -->
+    <avp name="Privacy-Indicator" code="3915" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NOT_PRIVATE" code="0"/>
+      <enum name="PRIVATE" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.177aA -->
+    <avp name="Role-Of-ProSe-Function" code="3438" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="HPLMN" code="0"/>
+      <enum name="VPLMN" code="1"/>
+      <enum name="LOCAL_PLMN" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154D -->
+    <avp name="ProSe-Event-Type" code="3443" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="ANNOUCING" code="0"/>
+      <enum name="MONITORING" code="1"/>
+      <enum name="MATCH_REPORT" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154C -->
+    <avp name="ProSe-Direct-Discovery-Model" code="3442" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="MODEL_A" code="0"/>
+      <enum name="MODEL_B" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154M -->
+    <avp name="ProSe-Role-Of-UE" code="3451" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="ANNOUNCING_UE" code="0"/>
+      <enum name="MONITORING_UE" code="1"/>
+      <enum name="REQUESTOR_UE" code="2"/>
+      <enum name="REQUESTED_UE" code="3"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154J -->
+    <avp name="ProSe-Range-Class" code="3448" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="RESERVED_RANGE_CLASS" code="0"/>
+      <enum name="_50_M_RANGE_CLASS" code="1"/>
+      <enum name="_100_M_RANGE_CLASS" code="2"/>
+      <enum name="_200_M_RANGE_CLASS" code="3"/>
+      <enum name="_500_M_RANGE_CLASS" code="4"/>
+      <enum name="_1000_M_RANGE_CLASS" code="5"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154P -->
+    <avp name="Proximity-Alert-Indication" code="3454" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="ALERT" code="0"/>
+      <enum name="NO_ALERT" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154K -->
+    <avp name="ProSe-Reason-For-Cancellation" code="3449" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="PROXIMITY_ALERT_SENT" code="0"/>
+      <enum name="TIME_EXPIRED_WITH_NO_RENEWAL" code="1"/>
+      <enum name="REQUESTOR_CANCELLATION" code="2"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.46aA -->
+    <avp name="Coverage-Status" code="3428" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="OUT_OF_COVERAGE" code="0"/>
+      <enum name="IN_COVERAGE" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.198A -->
+    <avp name="SGi-PtP-Tunnelling-Method" code="3931" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="UDP_IP_BASED" code="0"/>
+      <enum name="OTHERS" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.5A -->
+    <avp name="Additional-Exception-Reports" code="3936" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="NOT_ALLOWED" code="0"/>
+      <enum name="ALLOWED" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.171 -->
+    <avp name="Refund-Information" code="2022" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.64 -->
+    <avp name="Event-Charging-TimeStamp" code="1258" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-Charging-Id" code="2" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.156 -->
+    <avp name="PS-Free-Format-Data" code="866" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.6 -->
+    <avp name="AF-Charging-Identifier" code="505" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.62 -->
+    <avp name="Envelope-Start-Time" code="1269" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.60 -->
+    <avp name="Envelope-End-Time" code="1267" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.194 -->
+    <avp name="Service-Specific-Data" code="863" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.20 -->
+    <avp name="Bearer-Identifier" code="1020" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.114 -->
+    <avp name="Node-Id" code="2064" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.137 -->
+    <avp name="PDP-Address" code="1227" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.199 -->
+    <avp name="SGSN-Address" code="1228" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.68 -->
+    <avp name="GGSN-Address" code="847" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.81 -->
+    <avp name="TDF-IP-Address" code="1091" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.199A -->
+    <avp name="SGW-Address" code="2067" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.62A -->
+    <avp name="ePDG-Address" code="3425" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.36 -->
+    <avp name="CG-Address" code="846" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-IMSI-MCC-MNC" code="8" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-GGSN-MCC-MNC" code="9" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-NSAPI" code="10" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-Session-Stop-Indicator" code="11" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-Selection-Mode" code="12" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-Charging-Characteristics" code="13" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7.1 -->
+    <avp name="TGPP-SGSN-MCC-MNC" code="18" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-MS-TimeZone" code="23" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.5 -->
+    <avp name="Charging-Rule-Base-Name" code="1004" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5b.3.4 -->
+    <avp name="ADC-Rule-Base-Name" code="1095" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-User-Location-Info" code="22" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.101 -->
+    <avp name="User-Location-Info-Time" code="2812" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-RAT-Type" code="21" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.215 -->
+    <avp name="Start-Time" code="2041" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.216 -->
+    <avp name="Stop-Time" code="2042" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.159 -->
+    <avp name="MME-Number-for-MT-SMS" code="1645" mandatory="mustnot"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.173] 6.4.4 -->
+    <avp name="MME-Name" code="2402" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.173] 6.4.12 -->
+    <avp name="MME-Realm" code="2408" mandatory="mustnot" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242 -->
+    <avp name="User-Session-Id" code="830" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.128A -->
+    <avp name="Outgoing-Session-Id" code="2320" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.33 -->
+    <avp name="Calling-Party-Address" code="831" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.32 -->
+    <avp name="Called-Party-Address" code="832" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.31 -->
+    <avp name="Called-Asserted-Identity" code="1250" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.120 -->
+    <avp name="Number-Portability-Routing-Information" code="2024"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.34 -->
+    <avp name="Carrier-Select-Routing-Information" code="2023" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.12 -->
+    <avp name="Alternate-Charged-Party-Address" code="1280" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.176 -->
+    <avp name="Requested-Party-Address" code="1251" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.26 -->
+    <avp name="Associated-URI" code="856" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.233B -->
+    <avp name="Transit-IOI-List" code="2701" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.75 -->
+    <avp name="IMS-Charging-Identifier" code="841" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.184 -->
+    <avp name="SDP-Session-Description" code="842" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.187 -->
+    <avp name="Served-Party-IP-Address" code="848" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.30 -->
+    <avp name="Bearer-Service" code="854" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.190 -->
+    <avp name="Service-Id" code="855" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.164A -->
+    <avp name="Reason-Header" code="3401" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.1 -->
+    <avp name="Access-Network-Information" code="1263" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.76 -->
+    <avp name="IMS-Communication-Service-Identifier" code="1281"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.74A -->
+    <avp name="IMS-Application-Reference-Identifier" code="2601"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.2 -->
+    <avp name="Account-Expiration" code="2309" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.79A -->
+    <avp name="Initial-IMS-Charging-Identifier" code="2321" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.67A -->
+    <avp name="From-Address" code="2708" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.77A -->
+    <avp name="IMS-Visited-Network-Identifier" code="2713" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.171B -->
+    <avp name="Related-IMS-Charging-Identifier" code="2711" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.171C -->
+    <avp name="Related-IMS-Charging-Identifier-Node" code="2712"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.177A -->
+    <avp name="Route-Header-Received" code="3403" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.177B -->
+    <avp name="Route-Header-Transmitted" code="3404" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.70A -->
+    <avp name="Instance-Id" code="3402" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.217 -->
+    <avp name="Submission-Time" code="1202" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.105 -->
+    <avp name="Message-ID" code="1210" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.21 -->
+    <avp name="Applic-ID" code="1218" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.173 -->
+    <avp name="Reply-Applic-ID" code="1223" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.28 -->
+    <avp name="Aux-Applic-Info" code="1219" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.140] 6.3.4 -->
+    <avp name="VAS-Id" code="1102" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.140] 6.3.3 -->
+    <avp name="VASP-Id" code="1101" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.94 -->
+    <avp name="Location-Estimate" code="1242" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.152 -->
+    <avp name="Positioning-Data" code="1245" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 16.4.7 -->
+    <avp name="TGPP-IMSI" code="1" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.329] 6.3.2 -->
+    <avp name="MSISDN" code="701" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.130 -->
+    <avp name="Participants-Involved" code="887" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.141 -->
+    <avp name="PoC-Controlling-Address" code="858" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.143 -->
+    <avp name="PoC-Group-Name" code="859" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.146 -->
+    <avp name="PoC-Session-Id" code="1229" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.39 -->
+    <avp name="Charged-Party" code="857" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.2 -->
+    <avp name="TMGI" code="900" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.3 -->
+    <avp name="Required-MBMS-Bearer-Capabilities" code="901" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.12 -->
+    <avp name="RAI" code="909" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.6 -->
+    <avp name="MBMS-Service-Area" code="903" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 17.7.11 -->
+    <avp name="MBMS-Session-Identity" code="908" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.98 -->
+    <avp name="MBMS-GW-Address" code="2307" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.41 -->
+    <avp name="Client-Address" code="2018" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.128 -->
+    <avp name="Originator-SCCP-Address" code="2008" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.214 -->
+    <avp name="SMSC-Address" code="2017" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.206 -->
+    <avp name="SM-Discharge-Time" code="2012" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.208 -->
+    <avp name="SM-Protocol-ID" code="2013" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.209 -->
+    <avp name="SM-Status" code="2014" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.210 -->
+    <avp name="SM-User-Data-Header" code="2015" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.29B -->
+    <avp name="Bearer-Capability" code="3412" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2. -->
+    <avp name="Network-Call-Reference-Number" code="3418" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111B -->
+    <avp name="MSC-Address" code="3417" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80F -->
+    <avp name="ISUP-Location-Number" code="3414" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242B -->
+    <avp name="VLR-Number" code="3420" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.214A -->
+    <avp name="Start-of-Charging" code="3419" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.5 -->
+    <avp name="Application-Server-Id" code="2101" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.19 -->
+    <avp name="Delivery-Status" code="2104" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.11 -->
+    <avp name="Content-ID" code="2116" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.13 -->
+    <avp name="Content-provider-ID" code="2117" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.108 -->
+    <avp name="Presence-Reporting-Area-Identifier" code="2821"
+      mandatory="mustnot" protected="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.107 -->
+    <avp name="Presence-Reporting-Area-Elements-List" code="2820"
+      mandatory="mustnot" protected="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.273] 5.2.3.22 -->
+    <avp name="SSID" code="1524" mandatory="mustnot" protected="mustnot"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.30A -->
+    <avp name="BSSID" code="2716" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.38 -->
+    <avp name="Change-Time" code="2038" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.226 -->
+    <avp name="Time-First-Usage" code="2043" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.227 -->
+    <avp name="Time-Last-Usage" code="2044" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.232 -->
+    <avp name="Time-Usage" code="2045" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.28 -->
+    <avp name="Sponsor-Identity" code="531" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.29 -->
+    <avp name="Application-Service-Provider-Identity" code="532"
+      mandatory="mustnot" protected="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.4 -->
+    <avp name="IMEI" code="1402" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.6 -->
+    <avp name="3GPP2-MEID" code="1471" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.5 -->
+    <avp name="Software-Version" code="1403" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.201 -->
+    <avp name="SIP-Method" code="824" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.63 -->
+    <avp name="Event" code="825" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.202 -->
+    <avp name="SIP-Request-Timestamp" code="834" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.204 -->
+    <avp name="SIP-Response-Timestamp" code="835" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.23 -->
+    <avp name="Application-Server" code="836" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.22 -->
+    <avp name="Application-Provided-Called-Party-Address" code="837"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.123 -->
+    <avp name="Originating-IOI" code="839" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.225 -->
+    <avp name="Terminating-IOI" code="840" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.182 -->
+    <avp name="SDP-Media-Name" code="844" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.181 -->
+    <avp name="SDP-Media-Description" code="845" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.102 -->
+    <avp name="Media-Initiator-Party" code="1288" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.4 -->
+    <avp name="Access-Network-Charging-Identifier-Value" code="503"
+      mandatory="must" protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.229] 6.3.3 -->
+    <avp name="Server-Name" code="602" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.79 -->
+    <avp name="Incoming-Trunk-Group-ID" code="852" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.129 -->
+    <avp name="Outgoing-Trunk-Group-ID" code="853" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.46 -->
+    <avp name="Content-Type" code="826" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.43 -->
+    <avp name="Content-Disposition" code="828" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.224 -->
+    <avp name="Tariff-XML" code="2306" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111A -->
+    <avp name="Neighbour-Node-Address" code="2705" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.7 -->
+    <avp name="Address-Data" code="897" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.6 -->
+    <avp name="Additional-Type-Information" code="1205" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.234 -->
+    <avp name="Token-Text" code="1215" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.83 -->
+    <avp name="LCS-Client-External-ID" code="1234" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.82 -->
+    <avp name="LCS-Client-Dialed-By-MS" code="1233" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.81 -->
+    <avp name="LCS-APN" code="1231" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.51 -->
+    <avp name="Deferred-Location-Event-Type" code="1230" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.150 -->
+    <avp name="PoC-User-Role-Ids" code="1253" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.140 -->
+    <avp name="PoC-Change-Time" code="1262" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.71 -->
+    <avp name="Interface-Id" code="2003" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.72 -->
+    <avp name="Interface-Port" code="2004" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.73 -->
+    <avp name="Interface-Text" code="2005" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.170 -->
+    <avp name="Recipient-SCCP-Address" code="2010" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111C -->
+    <avp name="MTC-IWF-Address" code="3406" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.224A -->
+    <avp name="Teleservice" code="3413" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80C -->
+    <avp name="ISUP-Cause-Diagnostic" code="3422" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.25 -->
+    <avp name="Associated-Party-Address" code="2035" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.48 -->
+    <avp name="CUG-Information" code="2304" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.183 -->
+    <avp name="SDP-Offer-Timestamp" code="1274" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.179 -->
+    <avp name="SDP-Answer-Timestamp" code="1275" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.55 -->
+    <avp name="Domain-Name" code="1200" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.87 -->
+    <avp name="LCS-Data-Coding-Scheme" code="1236" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.90 -->
+    <avp name="LCS-Name-String" code="1238" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.92 -->
+    <avp name="LCS-Requestor-ID-String" code="1240" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.173] 6.4.13 -->
+    <avp name="SGSN-Name" code="2409" mandatory="mustnot" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.173] 6.4.14 -->
+    <avp name="SGSN-Realm" code="2410" mandatory="mustnot" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.102 -->
+    <avp name="SGSN-Number" code="1489" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.173] 6.4.5 -->
+    <avp name="MSC-Number" code="2403" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.336] 6.4.14 -->
+    <avp name="IP-SM-GW-Number" code="3100" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.336] 6.4.15 -->
+    <avp name="IP-SM-GW-Name" code="3101" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.336] 6.4.18 -->
+    <avp name="IP-SM-GW-Realm" code="3112" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.237Ba -->
+    <avp name="TWAG-Address" code="3903" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.35A -->
+    <avp name="Cellular-Network-Information" code="3924" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80Fa -->
+    <avp name="Language" code="3914" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.12A -->
+    <avp name="Announcing-UE-HPLMN-Identifier" code="3426" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.12B -->
+    <avp name="Announcing-UE-VPLMN-Identifier" code="3427" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111Ab -->
+    <avp name="Monitoring-UE-HPLMN-Identifier" code="3431" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111Ab -->
+    <avp name="Monitoring-UE-VPLMN-Identifier" code="3433" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111Aa -->
+    <avp name="Monitored-PLMN-Identifier" code="3430" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.345] 6.3.17 -->
+    <avp name="ProSe-App-Id" code="3811" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154A -->
+    <avp name="ProSe-3rd-Party-Application-ID" code="3440" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154A -->
+    <avp name="Application-Specific-Data" code="3458" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154E -->
+    <avp name="ProSe-Function-IP-Address" code="3444" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.343] 6.4.4 -->
+    <avp name="ProSe-Function-ID" code="3602" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.343] 6.4.4 -->
+    <avp name="ProSe-Request-Timestamp" code="3450" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111Ac -->
+    <avp name="Monitoring-UE-Identifier" code="3432" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154F -->
+    <avp name="Prose-Function-PLMN-Identifier" code="3457" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.176B -->
+    <avp name="Requestor-PLMN-Identifier" code="3437" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.343] 6.4.2 -->
+    <avp name="Origin-App-Layer-User-Id" code="3600" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.345] 6.3.23 -->
+    <avp name="Requesting-EPUID" code="3816" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.343] 6.4.3 -->
+    <avp name="Target-App-Layer-User-Id" code="3601" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.176A -->
+    <avp name="Requested-PLMN-Identifier" code="3436" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154Q -->
+    <avp name="Proximity-Alert-Timestamp" code="3455" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154R -->
+    <avp name="Proximity-Cancellation-Timestamp" code="3456" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154O -->
+    <avp name="ProSe-UE-ID" code="3453" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154N -->
+    <avp name="ProSe-Source-IP-Address" code="3452" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80G -->
+    <avp name="Layer-2-Group-ID" code="3429" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154H -->
+    <avp name="ProSe-Group-IP-Multicast-Address" code="3446" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.225B -->
+    <avp name="Time-First-Transmission" code="3467" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.225A -->
+    <avp name="Time-First-Reception" code="3466" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.336] 6.4.18 -->
+    <avp name="External-Identifier" code="3111" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.336] 8.4.5 -->
+    <avp name="SCEF-ID" code="3125" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.197a -->
+    <avp name="Serving-Node-Identity" code="3929" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="DiameterIdentity"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.96 -->
+    <avp name="UE-Local-IP-Address" code="2805" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Address"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.106 -->
+    <avp name="RAN-NAS-Release-Cause" code="2819" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.31A -->
+    <avp name="Called-Identity" code="3916" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242aD -->
+    <avp name="Variable-Part-Value" code="3910" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.345] 6.3.11 -->
+    <avp name="MAC-Address" code="3806" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160C -->
+    <avp name="Radio-Parameter-Set-Values" code="3464" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.9 -->
+    <avp name="Visited-PLMN-Id" code="1407" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160A -->
+    <avp name="Radio-Frequency" code="3462" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.128] 6.4.29 -->
+    <avp name="RRC-Counter-Timestamp" code="4320" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.229 -->
+    <avp name="Time-Quota-Threshold" code="868" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.243 -->
+    <avp name="Volume-Quota-Threshold" code="869" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.240 -->
+    <avp name="Unit-Quota-Threshold" code="1226" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.159 -->
+    <avp name="Quota-Consumption-Time" code="881" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160 -->
+    <avp name="Quota-Holding-Time" code="871" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.29 -->
+    <avp name="Base-Time-Interval" code="1265" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.196 -->
+    <avp name="Service-Specific-Type" code="1257" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.15 -->
+    <avp name="Max-Requested-Bandwidth-UL" code="516" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.14 -->
+    <avp name="Max-Requested-Bandwidth-DL" code="515" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.26 -->
+    <avp name="Guaranteed-Bitrate-UL" code="1026" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.25 -->
+    <avp name="Guaranteed-Bitrate-DL" code="1025" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.40 -->
+    <avp name="APN-Aggregate-Max-Bitrate-UL" code="1041" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.39 -->
+    <avp name="APN-Aggregate-Max-Bitrate-DL" code="1040" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.136 -->
+    <avp name="PDN-Connection-ID" code="2050" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.137a -->
+    <avp name="PDP-Address-Prefix-Length" code="2606" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.106 -->
+    <avp name="Message-Size" code="1212" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.117 -->
+    <avp name="Number-Of-Participants" code="885" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.116 -->
+    <avp name="Number-Of-Messages-Sent" code="2019" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.208A -->
+    <avp name="SM-Sequence-Number" code="3408" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.212A -->
+    <avp name="SMS-Result" code="3409" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.6 -->
+    <avp name="Application-Session-Id" code="2103" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.61 -->
+    <avp name="Total-Number-Of-Messages-Exploded" code="2113" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20090714-C] 6.2.62 -->
+    <avp name="Total-Number-Of-Messages-Sent" code="2114" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.31 -->
+    <avp name="Number-Of-Messages-Successfully-Exploded" code="2111"
+      mandatory="must" protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 6.2.32 -->
+    <avp name="Number-Of-Messages-Successfully-Sent" code="2112"
+      mandatory="must" protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.17 -->
+    <avp name="Media-Component-Number" code="518" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.9 -->
+    <avp name="Flow-Number" code="509" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.45 -->
+    <avp name="Priority-Level" code="1046" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.153 -->
+    <avp name="Preferred-AoC-Currency" code="2315" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.79 -->
+    <avp name="CSG-Id" code="1437" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.110 -->
+    <avp name="Presence-Reporting-Area-Status" code="2823" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.93 -->
+    <avp name="Local-Sequence-Number" code="2063" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.66 -->
+    <avp name="Expires" code="888" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.203 -->
+    <avp name="SIP-Request-Timestamp-Fraction" code="2301" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.205 -->
+    <avp name="SIP-Response-Timestamp-Fraction" code="2302" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.229] 6.3.5 -->
+    <avp name="Mandatory-Capability" code="604" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.229] 6.3.6 -->
+    <avp name="Optional-Capability" code="605" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.44 -->
+    <avp name="Content-Length" code="827" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.45 -->
+    <avp name="Content-Size" code="1206" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.119 -->
+    <avp name="Number-Of-Talk-Bursts" code="1283" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.222 -->
+    <avp name="Talk-Burst-Volume" code="1287" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.221 -->
+    <avp name="Talk-Burst-Time" code="1286" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.118 -->
+    <avp name="Number-Of-Received-Talk-Bursts" code="1282" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.166 -->
+    <avp name="Received-Talk-Burst-Volume" code="1285" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.165 -->
+    <avp name="Received-Talk-Burst-Time" code="1284" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.368] 6.4.8 -->
+    <avp name="Reference-Number" code="3007" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.368] 6.4.11 -->
+    <avp name="Application-Port-Identifier" code="3010" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80D -->
+    <avp name="ISUP-Cause-Location" code="3423" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80E -->
+    <avp name="ISUP-Cause-Value" code="3424" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111aA -->
+    <avp name="MMTel-SService-Type" code="2031" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.193 -->
+    <avp name="Service-Mode" code="2032" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.115 -->
+    <avp name="Number-Of-Diversions" code="2034" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.121 -->
+    <avp name="Access-Availability-Change-Reason" code="2833"
+      mandatory="mustnot" protected="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.12aA -->
+    <avp name="Announcement-Identifier" code="3905" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.226A -->
+    <avp name="Time-Indicator" code="3911" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.12aC -->
+    <avp name="Announcement-Order" code="3906" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.345] 6.3.22 -->
+    <avp name="ProSe-Validity-Timer" code="3815" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.345] 6.3.27 -->
+    <avp name="Time-Window" code="3818" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.97 -->
+    <avp name="UDP-Source-Port" code="2806" mandatory="mustnot" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242aB -->
+    <avp name="Variable-Part-Order" code="3908" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242aC -->
+    <avp name="Variable-Part-Type" code="3909" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.128] 6.4.23 -->
+    <avp name="Uplink-Rate-Limit" code="4311" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.128] 6.4.22 -->
+    <avp name="Downlink-Rate-Limit" code="4312" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160G -->
+    <avp name="Rate-Control-Time-Unit" code="3939" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160F -->
+    <avp name="Rate-Control-Max-Rate" code="3938" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160E -->
+    <avp name="Rate-Control-Max-Message-Size" code="3937" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.128] 6.4.28 -->
+    <avp name="Counter-Value" code="4319" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 20.5a.7 -->
+    <avp name="MBMS-Data-Transfer-Start" code="929" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.061] 20.5a.8 -->
+    <avp name="MBMS-Data-Transfer-Stop" code="930" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <type type-name="Unsigned64"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.37 -->
+    <avp name="Change-Condition" code="2037" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.54 -->
+    <avp name="Diagnostics" code="2039" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.35 -->
+    <avp name="Cause-Code" code="861" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.49 -->
+    <avp name="Data-Coding-Scheme" code="2001" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.213 -->
+    <avp name="SM-Service-Type" code="2029" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.135A -->
+    <avp name="PC3-Control-Protocol-Cause" code="3434" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.135B -->
+    <avp name="PC3-EPC-Control-Protocol-Cause" code="3435" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.240B -->
+    <avp name="Usage-Information-Report-Sequence-Number" code="3439"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160D -->
+    <avp name="Radio-Resources-Indicator" code="3465" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Integer32"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.192 -->
+    <avp name="Service-Information" code="873" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="AoC-Information"/>
+        <gavp name="PS-Information"/>
+        <gavp name="IMS-Information"/>
+        <gavp name="MMS-Information"/>
+        <gavp name="LCS-Information"/>
+        <gavp name="PoC-Information"/>
+        <gavp name="MBMS-Information"/>
+        <gavp name="SMS-Information"/>
+        <gavp name="VCS-Information"/>
+        <gavp name="MMTel-Information"/>
+        <gavp name="ProSe-Information"/>
+        <gavp name="Service-Generic-Information"/>
+        <gavp name="IM-Information"/>
+        <gavp name="DCD-Information"/>
+        <gavp name="CPDT-Information"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.172 -->
+    <avp name="Remaining-Balance" code="2021" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Unit-Value"/>
+        <gavp name="Currency-Code"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.235 -->
+    <avp name="Trigger" code="1264" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Trigger-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.157 -->
+    <avp name="PS-Furnish-Charging-Information" code="865" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="TGPP-Charging-Id"/>
+        <gavp name="PS-Free-Format-Data"/>
+        <gavp name="PS-Append-Free-Format-Data"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.11 -->
+    <avp name="AF-Correlation-Information" code="1276" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="AF-Charging-Identifier"/>
+        <gavp name="Flows"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.59 -->
+    <avp name="Envelope" code="1266" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Envelope-Start-Time"/>
+        <gavp name="Envelope-End-Time"/>
+        <gavp name="CC-Total-Octets"/>
+        <gavp name="CC-Input-Octets"/>
+        <gavp name="CC-Output-Octets"/>
+        <gavp name="CC-Service-Specific-Units"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.228 -->
+    <avp name="Time-Quota-Mechanism" code="1270" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Time-Quota-Type"/>
+        <gavp name="Base-Time-Interval"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.195 -->
+    <avp name="Service-Specific-Info" code="1249" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Service-Specific-Data"/>
+        <gavp name="Service-Specific-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.16 -->
+    <avp name="QoS-Information" code="1016" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <grouped>
+        <gavp name="QoS-Class-Identifier"/>
+        <gavp name="Max-Requested-Bandwidth-UL"/>
+        <gavp name="Max-Requested-Bandwidth-DL"/>
+        <gavp name="Guaranteed-Bitrate-UL"/>
+        <gavp name="Guaranteed-Bitrate-DL"/>
+        <gavp name="Bearer-Identifier"/>
+        <gavp name="Allocation-Retention-Priority"/>
+        <gavp name="APN-Aggregate-Max-Bitrate-UL"/>
+        <gavp name="APN-Aggregate-Max-Bitrate-DL"/>
+        <gavp name="Conditional-APN-Aggregate-Max-Bitrate"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.15 -->
+    <avp name="AoC-Information" code="2054" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="AoC-Cost-Information"/>
+        <gavp name="Tariff-Information"/>
+        <gavp name="AoC-Subscription-Information"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.158 -->
+    <avp name="PS-Information" code="874" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="TGPP-Charging-Id"/>
+        <gavp name="PDN-Connection-ID"/>
+        <gavp name="Node-Id"/>
+        <gavp name="TGPP-PDP-Type"/>
+        <gavp name="PDP-Address"/>
+        <gavp name="PDP-Address-Prefix-Length"/>
+        <gavp name="Dynamic-Address-Flag"/>
+        <gavp name="Dynamic-Address-Flag-Extension"/>
+        <gavp name="QoS-Information"/>
+        <gavp name="SGSN-Address"/>
+        <gavp name="GGSN-Address"/>
+        <gavp name="TDF-IP-Address"/>
+        <gavp name="SGW-Address"/>
+        <gavp name="ePDG-Address"/>
+        <gavp name="TWAG-Address"/>
+        <gavp name="CG-Address"/>
+        <gavp name="Serving-Node-Type"/>
+        <gavp name="SGW-Change"/>
+        <gavp name="TGPP-IMSI-MCC-MNC"/>
+        <gavp name="IMSI-Unauthenticated-Flag"/>
+        <gavp name="TGPP-GGSN-MCC-MNC"/>
+        <gavp name="TGPP-NSAPI"/>
+        <gavp name="Called-Station-Id"/>
+        <gavp name="TGPP-Session-Stop-Indicator"/>
+        <gavp name="TGPP-Selection-Mode"/>
+        <gavp name="TGPP-Charging-Characteristics"/>
+        <gavp name="Charging-Characteristics-Selection-Mode"/>
+        <gavp name="TGPP-SGSN-MCC-MNC"/>
+        <gavp name="TGPP-MS-TimeZone"/>
+        <gavp name="Charging-Rule-Base-Name"/>
+        <gavp name="ADC-Rule-Base-Name"/>
+        <gavp name="TGPP-User-Location-Info"/>
+        <gavp name="User-Location-Info-Time"/>
+        <gavp name="User-CSG-Information"/>
+        <gavp name="Presence-Reporting-Area-Information"/>
+        <gavp name="3GPP2-BSID"/>
+        <gavp name="TWAN-User-Location-Info"/>
+        <gavp name="UWAN-User-Location-Info"/>
+        <gavp name="TGPP-RAT-Type"/>
+        <gavp name="PS-Furnish-Charging-Information"/>
+        <gavp name="PDP-Context-Type"/>
+        <gavp name="Offline-Charging"/>
+        <gavp name="Traffic-Data-Volumes"/>
+        <gavp name="Service-Data-Container"/>
+        <gavp name="User-Equipment-Info"/>
+        <gavp name="Terminal-Information"/>
+        <gavp name="Start-Time"/>
+        <gavp name="Stop-Time"/>
+        <gavp name="Change-Condition"/>
+        <gavp name="Diagnostics"/>
+        <gavp name="Low-Priority-Indicator"/>
+        <gavp name="NBIFOM-Mode"/>
+        <gavp name="NBIFOM-Support"/>
+        <gavp name="MME-Number-for-MT-SMS"/>
+        <gavp name="MME-Name"/>
+        <gavp name="MME-Realm"/>
+        <gavp name="Logical-Access-ID"/>
+        <gavp name="Physical-Access-ID"/>
+        <gavp name="Fixed-User-Location-Info"/>
+        <gavp name="CN-Operator-Selection-Entity"/>
+        <gavp name="Enhanced-Diagnostics"/>
+        <gavp name="SGi-PtP-Tunnelling-Method"/>
+        <gavp name="CP-CIoT-EPS-Optimisation-Indicator"/>
+        <gavp name="UNI-PDU-CP-Only-Flag"/>
+        <gavp name="Serving-PLMN-Rate-Control"/>
+        <gavp name="APN-Rate-Control"/>
+        <gavp name="RRC-Cause-Counter"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.77 -->
+    <avp name="IMS-Information" code="876" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Event-Type"/>
+        <gavp name="Role-Of-Node"/>
+        <gavp name="Node-Functionality"/>
+        <gavp name="User-Session-Id"/>
+        <gavp name="Outgoing-Session-Id"/>
+        <gavp name="Session-Priority"/>
+        <gavp name="Calling-Party-Address"/>
+        <gavp name="Called-Party-Address"/>
+        <gavp name="Called-Asserted-Identity"/>
+        <gavp name="Called-Identity-Change"/>
+        <gavp name="Number-Portability-Routing-Information"/>
+        <gavp name="Carrier-Select-Routing-Information"/>
+        <gavp name="Alternate-Charged-Party-Address"/>
+        <gavp name="Requested-Party-Address"/>
+        <gavp name="Associated-URI"/>
+        <gavp name="Time-Stamps"/>
+        <gavp name="Application-Server-Information"/>
+        <gavp name="Inter-Operator-Identifier"/>
+        <gavp name="Transit-IOI-List"/>
+        <gavp name="IMS-Charging-Identifier"/>
+        <gavp name="SDP-Session-Description"/>
+        <gavp name="SDP-Media-Component"/>
+        <gavp name="Served-Party-IP-Address"/>
+        <gavp name="Server-Capabilities"/>
+        <gavp name="Trunk-Group-ID"/>
+        <gavp name="Bearer-Service"/>
+        <gavp name="Service-Id"/>
+        <gavp name="Service-Specific-Info"/>
+        <gavp name="Message-Body"/>
+        <gavp name="Cause-Code"/>
+        <gavp name="Reason-Header"/>
+        <gavp name="Access-Network-Information"/>
+        <gavp name="Cellular-Network-Information"/>
+        <gavp name="Early-Media-Description"/>
+        <gavp name="IMS-Communication-Service-Identifier"/>
+        <gavp name="IMS-Application-Reference-Identifier"/>
+        <gavp name="Online-Charging-Flag"/>
+        <gavp name="Real-Time-Tariff-Information"/>
+        <gavp name="Account-Expiration"/>
+        <gavp name="Initial-IMS-Charging-Identifier"/>
+        <gavp name="NNI-Information"/>
+        <gavp name="From-Address"/>
+        <gavp name="IMS-Emergency-Indicator"/>
+        <gavp name="IMS-Visited-Network-Identifier"/>
+        <gavp name="Access-Transfer-Information"/>
+        <gavp name="Related-IMS-Charging-Identifier"/>
+        <gavp name="Related-IMS-Charging-Identifier-Node"/>
+        <gavp name="Route-Header-Received"/>
+        <gavp name="Route-Header-Transmitted"/>
+        <gavp name="Instance-Id"/>
+        <gavp name="TAD-Identifier"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.110 -->
+    <avp name="MMS-Information" code="877" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Originator-Address"/>
+        <gavp name="Recipient-Address"/>
+        <gavp name="Submission-Time"/>
+        <gavp name="MM-Content-Type"/>
+        <gavp name="Priority"/>
+        <gavp name="Message-ID"/>
+        <gavp name="Message-Type"/>
+        <gavp name="Message-Size"/>
+        <gavp name="Message-Class"/>
+        <gavp name="Delivery-Report-Requested"/>
+        <gavp name="Read-Reply-Report-Requested"/>
+        <gavp name="MMBox-Storage-Requested"/>
+        <gavp name="Applic-ID"/>
+        <gavp name="Reply-Applic-ID"/>
+        <gavp name="Aux-Applic-Info"/>
+        <gavp name="Content-Class"/>
+        <gavp name="DRM-Content"/>
+        <gavp name="Adaptations"/>
+        <gavp name="VASP-Id"/>
+        <gavp name="VAS-Id"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.89 -->
+    <avp name="LCS-Information" code="878" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="LCS-Client-ID"/>
+        <gavp name="Location-Type"/>
+        <gavp name="Location-Estimate"/>
+        <gavp name="Positioning-Data"/>
+        <gavp name="TGPP-IMSI"/>
+        <gavp name="MSISDN"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.144 -->
+    <avp name="PoC-Information" code="879" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="PoC-Server-Role"/>
+        <gavp name="PoC-Session-Type"/>
+        <gavp name="PoC-User-Role"/>
+        <gavp name="PoC-Session-Initiation-type"/>
+        <gavp name="PoC-Event-Type"/>
+        <gavp name="Number-Of-Participants"/>
+        <gavp name="Participants-Involved"/>
+        <gavp name="Participant-Group"/>
+        <gavp name="Talk-Burst-Exchange"/>
+        <gavp name="PoC-Controlling-Address"/>
+        <gavp name="PoC-Group-Name"/>
+        <gavp name="PoC-Session-Id"/>
+        <gavp name="Charged-Party"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.99 -->
+    <avp name="MBMS-Information" code="880" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="TMGI"/>
+        <gavp name="MBMS-Service-Type"/>
+        <gavp name="MBMS-User-Service-Type"/>
+        <gavp name="File-Repair-Supported"/>
+        <gavp name="Required-MBMS-Bearer-Capabilities"/>
+        <gavp name="MBMS-2G-3G-Indicator"/>
+        <gavp name="RAI"/>
+        <gavp name="MBMS-Service-Area"/>
+        <gavp name="MBMS-Session-Identity"/>
+        <gavp name="CN-IP-Multicast-Distribution"/>
+        <gavp name="MBMS-GW-Address"/>
+        <gavp name="MBMS-Charged-Party"/>
+        <gavp name="MSISDN"/>
+        <gavp name="MBMS-Data-Transfer-Start"/>
+        <gavp name="MBMS-Data-Transfer-Stop"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.211 -->
+    <avp name="SMS-Information" code="2000" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SMS-Node"/>
+        <gavp name="Client-Address"/>
+        <gavp name="Originator-SCCP-Address"/>
+        <gavp name="SMSC-Address"/>
+        <gavp name="Data-Coding-Scheme"/>
+        <gavp name="SM-Discharge-Time"/>
+        <gavp name="SM-Message-Type"/>
+        <gavp name="Originator-Interface"/>
+        <gavp name="SM-Protocol-ID"/>
+        <gavp name="Reply-Path-Requested"/>
+        <gavp name="SM-Status"/>
+        <gavp name="SM-User-Data-Header"/>
+        <gavp name="Number-Of-Messages-Sent"/>
+        <gavp name="SM-Sequence-Number"/>
+        <gavp name="Recipient-Info"/>
+        <gavp name="Originator-Received-Address"/>
+        <gavp name="SM-Service-Type"/>
+        <gavp name="SMS-Result"/>
+        <gavp name="SM-Device-Trigger-Indicator"/>
+        <gavp name="SM-Device-Trigger-Information"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242A -->
+    <avp name="VCS-Information" code="3410" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Bearer-Capability"/>
+        <gavp name="Network-Call-Reference-Number"/>
+        <gavp name="MSC-Address"/>
+        <gavp name="Basic-Service-Code"/>
+        <gavp name="ISUP-Location-Number"/>
+        <gavp name="VLR-Number"/>
+        <gavp name="Forwarding-Pending"/>
+        <gavp name="ISUP-Cause"/>
+        <gavp name="Start-Time"/>
+        <gavp name="Start-of-Charging"/>
+        <gavp name="Stop-Time"/>
+        <gavp name="PS-Free-Format-Data"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.111 -->
+    <avp name="MMTel-Information" code="2030" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Supplementary-Service"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 8.5.10 -->
+    <avp name="Service-Generic-Information" code="1256" mandatory="must"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <grouped>
+        <gavp name="Application-Server-Id"/>
+        <gavp name="Application-Service-Type"/>
+        <gavp name="Application-Session-Id"/>
+        <gavp name="Delivery-Status"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 8.5.6 -->
+    <avp name="IM-Information" code="2110" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <grouped>
+        <gavp name="Total-Number-Of-Messages-Sent"/>
+        <gavp name="Total-Number-Of-Messages-Exploded"/>
+        <gavp name="Number-Of-Messages-Successfully-Sent"/>
+        <gavp name="Number-Of-Messages-Successfully-Exploded"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - OMA-DDS-Charging_Data-V1_0-20110201-A] 8.5.5 -->
+    <avp name="DCD-Information" code="2115" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <grouped>
+        <gavp name="Content-ID"/>
+        <gavp name="Content-provider-ID"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.214] 5.3.10 -->
+    <avp name="Flows" code="510" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="yes">
+      <grouped>
+        <gavp name="Media-Component-Number"/>
+        <gavp name="Flow-Number"/>
+        <gavp name="Final-Unit-Action"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.32 -->
+    <avp name="Allocation-Retention-Priority" code="1034" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <grouped>
+        <gavp name="Priority-Level"/>
+        <gavp name="Pre-emption-Capability"/>
+        <gavp name="Pre-emption-Vulnerability"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.105 -->
+    <avp name="Conditional-APN-Aggregate-Max-Bitrate" code="2818"
+      mandatory="mustnot" protected="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <grouped>
+        <gavp name="APN-Aggregate-Max-Bitrate-UL"/>
+        <gavp name="APN-Aggregate-Max-Bitrate-DL"/>
+        <gavp name="IP-CAN-Type"/>
+        <gavp name="RAT-Type"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.13 -->
+    <avp name="AoC-Cost-Information" code="2053" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Accumulated-Cost"/>
+        <gavp name="Incremental-Cost"/>
+        <gavp name="Currency-Code"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.223 -->
+    <avp name="Tariff-Information" code="2060" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Current-Tariff"/>
+        <gavp name="Tariff-Time-Change"/>
+        <gavp name="Next-Tariff"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.20 -->
+    <avp name="AoC-Subscription-Information" code="2314" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="AoC-Service"/>
+        <gavp name="AoC-Format"/>
+        <gavp name="Preferred-AoC-Currency"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.240A -->
+    <avp name="User-CSG-Information" code="2319" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="CSG-Id"/>
+        <gavp name="CSG-Access-Mode"/>
+        <gavp name="CSG-Membership-Indication"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.109 -->
+    <avp name="Presence-Reporting-Area-Information" code="2822"
+      mandatory="mustnot" protected="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <grouped>
+        <gavp name="Presence-Reporting-Area-Identifier"/>
+        <gavp name="Presence-Reporting-Area-Status"/>
+        <gavp name="Presence-Reporting-Area-Elements-List"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.237C -->
+    <avp name="TWAN-User-Location-Info" code="2714" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SSID"/>
+        <gavp name="BSSID"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.121 -->
+    <avp name="Offline-Charging" code="1278" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Quota-Consumption-Time"/>
+        <gavp name="Time-Quota-Mechanism"/>
+        <gavp name="Envelope-Reporting"/>
+        <gavp name="Multiple-Services-Credit-Control"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.233 -->
+    <avp name="Traffic-Data-Volumes" code="2046" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="QoS-Information"/>
+        <gavp name="Accounting-Input-Octets"/>
+        <gavp name="Accounting-Output-Octets"/>
+        <gavp name="Change-Condition"/>
+        <gavp name="Change-Time"/>
+        <gavp name="TGPP-User-Location-Info"/>
+        <gavp name="UWAN-User-Location-Info"/>
+        <gavp name="TGPP-Charging-Id"/>
+        <gavp name="Presence-Reporting-Area-Status"/>
+        <gavp name="User-CSG-Information"/>
+        <gavp name="TGPP-RAT-Type"/>
+        <gavp name="Access-Availability-Change-Reason"/>
+        <gavp name="Related-Change-Condition-Information"/>
+        <gavp name="Diagnostics"/>
+        <gavp name="Enhanced-Diagnostics"/>
+        <gavp name="CP-CIoT-EPS-Optimisation-Indicator"/>
+        <gavp name="Serving-PLMN-Rate-Control"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.189 -->
+    <avp name="Service-Data-Container" code="2040" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="AF-Correlation-Information"/>
+        <gavp name="Charging-Rule-Base-Name"/>
+        <gavp name="Accounting-Input-Octets"/>
+        <gavp name="Accounting-Output-Octets"/>
+        <gavp name="Local-Sequence-Number"/>
+        <gavp name="QoS-Information"/>
+        <gavp name="Rating-Group"/>
+        <gavp name="Change-Time"/>
+        <gavp name="Service-Identifier"/>
+        <gavp name="Service-Specific-Info"/>
+        <gavp name="ADC-Rule-Base-Name"/>
+        <gavp name="SGSN-Address"/>
+        <gavp name="Time-First-Usage"/>
+        <gavp name="Time-Last-Usage"/>
+        <gavp name="Time-Usage"/>
+        <gavp name="Change-Condition"/>
+        <gavp name="TGPP-User-Location-Info"/>
+        <gavp name="3GPP2-BSID"/>
+        <gavp name="UWAN-User-Location-Info"/>
+        <gavp name="Sponsor-Identity"/>
+        <gavp name="Application-Service-Provider-Identity"/>
+        <gavp name="Presence-Reporting-Area-Status"/>
+        <gavp name="User-CSG-Information"/>
+        <gavp name="TGPP-RAT-Type"/>
+        <gavp name="Related-Change-Condition-Information"/>
+        <gavp name="Serving-PLMN-Rate-Control"/>
+        <gavp name="APN-Rate-Control"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.272] 7.3.3 -->
+    <avp name="Terminal-Information" code="1401" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="IMEI"/>
+        <gavp name="3GPP2-MEID"/>
+        <gavp name="Software-Version"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.212] 5.3.112 -->
+    <avp name="Fixed-User-Location-Info" code="2825" mandatory="mustnot"
+      protected="may" may-encrypt="yes" vendor-specific="yes">
+      <grouped>
+        <gavp name="SSID"/>
+        <gavp name="BSSID"/>
+        <gavp name="Logical-Access-ID"/>
+        <gavp name="Physical-Access-ID"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.65 -->
+    <avp name="Event-Type" code="823" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SIP-Method"/>
+        <gavp name="Event"/>
+        <gavp name="Expires"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.231 -->
+    <avp name="Time-Stamps" code="833" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SIP-Request-Timestamp"/>
+        <gavp name="SIP-Response-Timestamp"/>
+        <gavp name="SIP-Request-Timestamp-Fraction"/>
+        <gavp name="SIP-Response-Timestamp-Fraction"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.24 -->
+    <avp name="Application-Server-Information" code="850" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Application-Server"/>
+        <gavp name="Application-Provided-Called-Party-Address"/>
+        <gavp name="Status-AS-Code"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80 -->
+    <avp name="Inter-Operator-Identifier" code="838" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Originating-IOI"/>
+        <gavp name="Terminating-IOI"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.180 -->
+    <avp name="SDP-Media-Component" code="843" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SDP-Media-Name"/>
+        <gavp name="SDP-Media-Description"/>
+        <gavp name="Local-GW-Inserted-Indication"/>
+        <gavp name="IP-Realm-Default-Indication"/>
+        <gavp name="Transcoder-Inserted-Indication"/>
+        <gavp name="Media-Initiator-Flag"/>
+        <gavp name="Media-Initiator-Party"/>
+        <gavp name="TGPP-Charging-Id"/>
+        <gavp name="Access-Network-Charging-Identifier-Value"/>
+        <gavp name="SDP-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.229] 6.3.4 -->
+    <avp name="Server-Capabilities" code="603" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <grouped>
+        <gavp name="Mandatory-Capability"/>
+        <gavp name="Optional-Capability"/>
+        <gavp name="Server-Name"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.237 -->
+    <avp name="Trunk-Group-ID" code="851" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Incoming-Trunk-Group-ID"/>
+        <gavp name="Outgoing-Trunk-Group-ID"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.103 -->
+    <avp name="Message-Body" code="889" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Content-Type"/>
+        <gavp name="Content-Length"/>
+        <gavp name="Content-Disposition"/>
+        <gavp name="Originator"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.58 -->
+    <avp name="Early-Media-Description" code="1272" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SDP-TimeStamps"/>
+        <gavp name="SDP-Media-Component"/>
+        <gavp name="SDP-Session-Description"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.164 -->
+    <avp name="Real-Time-Tariff-Information" code="2305" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Tariff-Information"/>
+        <gavp name="Tariff-XML"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.112A -->
+    <avp name="NNI-Information" code="2703" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Session-Direction"/>
+        <gavp name="NNI-Type"/>
+        <gavp name="Relationship-Mode"/>
+        <gavp name="Neighbour-Node-Address"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.1A -->
+    <avp name="Access-Transfer-Information" code="2709" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Access-Transfer-Type"/>
+        <gavp name="Access-Network-Information"/>
+        <gavp name="Cellular-Network-Information"/>
+        <gavp name="Inter-UE-Transfer"/>
+        <gavp name="User-Equipment-Info"/>
+        <gavp name="Instance-Id"/>
+        <gavp name="Related-IMS-Charging-Identifier"/>
+        <gavp name="Related-IMS-Charging-Identifier-Node"/>
+        <gavp name="Change-Time"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.125 -->
+    <avp name="Originator-Address" code="886" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Address-Type"/>
+        <gavp name="Address-Data"/>
+        <gavp name="Address-Domain"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.167 -->
+    <avp name="Recipient-Address" code="1201" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Address-Type"/>
+        <gavp name="Address-Data"/>
+        <gavp name="Address-Domain"/>
+        <gavp name="Addressee-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.108 -->
+    <avp name="MM-Content-Type" code="1203" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Type-Number"/>
+        <gavp name="Additional-Type-Information"/>
+        <gavp name="Content-Size"/>
+        <gavp name="Additional-Content-Information"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.104 -->
+    <avp name="Message-Class" code="1213" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Class-Identifier"/>
+        <gavp name="Token-Text"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.84 -->
+    <avp name="LCS-Client-ID" code="1232" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="LCS-Client-Type"/>
+        <gavp name="LCS-Client-External-ID"/>
+        <gavp name="LCS-Client-Dialed-By-MS"/>
+        <gavp name="LCS-Client-Name"/>
+        <gavp name="LCS-APN"/>
+        <gavp name="LCS-Requestor-ID"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.96 -->
+    <avp name="Location-Type" code="1244" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Location-Estimate-Type"/>
+        <gavp name="Deferred-Location-Event-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.149 -->
+    <avp name="PoC-User-Role" code="1252" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="PoC-User-Role-Ids"/>
+        <gavp name="PoC-User-Role-info-Units"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.131 -->
+    <avp name="Participant-Group" code="1260" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Called-Party-Address"/>
+        <gavp name="Participant-Access-Priority"/>
+        <gavp name="User-Participating-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.220 -->
+    <avp name="Talk-Burst-Exchange" code="1255" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="PoC-Change-Time"/>
+        <gavp name="Number-Of-Talk-Bursts"/>
+        <gavp name="Talk-Burst-Volume"/>
+        <gavp name="Talk-Burst-Time"/>
+        <gavp name="Number-Of-Received-Talk-Bursts"/>
+        <gavp name="Received-Talk-Burst-Volume"/>
+        <gavp name="Received-Talk-Burst-Time"/>
+        <gavp name="Number-Of-Participants"/>
+        <gavp name="PoC-Change-Condition"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.126 -->
+    <avp name="Originator-Interface" code="2009" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Interface-Id"/>
+        <gavp name="Interface-Text"/>
+        <gavp name="Interface-Port"/>
+        <gavp name="Interface-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.168 -->
+    <avp name="Recipient-Info" code="2026" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Destination-Interface"/>
+        <gavp name="Recipient-Address"/>
+        <gavp name="Recipient-Received-Address"/>
+        <gavp name="Recipient-SCCP-Address"/>
+        <gavp name="SM-Protocol-ID"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.127 -->
+    <avp name="Originator-Received-Address" code="2027" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Address-Type"/>
+        <gavp name="Address-Data"/>
+        <gavp name="Address-Domain"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.205B -->
+    <avp name="SM-Device-Trigger-Information" code="3405" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="MTC-IWF-Address"/>
+        <gavp name="Reference-Number"/>
+        <gavp name="Serving-Node"/>
+        <gavp name="Validity-Time"/>
+        <gavp name="Priority-Indication"/>
+        <gavp name="Application-Port-Identifier"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.29A -->
+    <avp name="Basic-Service-Code" code="3411" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Bearer-Service"/>
+        <gavp name="Teleservice"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.80B -->
+    <avp name="ISUP-Cause" code="3416" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="ISUP-Cause-Location"/>
+        <gavp name="ISUP-Cause-Value"/>
+        <gavp name="ISUP-Cause-Diagnostic"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.219 -->
+    <avp name="Supplementary-Service" code="2048" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="MMTel-SService-Type"/>
+        <gavp name="Service-Mode"/>
+        <gavp name="Number-Of-Diversions"/>
+        <gavp name="Associated-Party-Address"/>
+        <gavp name="Service-Id"/>
+        <gavp name="Change-Time"/>
+        <gavp name="Number-Of-Participants"/>
+        <gavp name="Participant-Action-Type"/>
+        <gavp name="CUG-Information"/>
+        <gavp name="AoC-Information"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.3 -->
+    <avp name="Accumulated-Cost" code="2052" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Value-Digits"/>
+        <gavp name="Exponent"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.70 -->
+    <avp name="Incremental-Cost" code="2062" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Value-Digits"/>
+        <gavp name="Exponent"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.47 -->
+    <avp name="Current-Tariff" code="2056" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Currency-Code"/>
+        <gavp name="Scale-Factor"/>
+        <gavp name="Rate-Element"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.112 -->
+    <avp name="Next-Tariff" code="2057" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Currency-Code"/>
+        <gavp name="Scale-Factor"/>
+        <gavp name="Rate-Element"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.17 -->
+    <avp name="AoC-Service" code="2311" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="AoC-Service-Obligatory-Type"/>
+        <gavp name="AoC-Service-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.185 -->
+    <avp name="SDP-TimeStamps" code="1273" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SDP-Offer-Timestamp"/>
+        <gavp name="SDP-Answer-Timestamp"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.8 -->
+    <avp name="Address-Domain" code="898" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Domain-Name"/>
+        <gavp name="TGPP-IMSI-MCC-MNC"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.5 -->
+    <avp name="Additional-Content-Information" code="1207" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Type-Number"/>
+        <gavp name="Additional-Type-Information"/>
+        <gavp name="Content-Size"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.85 -->
+    <avp name="LCS-Client-Name" code="1235" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="LCS-Data-Coding-Scheme"/>
+        <gavp name="LCS-Name-String"/>
+        <gavp name="LCS-Format-Indicator"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.91 -->
+    <avp name="LCS-Requestor-ID" code="1239" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="LCS-Data-Coding-Scheme"/>
+        <gavp name="LCS-Requestor-ID-String"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.53 -->
+    <avp name="Destination-Interface" code="2002" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Interface-Id"/>
+        <gavp name="Interface-Text"/>
+        <gavp name="Interface-Port"/>
+        <gavp name="Interface-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.169 -->
+    <avp name="Recipient-Received-Address" code="2028" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Address-Type"/>
+        <gavp name="Address-Data"/>
+        <gavp name="Address-Domain"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.337] 6.3.3 -->
+    <avp name="Serving-Node" code="2401" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <grouped>
+        <gavp name="SGSN-Name"/>
+        <gavp name="SGSN-Realm"/>
+        <gavp name="SGSN-Number"/>
+        <gavp name="MME-Name"/>
+        <gavp name="MME-Realm"/>
+        <gavp name="MME-Number-for-MT-SMS"/>
+        <gavp name="MSC-Number"/>
+        <gavp name="IP-SM-GW-Number"/>
+        <gavp name="IP-SM-GW-Name"/>
+        <gavp name="IP-SM-GW-Realm"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.178 -->
+    <avp name="Scale-Factor" code="2059" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Value-Digits"/>
+        <gavp name="Exponent"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.161 -->
+    <avp name="Rate-Element" code="2058" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="CC-Unit-Type"/>
+        <gavp name="Charge-Reason-Code"/>
+        <gavp name="Unit-Value"/>
+        <gavp name="Unit-Cost"/>
+        <gavp name="Unit-Quota-Threshold"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.239 -->
+    <avp name="Unit-Cost" code="2061" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Value-Digits"/>
+        <gavp name="Exponent"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.12aB -->
+    <avp name="Announcement-Information" code="3904" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Announcement-Identifier"/>
+        <gavp name="Variable-Part"/>
+        <gavp name="Time-Indicator"/>
+        <gavp name="Quota-Indicator"/>
+        <gavp name="Announcement-Order"/>
+        <gavp name="Play-Alternative"/>
+        <gavp name="Privacy-Indicator"/>
+        <gavp name="Language"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154I -->
+    <avp name="ProSe-Information" code="3447" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Announcing-UE-HPLMN-Identifier"/>
+        <gavp name="Announcing-UE-VPLMN-Identifier"/>
+        <gavp name="Monitoring-UE-HPLMN-Identifier"/>
+        <gavp name="Monitoring-UE-VPLMN-Identifier"/>
+        <gavp name="Monitored-PLMN-Identifier"/>
+        <gavp name="Role-Of-ProSe-Function"/>
+        <gavp name="ProSe-App-Id"/>
+        <gavp name="ProSe-3rd-Party-Application-ID"/>
+        <gavp name="Application-Specific-Data"/>
+        <gavp name="ProSe-Event-Type"/>
+        <gavp name="ProSe-Direct-Discovery-Model"/>
+        <gavp name="ProSe-Function-IP-Address"/>
+        <gavp name="ProSe-Function-ID"/>
+        <gavp name="ProSe-Validity-Timer"/>
+        <gavp name="ProSe-Role-Of-UE"/>
+        <gavp name="ProSe-Request-Timestamp"/>
+        <gavp name="PC3-Control-Protocol-Cause"/>
+        <gavp name="Monitoring-UE-Identifier"/>
+        <gavp name="Prose-Function-PLMN-Identifier"/>
+        <gavp name="Requestor-PLMN-Identifier"/>
+        <gavp name="Origin-App-Layer-User-Id"/>
+        <gavp name="WLAN-Link-Layer-Id"/>
+        <gavp name="Requesting-EPUID"/>
+        <gavp name="Target-App-Layer-User-Id"/>
+        <gavp name="Requested-PLMN-Identifier"/>
+        <gavp name="Time-Window"/>
+        <gavp name="ProSe-Range-Class"/>
+        <gavp name="Proximity-Alert-Indication"/>
+        <gavp name="Proximity-Alert-Timestamp"/>
+        <gavp name="Proximity-Cancellation-Timestamp"/>
+        <gavp name="ProSe-Reason-For-Cancellation"/>
+        <gavp name="PC3-EPC-Control-Protocol-Cause"/>
+        <gavp name="ProSe-UE-ID"/>
+        <gavp name="ProSe-Source-IP-Address"/>
+        <gavp name="Layer-2-Group-ID"/>
+        <gavp name="ProSe-Group-IP-Multicast-Address"/>
+        <gavp name="Coverage-Info"/>
+        <gavp name="Radio-Parameter-Set-Info"/>
+        <gavp name="Transmitter-Info"/>
+        <gavp name="Time-First-Transmission"/>
+        <gavp name="Time-First-Reception"/>
+        <gavp name="ProSe-Direct-Communication-Transmission-Data-Container"/>
+        <gavp name="ProSe-Direct-Communication-Reception-Data-Container"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.171Ab -->
+    <avp name="Related-Trigger" code="3926" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Trigger-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.46acA -->
+    <avp name="CPDT-Information" code="3927" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="External-Identifier"/>
+        <gavp name="SCEF-ID"/>
+        <gavp name="Serving-Node-Identity"/>
+        <gavp name="SGW-Change"/>
+        <gavp name="NIDD-Submission"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242aaA -->
+    <avp name="UWAN-User-Location-Info" code="3918" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="UE-Local-IP-Address"/>
+        <gavp name="UDP-Source-Port"/>
+        <gavp name="SSID"/>
+        <gavp name="BSSID"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.58A -->
+    <avp name="Enhanced-Diagnostics" code="3901" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="RAN-NAS-Release-Cause"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.31B -->
+    <avp name="Called-Identity-Change" code="3917" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Called-Identity"/>
+        <gavp name="Change-Time"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.171Aa -->
+    <avp name="Related-Change-Condition-Information" code="3925"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="SGSN-Address"/>
+        <gavp name="Change-Condition"/>
+        <gavp name="TGPP-User-Location-Info"/>
+        <gavp name="3GPP2-BSID"/>
+        <gavp name="UWAN-User-Location-Info"/>
+        <gavp name="Presence-Reporting-Area-Status"/>
+        <gavp name="User-CSG-Information"/>
+        <gavp name="TGPP-RAT-Type"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.242aA -->
+    <avp name="Variable-Part" code="3907" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Variable-Part-Order"/>
+        <gavp name="Variable-Part-Type"/>
+        <gavp name="Variable-Part-Value"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.345] 6.3.32 -->
+    <avp name="WLAN-Link-Layer-Id" code="3821" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <grouped>
+        <gavp name="MAC-Address"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.46aaA -->
+    <avp name="Coverage-Info" code="3459" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Coverage-Status"/>
+        <gavp name="Change-Time"/>
+        <gavp name="Location-Info"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.160B -->
+    <avp name="Radio-Parameter-Set-Info" code="3463" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Radio-Parameter-Set-Values"/>
+        <gavp name="Change-Time"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.233C -->
+    <avp name="Transmitter-Info" code="3468" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="ProSe-Source-IP-Address"/>
+        <gavp name="ProSe-UE-ID"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154B -->
+    <avp name="ProSe-Direct-Communication-Transmission-Data-Container"
+      code="3441" mandatory="must" protected="may" may-encrypt="no"
+      vendor-specific="yes">
+      <grouped>
+        <gavp name="Local-Sequence-Number"/>
+        <gavp name="Coverage-Status"/>
+        <gavp name="TGPP-User-Location-Info"/>
+        <gavp name="Accounting-Output-Octets"/>
+        <gavp name="Change-Time"/>
+        <gavp name="Change-Condition"/>
+        <gavp name="Visited-PLMN-Id"/>
+        <gavp name="Usage-Information-Report-Sequence-Number"/>
+        <gavp name="Radio-Resources-Indicator"/>
+        <gavp name="Radio-Frequency"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.154Aa -->
+    <avp name="ProSe-Direct-Communication-Reception-Data-Container" code="3461"
+      mandatory="must" protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Local-Sequence-Number"/>
+        <gavp name="Coverage-Status"/>
+        <gavp name="TGPP-User-Location-Info"/>
+        <gavp name="Accounting-Input-Octets"/>
+        <gavp name="Change-Time"/>
+        <gavp name="Change-Condition"/>
+        <gavp name="Visited-PLMN-Id"/>
+        <gavp name="Usage-Information-Report-Sequence-Number"/>
+        <gavp name="Radio-Resources-Indicator"/>
+        <gavp name="Radio-Frequency"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.112aA -->
+    <avp name="NIDD-Submission" code="3928" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Submission-Time"/>
+        <gavp name="Event-Timestamp"/>
+        <gavp name="Accounting-Input-Octets"/>
+        <gavp name="Accounting-Output-Octets"/>
+        <gavp name="Change-Condition"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.95A -->
+    <avp name="Location-Info" code="3460" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="TGPP-User-Location-Info"/>
+        <gavp name="Change-Time"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.128] 6.4.21 -->
+    <avp name="Serving-PLMN-Rate-Control" code="4310" mandatory="must"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Uplink-Rate-Limit"/>
+        <gavp name="Downlink-Rate-Limit"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.20A -->
+    <avp name="APN-Rate-Control" code="3933" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="APN-Rate-Control-Uplink"/>
+        <gavp name="APN-Rate-Control-Downlink"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.20C -->
+    <avp name="APN-Rate-Control-Uplink" code="3935" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Additional-Exception-Reports"/>
+        <gavp name="Rate-Control-Time-Unit"/>
+        <gavp name="Rate-Control-Max-Rate"/>
+        <gavp name="Rate-Control-Max-Message-Size"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS32.299] 7.2.20B -->
+    <avp name="APN-Rate-Control-Downlink" code="3934" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Rate-Control-Time-Unit"/>
+        <gavp name="Rate-Control-Max-Rate"/>
+        <gavp name="Rate-Control-Max-Message-Size"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.128] 6.4.27 -->
+    <avp name="RRC-Cause-Counter" code="4318" mandatory="must" may-encrypt="no"
+      vendor-specific="yes">
+      <grouped>
+        <gavp name="Counter-Value"/>
+        <gavp name="RRC-Counter-Timestamp"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+  </vendor>
+
+  <!-- ETSI. -->
+  <vendor id="13019" name="ETSI">
+    <!-- =================================================================== -->
+    <!-- ===================== Ro ETSI Specific AVP's ====================== -->
+    <!-- =================================================================== -->
+
+    <!-- Ref = [ETSI - TS283.034] 7.3.3 -->
+    <avp name="Logical-Access-ID" code="302" mandatory="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [ETSI - TS283.034] 7.3 -->
+    <avp name="Physical-Access-ID" code="313" mandatory="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+  </vendor>
+
+  <!-- . -->
+  <vendor id="5535" name="3GPP2">
+    <!-- =================================================================== -->
+    <!-- ===================== Ro 3GPP2 Specific AVP's ===================== -->
+    <!-- =================================================================== -->
+
+    <!-- Ref = [3GPP2 - X.S0057-0] 5.6.2.1.1 -->
+    <avp name="3GPP2-BSID" code="9010" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+  </vendor>
+
+  <!-- OCS-SCP integration -->
+  <vendor id="13421" name="SCP">
+    <!-- =================================================================== -->
+    <!-- ===================== SCP Specific AVP's ===================== -->
+    <!-- =================================================================== -->
+
+    <avp name="CS-Service-Info" code="270" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Calling-Party-Number"/>
+        <gavp name="Called-Party-Number"/>
+        <gavp name="Original-Called-Party-Id"/>
+        <gavp name="Redirecting-Party-Id"/>
+        <gavp name="IVR-Number"/>
+        <gavp name="TGPP-User-Location-Info"/><!-- already defined in 3GPP section -->
+        <gavp name="Call-Reference-Number"/>
+        <gavp name="MSC-Address"/>
+        <gavp name="TGPP-MS-TimeZone"/><!-- already defined in 3GPP section -->
+        <gavp name="Teleservice-Code"/>
+        <gavp name="Previous-Used-Service-Units"/>
+        <gavp name="Location-Number"/>
+        <gavp name="VLR-Number"/>
+        <gavp name="Bearer-Service-Code"/>
+        <gavp name="Redirection-Information"/>
+        <gavp name="Connect-To-Number"/>
+      </grouped>
+    </avp>
+
+    <avp name="Calling-Party-Number" code="275" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Called-Party-Number" code="276" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Original-Called-Party-Id" code="277" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Redirecting-Party-Id" code="278" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="IVR-Number" code="279" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Call-Reference-Number" code="280" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <avp name="MSC-Address" code="281" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Teleservice-Code" code="282" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <avp name="Connect-To-Number" code="283" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Language-Id" code="284" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Low-Balance-Indicator" code="285" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="LOW_BALANCE" code="0"/>
+    </avp>
+
+    <avp name="Announcement" code="287" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Previous-Used-Service-Units" code="291" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <!-- AVPs below defined in 3GPP section -->
+        <gavp name="Tariff-Change-Usage"/>
+        <gavp name="CC-Time"/>
+        <gavp name="CC-Money"/>
+        <gavp name="CC-Total-Octets"/>
+        <gavp name="CC-Input-Octets"/>
+        <gavp name="CC-Output-Octets"/>
+        <gavp name="CC-Service-Specific-Units"/>
+      </grouped>
+    </avp>
+
+    <avp name="Location-Number" code="292" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="VLR-Number" code="293" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <avp name="Bearer-Service-Code" code="295" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="Unsigned32"/>
+    </avp>
+
+    <avp name="Redirection-Information" code="296" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <avp name="Subscription-Info" code="272" mandatory="must" protected="mustnot"
+         may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Language-Id"/>
+        <gavp name="Low-Balance-Indicator"/>
+      </grouped>
+    </avp>
+
+  </vendor>
+
+  <!-- ===================================================================== -->
+  <!-- ========================= Diameter Commands ========================= -->
+  <!-- ===================================================================== -->
+
+  <application id="4" name="Ro" vendor="TGPP" service-type="Auth">
+
+    <!-- ======================== CCR/CCA Command's ======================== -->
+    <!-- =============================== CCR =============================== -->
+    <!-- ============= [3GPP TS32.299 V13.6.0] , clause 6.4.2 ============== -->
+    <!-- The CCR messages, indicated by the Command-Code field set to 272 is
+    sent by the CTF to the OCF in order to request credits for the request
+    bearer / subsystem /service. -->
+    <!-- =============================== CCA =============================== -->
+    <!-- ============= [3GPP TS32.299 V13.6.0] , clause 6.4.3 ============== -->
+    <!-- The CCA messages, indicated by the Command-Code field set to 272 is
+    sent by the OCF to the CTF in order to reply to the CCR. -->
+    <command name="Credit-Control" code="272"/>
+
+    <!-- ======================== RAR/RAA Command's ======================== -->
+    <!-- =============================== RAR =============================== -->
+    <!-- ============= [3GPP TS32.299 V13.6.0] , clause 6.4.4 ============== -->
+    <!-- The Re-Auth-Request (RAR), indicated by the Command Code set to 258 and
+    the message flags' 'R' bit set, may be sent by any server to the access
+    device that is providing session service, to request that the user be
+    re-authenticated and/or re-authorized. -->
+    <!-- =============================== RAA =============================== -->
+    <!-- ============= [3GPP TS32.299 V13.6.0] , clause 6.4.5 ============== -->
+    <!-- The Re-Auth-Answer (RAA), indicated by the Command Code set to 258 and
+    the message flags' 'R' bit clear, is sent in response to the RAR. -->
+    <command name="Re-Auth" code="258"/>
+
+  </application>
+
+</dictionary>

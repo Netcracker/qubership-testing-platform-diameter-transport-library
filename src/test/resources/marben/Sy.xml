@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- ======================================================================= -->
+<!-- ======= Diameter Protocol Dictionary for the 3GPP Sy interface ======== -->
+<!-- =================== Based on 3GPP TS29.219 V13.3.0 ==================== -->
+<!-- ======================================================================= -->
+
+<dictionary>
+
+  <!-- Base Protocol RFC 3588. -->
+  <vendor id="0" name="base">
+    <!-- =================================================================== -->
+    <!-- ===================== Sy base Specific AVP's ====================== -->
+    <!-- =================================================================== -->
+
+    <!-- Ref = [base - RFC4006] 8.47 -->
+    <avp name="Subscription-Id-Type" code="450" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="Enumerated"/>
+      <enum name="END_USER_E164" code="0"/>
+      <enum name="END_USER_IMSI" code="1"/>
+      <enum name="END_USER_SIP_URI" code="2"/>
+      <enum name="END_USER_NAI" code="3"/>
+      <enum name="END_USER_PRIVATE" code="4"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.48 -->
+    <avp name="Subscription-Id-Data" code="444" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [base - RFC4006] 8.46 -->
+    <avp name="Subscription-Id" code="443" mandatory="must" protected="may"
+      may-encrypt="yes" vendor-specific="no">
+      <grouped>
+        <gavp name="Subscription-Id-Type"/>
+        <gavp name="Subscription-Id-Data"/>
+      </grouped>
+    </avp>
+
+  </vendor>
+
+  <!-- 3rd generation partnership project. -->
+  <vendor id="10415" name="TGPP">
+    <!-- =================================================================== -->
+    <!-- ================== Sy 3GPP Specific Return Codes ================== -->
+    <!-- =================================================================== -->
+
+    <!-- This error shall be used by the PCRF to indicate to the PCEF that the
+    end user specified in the request is unknown to the PCRF and that the Gx
+    session cannot be created. -->
+    <returnCode name="DIAMETER_USER_UNKNOWN" code="5030"/>
+
+    <!-- This error shall be used by the OCS to indicate to the PCRF that the
+    OCS does not recognize one or more Policy Counters specified in the request,
+    when the OCS is configured to reject the request provided with unknown
+    policy counter identifier(s). -->
+    <returnCode name="DIAMETER_ERROR_UNKNOWN_POLICY_COUNTERS" code="5570"/>
+
+    <!-- This error shall be used by the OCS to indicate to the PCRF that the
+    OCS has no available policy counters for the subscriber. -->
+    <returnCode name="DIAMETER_ERROR_NO_AVAILABLE_POLICY_COUNTERS" code="4241"
+     />
+
+    <!-- =================================================================== -->
+    <!-- ===================== Sy 3GPP Specific AVP's ====================== -->
+    <!-- =================================================================== -->
+
+    <!-- Ref = [3GPP - TS29.219] 5.3.4 -->
+    <avp name="SL-Request-Type" code="2904" mandatory="must" protected="may"
+      may-encrypt="no" vendor-specific="yes">
+      <type type-name="Enumerated"/>
+      <enum name="INITIAL_REQUEST" code="0"/>
+      <enum name="INTERMEDIATE_REQUEST" code="1"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.219] 5.3.1 -->
+    <avp name="Policy-Counter-Identifier" code="2901" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.219] 5.3.2 -->
+    <avp name="Policy-Counter-Status" code="2902" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.219] 5.3.6 -->
+    <avp name="Pending-Policy-Counter-Change-Time" code="2906" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <type type-name="Time"/>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.219] 5.3.3 -->
+    <avp name="Policy-Counter-Status-Report" code="2903" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Policy-Counter-Identifier"/>
+        <gavp name="Policy-Counter-Status"/>
+        <gavp name="Pending-Policy-Counter-Information"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+    <!-- Ref = [3GPP - TS29.219] 5.3.5 -->
+    <avp name="Pending-Policy-Counter-Information" code="2905" mandatory="must"
+      protected="may" may-encrypt="no" vendor-specific="yes">
+      <grouped>
+        <gavp name="Policy-Counter-Status"/>
+        <gavp name="Pending-Policy-Counter-Change-Time"/>
+        <gavp name="AVP"/>
+      </grouped>
+    </avp>
+
+  </vendor>
+
+  <!-- European Telecommunications Standards Institute. -->
+  <vendor id="13019" name="ETSI">
+    <!-- =================================================================== -->
+    <!-- ===================== Sy ETSI Specific AVP's ====================== -->
+    <!-- =================================================================== -->
+
+    <!-- Ref = [ETSI - TS283.034] 7.3.3 -->
+    <avp name="Logical-Access-ID" code="302" mandatory="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="OctetString"/>
+    </avp>
+
+    <!-- Ref = [ETSI - TS283.034] 7.3 -->
+    <avp name="Physical-Access-ID" code="313" mandatory="may" may-encrypt="yes"
+      vendor-specific="yes">
+      <type type-name="UTF8String"/>
+    </avp>
+
+  </vendor>
+
+  <!-- ===================================================================== -->
+  <!-- ========================= Diameter Commands ========================= -->
+  <!-- ===================================================================== -->
+
+  <application id="16777302" name="Sy" vendor="TGPP" service-type="Auth">
+
+    <!-- ======================== SLR/SLR Command's ======================== -->
+    <!-- =============================== SLR =============================== -->
+    <!-- ============= [3GPP TS29.219 V13.3.0] , clause 5.6.2 ============== -->
+    <!-- The SLR command, indicated by the Command-Code field set to 8388635 and
+    the 'R' bit set in the Command Flags field, is sent by the PCRF to the OCS
+    as part of the Initial or Intermediate Spending Limit Report Request
+    procedure. -->
+    <!-- =============================== SLR =============================== -->
+    <!-- ============= [3GPP TS29.219 V13.3.0] , clause 5.6.3 ============== -->
+    <!-- The SLA command, indicated by the Command-Code field set to 8388635 and
+    the 'R' bit cleared in the Command Flags field, is sent by the OCS to the
+    PCRF as part of the Initial or Intermediate Spending Limit Report Request
+    procedure. -->
+    <command name="SL" code="8388635"/>
+
+    <!-- ======================== SNR/SNA Command's ======================== -->
+    <!-- =============================== SNR =============================== -->
+    <!-- ============= [3GPP TS29.219 V13.3.0] , clause 5.6.4 ============== -->
+    <!-- The SNR command, indicated by the Command-Code field set to 8388636 and
+    the 'R' bit set in the Command Flags field, is sent by the OCS to the PCRF
+    as part of the Spending Limit Report procedure. -->
+    <!-- =============================== SNA =============================== -->
+    <!-- ============= [3GPP TS29.219 V13.3.0] , clause 5.6.5 ============== -->
+    <!-- The SNA command, indicated by the Command-Code field set to 8388636 and
+    the 'R' bit cleared in the Command Flags field, is sent by the PCRF to the
+    OCS as part of the Spending Limit Report procedure. -->
+    <command name="SN" code="8388636"/>
+
+    <!-- ======================== STR/STA Command's ======================== -->
+    <!-- =============================== STR =============================== -->
+    <!-- ============= [3GPP TS29.219 V13.3.0] , clause 5.6.6 ============== -->
+    <!-- The STR command, indicated by the Command-Code field set to 275 and the
+    'R' bit set in the Command Flags field, is sent by the PCRF to the OCS as
+    part of the Final Spending Limit Report Request procedure. -->
+    <!-- =============================== STA =============================== -->
+    <!-- ============= [3GPP TS29.219 V13.3.0] , clause 5.6.7 ============== -->
+    <!-- The STA command, indicated by the Command-Code field set to 275 and the
+    'R' bit cleared in the Command Flags field, is sent by the OCS to the PCRF
+    as part of the Final Spending Limit Report Request procedure. -->
+    <command name="ST" code="275"/>
+
+  </application>
+
+</dictionary>

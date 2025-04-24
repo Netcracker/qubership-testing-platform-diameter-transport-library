@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<diameter-command-dictionary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:noNamespaceSchemaLocation="xsd/diameter-command.xsd">
+    <dictionary>
+        <command name="Spending-Limit-Request" code="8388635" request="true">
+            <!-- supported values for attribute 'multiplicity': "0+|1|1+|0-1" -->
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <!--avp name="OCS-Supported-Features" code="621" vendor="0" multiplicity="0-1"/-->
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Realm" code="283" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Host" code="293" vendor="0" multiplicity="0-1"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="SL-Request-Type" code="2904" vendor="10415" multiplicity="1"/>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="1+"/>
+            <avp name="Policy-Counter-Identifier" code="2901" vendor="10415" multiplicity="0+"/>
+            <avp name="Logical-Access-ID" code="302" vendor="13019" multiplicity="0-1"/>
+            <avp name="Physical-Access-ID" code="313" vendor="13019" multiplicity="0-1"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+        </command>
+        <command name="Spending-Limit-Answer" code="8388635" request="false">
+            <!-- supported values for attribute 'multiplicity': "0+|1|1+|0-1" -->
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Result-Code" code="268" vendor="0" multiplicity="0-1"/>
+            <avp name="Experimental-Result" code="297" vendor="0" multiplicity="0-1"/>
+            <!--avp name="OCS-Supported-Features" code="621" vendor="0" multiplicity="0-1"/-->
+            <!--avp name="OC-OLR" code="623" vendor="0" multiplicity="0-1"/-->
+            <avp name="Policy-Counter-Status-Report" code="2903" vendor="10415" multiplicity="0+"/>
+            <avp name="Error-Message" code="281" vendor="0" multiplicity="0-1"/>
+            <avp name="Error-Reporting-Host" code="294" vendor="0" multiplicity="0-1"/>
+            <avp name="Failed-AVP" code="279" vendor="0" multiplicity="0+"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="Redirect-Host" code="292" vendor="0" multiplicity="0-1"/>
+            <avp name="Redirect-Host-Usage" code="261" vendor="0" multiplicity="0-1"/>
+            <avp name="Redirect-Max-Cache-Time" code="262" vendor="0" multiplicity="0-1"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+        </command>
+        <command name="Session-Termination-Request" code="275" request="true">
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <!--avp name="OCS-Supported-Features" code="621" vendor="0" multiplicity="0-1"/-->
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Realm" code="283" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Host" code="293" vendor="0" multiplicity="0-1"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="Termination-Cause" code="295" vendor="0" multiplicity="1"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+        </command>
+        <command name="Session-Termination-Answer" code="275" request="false">
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <!--avp name="OCS-Supported-Features" code="621" vendor="0" multiplicity="0-1"/-->
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Result-Code" code="268" vendor="0" multiplicity="0-1"/>
+            <avp name="Error-Message" code="281" vendor="0" multiplicity="0-1"/>
+            <avp name="Error-Reporting-Host" code="294" vendor="0" multiplicity="0-1"/>
+            <avp name="Failed-AVP" code="279" vendor="0" multiplicity="0+"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <!--avp name="OC-OLR" code="623" vendor="0" multiplicity="0-1"/-->
+            <avp name="Redirect-Host" code="292" vendor="0" multiplicity="0-1"/>
+            <avp name="Redirect-Host-Usage" code="261" vendor="0" multiplicity="0-1"/>
+            <avp name="Redirect-Max-Cache-Time" code="262" vendor="0" multiplicity="0-1"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+        </command>
+	<command name="Status-Notification-Request" code="8388636" request="true">
+            <!-- supported values for attribute 'multiplicity': "0+|1|1+|0-1" -->
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Realm" code="283" vendor="0" multiplicity="1"/>
+            <avp name="Destination-Host" code="293" vendor="0" multiplicity="1"/>
+            <avp name="Origin-State-Id" code="278" vendor="0" multiplicity="0-1"/>
+            <avp name="Policy-Counter-Identifier" code="2901" vendor="10415" multiplicity="0+"/>
+	        <avp name="SN-Request-Type" code="2907" vendor="10415" multiplicity="0-1"/>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+"/>
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+"/>
+        </command>
+	<command name="Status-Notification-Answer" code="8388636" request="false">
+            <!-- supported values for attribute 'multiplicity': "0+|1|1+|0-1" -->
+            <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Result-Code" code="268" vendor="0" multiplicity="0-1"/>
+        </command>
+        <!--This section describes all grouped avp for all commands-->
+        <grouped-avp-defn>
+            <avp name="Subscription-Id" code="443" vendor="0" multiplicity="0+" flags="RIUT">
+                <avp name="Subscription-Id-Type" code="450" vendor="0" multiplicity="1" flags="RIUT"/>
+                <avp name="Subscription-Id-Data" code="444" vendor="0" multiplicity="1" flags="RIUT"/>
+            </avp>
+            <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+">
+                <avp name="Proxy-Host" code="280" vendor="0" multiplicity="1"/>
+                <avp name="Proxy-State" code="33" vendor="0" multiplicity="1"/>
+            </avp>
+            <avp name="Experimental-Result" code="297" vendor="0" multiplicity="0+" flags="A">
+                <avp name="Vendor-Id" code="266" vendor="0" multiplicity="1" flags="A"/>
+                <avp name="Experimental-Result-Code" code="298" vendor="0" multiplicity="1" flags="A"/>
+            </avp>
+            <avp name="Policy-Counter-Status-Report" code="2903" vendor="10415" multiplicity="0+" flags="A">
+                <avp name="Policy-Counter-Identifier" code="2901" vendor="10415" multiplicity="1" flags="A"/>
+                <avp name="Policy-Counter-Status" code="2902" vendor="10415" multiplicity="1" flags="A"/>
+                <avp name="Pending-Policy-Counter-Information" code="2905" vendor="10415" multiplicity="0+" flags="A">
+                    <avp name="Policy-Counter-Status" code="2902" vendor="10415" multiplicity="1" flags="A"/>
+                    <avp name="Pending-Policy-Counter-Change-Time" code="2906" vendor="10415" multiplicity="1" flags="A"/>
+                </avp>
+            </avp>
+        </grouped-avp-defn>
+    </dictionary>
+</diameter-command-dictionary>
+

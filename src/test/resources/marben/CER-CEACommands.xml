@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<diameter-command-dictionary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:noNamespaceSchemaLocation="xsd/diameter-command.xsd" >
+    <dictionary>
+        <command name="Capabilities-Exchange-Request" code="257" request="true">
+	    <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+	    <avp name="Host-IP-Address" code="257" vendor="0" multiplicity="1"/>
+            <avp name="Vendor-Id" code="266" vendor="0" multiplicity="1"/>
+	    <avp name="Product-Name" code="269" vendor="0" multiplicity="1"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+	    <avp name="Inband-Security-Id" code="299" vendor="0" multiplicity="1"/>
+	    <avp name="Firmware-Revision" code="267" vendor="0" multiplicity="1"/>
+           <!-- <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Vendor-Id" code="266" vendor="0" multiplicity="1"/>
+			<avp name="Product-Name" code="269" vendor="0" multiplicity="1"/>
+			<avp name="Supported-Vendor-Id" code="265" vendor="0" multiplicity="1"/>
+			<avp name="Vendor-Specific-Application-Id" code="260" vendor="0" multiplicity="1"/>
+			<avp name="Host-IP-Address" code="257" vendor="0" multiplicity="1"/>
+            <avp name="Auth-Application-Id" code="258" vendor="0" multiplicity="1"/>
+			<avp name="Firmware-Revision" code="267" vendor="0" multiplicity="1"/>--> 
+        </command>
+        <command name="Capabilities-Exchange-Answer" code="257" request="false">
+           <avp name="Session-Id" code="263" vendor="0" multiplicity="1"/>
+			<avp name="Result-Code" code="268" vendor="0" multiplicity="0-1"/>
+			<avp name="Host-IP-Address" code="257" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Host" code="264" vendor="0" multiplicity="1"/>
+            <avp name="Origin-Realm" code="296" vendor="0" multiplicity="1"/>
+            <avp name="Vendor-Id" code="266" vendor="0" multiplicity="1"/>
+			<avp name="Product-Name" code="269" vendor="0" multiplicity="1"/>
+			<avp name="Vendor-Specific-Application-Id" code="260" vendor="0" multiplicity="1"/>
+			<avp name="Supported-Vendor-Id" code="265" vendor="0" multiplicity="1"/>
+            <avp name="Inband-Security-Id" code="299" vendor="0" multiplicity="1"/>
+			<avp name="Firmware-Revision" code="267" vendor="0" multiplicity="1"/>
+        </command>
+    </dictionary>
+</diameter-command-dictionary>

@@ -51,18 +51,20 @@ public class MarbenParser extends DiameterParser {
      * @param dictionaryConfig object that contains key that will use to get necessary dictionary to read and add new
      *                         dictionary components(avp, command).
      */
-    public MarbenParser(DictionaryConfig dictionaryConfig) {
+    public MarbenParser(final DictionaryConfig dictionaryConfig) {
         this.dictionaryConfig = dictionaryConfig;
     }
 
     @Override
-    public void startElementProcessing(String uri, String localName, String tag, Attributes attributes) {
+    public void startElementProcessing(final String uri,
+                                       final String localName,
+                                       final String tag,
+                                       final Attributes attributes) {
         switch (tag) {
-            case DIAMETER_COMMAND_DICTIONARY: {
+            case DIAMETER_COMMAND_DICTIONARY:
                 this.isCommandDictionary = true;
                 break;
-            }
-            case COMMAND: {
+            case COMMAND:
                 if (!isCommandDictionary && !isApplicationIdParsing) {
                     return;
                 }
@@ -82,8 +84,7 @@ public class MarbenParser extends DiameterParser {
                 command.setShortName(getShortName(attributes));
                 command.setApplicationId(getApplicationId(code));
                 break;
-            }
-            case AVP: {
+            case AVP:
                 if (isCommandDictionary) {
                     return;
                 }
@@ -98,32 +99,27 @@ public class MarbenParser extends DiameterParser {
                     this.avp.setProtect(AVPRule.of(attributes.getValue("protected")));
                 }
                 break;
-            }
-            case VENDOR: {
+            case VENDOR:
                 this.vendorId = Utils.parseInt(attributes.getValue("id"));
                 this.vendors.put(attributes.getValue("name"), this.vendorId);
                 break;
-            }
-            case TYPE: {
+            case TYPE:
                 this.avp.setType(AVPType.fromString(attributes.getValue("type-name")));
                 break;
-            }
-            case ENUM: {
+            case ENUM:
                 int id = Utils.parseInt(attributes.getValue("code"));
                 String name = attributes.getValue("name");
                 this.avp.addEnumerated(id, name);
                 break;
-            }
-            case APPLICATION: {
+            case APPLICATION:
                 this.isApplicationIdParsing = true;
                 this.applicationId = Utils.parseInt(attributes.getValue("id"));
                 break;
-            }
             default:
         }
     }
 
-    private void setApplicationId(int commandCode) {
+    private void setApplicationId(final int commandCode) {
         CommandDictionary commandDictionary = DictionaryService.getInstance().getCommandDictionary(dictionaryConfig);
         if (commandDictionary.containsRequest(commandCode)) {
             setAppId(commandDictionary.getRequest(commandCode));
@@ -133,57 +129,48 @@ public class MarbenParser extends DiameterParser {
         }
     }
 
-    private void setAppId(Command command) {
+    private void setAppId(final Command command) {
         if (command != null) {
             command.setApplicationId(this.applicationId);
         }
     }
 
-    private int getApplicationId(int code) {
-        Integer vendorId = commandsVendors.get(code);
-        return (vendorId == null)
-                ? 0
-                : vendorId;
+    private int getApplicationId(final int code) {
+        Integer idVendor = commandsVendors.get(code);
+        return (idVendor == null) ? 0 : idVendor;
     }
 
     @Override
-    public void endElement(String uri, String localName, String tag) {
+    public void endElement(final String uri, final String localName, final String tag) {
         switch (tag) {
-            case COMMAND: {
+            case COMMAND:
                 if (isCommandDictionary) {
                     DictionaryService.getInstance().getCommandDictionary(dictionaryConfig).add(command);
                 }
                 break;
-            }
-            case AVP: {
+            case AVP:
                 if (this.avp == null || isCommandDictionary) {
                     break;
                 }
                 isAvp = false;
                 addAvp(avp);
                 break;
-            }
-            case REQUIRED: {
+            case REQUIRED:
                 isRequired = false;
                 break;
-            }
-            case VENDOR: {
+            case VENDOR:
                 this.vendorId = 0;
                 break;
-            }
-            case DIAMETER_COMMAND_DICTIONARY: {
+            case DIAMETER_COMMAND_DICTIONARY:
                 this.isCommandDictionary = false;
                 break;
-            }
-            case GROUPED: {
+            case GROUPED:
                 this.avp.setType(AVPType.GROUPED);
                 break;
-            }
-            case APPLICATION: {
+            case APPLICATION:
                 this.isApplicationIdParsing = false;
                 this.applicationId = 0;
                 break;
-            }
             default:
         }
     }

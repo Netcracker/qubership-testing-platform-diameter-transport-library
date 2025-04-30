@@ -35,11 +35,13 @@ import org.slf4j.LoggerFactory;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
+import lombok.Setter;
 
 public class ConnectionFactory {
-    private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private static final ScheduledExecutorService SERVICE = Executors.newSingleThreadScheduledExecutor();
     private static final int CACHE_LIFETIME = Integer.parseInt(System.getProperty("diameter.cacheLifetime", "12"));
-    private static Cache<Object, DiameterConnection> CACHE = CacheBuilder.newBuilder()
+    @Setter
+    private static Cache<Object, DiameterConnection> connectionCache = CacheBuilder.newBuilder()
             .expireAfterAccess(CACHE_LIFETIME, TimeUnit.HOURS)
             .removalListener((RemovalListener<Object, DiameterConnection>) removalNotification -> {
                         DiameterConnection connection = removalNotification.getValue();
@@ -58,19 +60,19 @@ public class ConnectionFactory {
      * @param key - key to search in cache,
      * @return DiameterConnection if found and not null and open; otherwise return null.
      */
-    public static synchronized DiameterConnection getExisting(Object key) {
-        DiameterConnection connection = CACHE.getIfPresent(key);
+    public static synchronized DiameterConnection getExisting(final Object key) {
+        DiameterConnection connection = connectionCache.getIfPresent(key);
         if (connection != null && connection.isOpen()) {
             return connection;
         }
-        CACHE.invalidate(key);
+        connectionCache.invalidate(key);
         return null;
     }
 
     static {
-        service.scheduleWithFixedDelay(() -> {
+        SERVICE.scheduleWithFixedDelay(() -> {
             try {
-                CACHE.cleanUp();
+                connectionCache.cleanUp();
             } catch (Throwable t) {
                 LOGGER.error("Error while Cache cleaning up", t);
             }
@@ -78,7 +80,7 @@ public class ConnectionFactory {
     }
 
     public static synchronized Cache<Object, DiameterConnection> getAll() {
-        return CACHE;
+        return connectionCache;
     }
 
     private static DiameterConnection diameterConnection;
@@ -88,7 +90,7 @@ public class ConnectionFactory {
         return diameterConnection;
     }
 
-    public static synchronized DiameterConnection createConnection(String dpr) {
+    public static synchronized DiameterConnection createConnection(final String dpr) {
         diameterConnection = new DiameterConnection(dpr);
         return diameterConnection;
     }
@@ -108,8 +110,9 @@ public class ConnectionFactory {
      * @throws Exception in case connection is not established successfully.
      */
     public static synchronized DiameterConnection createConnection(
-            String host, int port, String defaultConnectionTemplate, Encoder encoder, Decoder decoder,
-            List<Interceptor> interceptors, TransportType transportType, Object connectionKey) throws Exception {
+            final String host, final int port, final String defaultConnectionTemplate, final Encoder encoder,
+            final Decoder decoder, final List<Interceptor> interceptors, final TransportType transportType,
+            final Object connectionKey) throws Exception {
         diameterConnection = new DiameterConnection();
         connecting(host, port, defaultConnectionTemplate, encoder, decoder, interceptors, transportType, connectionKey);
         return diameterConnection;
@@ -131,21 +134,22 @@ public class ConnectionFactory {
      * @throws Exception in case connection is not established successfully.
      */
     public static synchronized DiameterConnection createConnection(
-            String host, int port, String defaultConnectionTemplate, String dpr, Encoder encoder, Decoder decoder,
-            List<Interceptor> interceptors, TransportType transportType, Object connectionKey) throws Exception {
+            final String host, final int port, final String defaultConnectionTemplate, final String dpr,
+            final Encoder encoder, final Decoder decoder, final List<Interceptor> interceptors,
+            final TransportType transportType, final Object connectionKey) throws Exception {
         diameterConnection = new DiameterConnection(dpr);
         connecting(host, port, defaultConnectionTemplate, encoder, decoder, interceptors, transportType, connectionKey);
         return diameterConnection;
     }
 
-    private static void connecting(String host,
-                                   int port,
-                                   String defaultConnectionTemplate,
-                                   Encoder encoder,
-                                   Decoder decoder,
-                                   List<Interceptor> interceptors,
-                                   TransportType transportType,
-                                   Object connectionKey) throws Exception {
+    private static void connecting(final String host,
+                                   final int port,
+                                   final String defaultConnectionTemplate,
+                                   final Encoder encoder,
+                                   final Decoder decoder,
+                                   final List<Interceptor> interceptors,
+                                   final TransportType transportType,
+                                   final Object connectionKey) throws Exception {
         LOGGER.info("Create connection to {}:{}. Connection key: {}. CER: {}", host, port, connectionKey,
                 defaultConnectionTemplate);
         diameterConnection.setEncoder(encoder);
@@ -155,16 +159,16 @@ public class ConnectionFactory {
         initDefaultConnection(defaultConnectionTemplate, encoder, decoder, channel);
         diameterConnection.setSocketChannel(channel);
         diameterConnection.startListening(connectionKey);
-        CACHE.put(connectionKey, diameterConnection);
+        connectionCache.put(connectionKey, diameterConnection);
     }
 
-    public static void cache(Object key, DiameterConnection diameterConnection) {
-        CACHE.put(key, diameterConnection);
+    public static void cache(final Object key, final DiameterConnection connection) {
+        connectionCache.put(key, connection);
     }
 
-    public static void destroy(Object key) {
+    public static void destroy(final Object key) {
         LOGGER.info("Destroy connection for key: {}", key);
-        CACHE.invalidate(key);
+        connectionCache.invalidate(key);
     }
 
     /**
@@ -173,12 +177,12 @@ public class ConnectionFactory {
      * @param timeout - timeout for expireAfterAccess property,
      * @param timeUnit - TimeUnit to measure timeout.
      */
-    public static void buildConnectionCacheLifeTime(int timeout, TimeUnit timeUnit) {
+    public static void buildConnectionCacheLifeTime(final int timeout, final TimeUnit timeUnit) {
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
         if (timeout > 0) {
             cacheBuilder.expireAfterAccess(timeout, timeUnit);
         }
-        CACHE = cacheBuilder.removalListener((RemovalListener<Object, DiameterConnection>) removalNotification -> {
+        connectionCache = cacheBuilder.removalListener((RemovalListener<Object, DiameterConnection>) removalNotification -> {
                     DiameterConnection connection = removalNotification.getValue();
                     if (connection != null) {
                         connection.stopListening();
@@ -188,22 +192,19 @@ public class ConnectionFactory {
         ).build();
     }
 
-    public static void setConnectionCache(Cache<Object, DiameterConnection> cache) {
-        CACHE = cache;
-    }
-
-    private static void closeConnection(DiameterConnection diameterConnection) {
+    private static void closeConnection(final DiameterConnection connection) {
         try {
-            if (diameterConnection != null) {
-                diameterConnection.close();
+            if (connection != null) {
+                connection.close();
             }
         } catch (Exception e) {
-            LOGGER.error("Can't close connection: {}", diameterConnection.getChannel());
+            LOGGER.error("Can't close connection: {}", connection.getChannel());
         }
     }
 
-    private static ExtraChannel connectToRemoteServer(String host, int port, TransportType transportType)
-            throws IOException {
+    private static ExtraChannel connectToRemoteServer(final String host,
+                                                      final int port,
+                                                      final TransportType transportType) throws IOException {
         ExtraChannel channel = ExtraChannel.open(transportType);
         InetSocketAddress address = new InetSocketAddress(host, port);
         LOGGER.info("Establish connection to: {}", address);
@@ -214,10 +215,10 @@ public class ConnectionFactory {
         return channel;
     }
 
-    private static void initDefaultConnection(String defaultConnectionTemplate,
-                                              Encoder encoder,
-                                              Decoder decoder,
-                                              ExtraChannel channel) throws Exception {
+    private static void initDefaultConnection(final String defaultConnectionTemplate,
+                                              final Encoder encoder,
+                                              final Decoder decoder,
+                                              final ExtraChannel channel) throws Exception {
         LOGGER.info("Send default CER message: {}", defaultConnectionTemplate);
         channel.write(encoder.encode(defaultConnectionTemplate));
         ByteBuffer allocate = ByteBuffer.allocate(4096);

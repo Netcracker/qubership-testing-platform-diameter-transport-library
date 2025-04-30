@@ -27,33 +27,33 @@ public class CommandDictionary implements CommandProvider {
     private final Map<Object, Command> answers = new HashMap<>();
 
     @Override
-    public Command getRequest(int commandId) {
+    public Command getRequest(final int commandId) {
         return getCommandIfRequest(commandId);
     }
 
     @Override
-    public Command getRequest(String name) {
+    public Command getRequest(final String name) {
         return getCommandIfRequest(name);
     }
 
     @Override
-    public boolean isRequest(String name) {
+    public boolean isRequest(final String name) {
         return Objects.nonNull(requests.get(name));
     }
 
     @Override
-    public Command getAnswer(int commandId) {
+    public Command getAnswer(final int commandId) {
         return getCommandIfAnswer(commandId);
     }
 
     @Override
-    public Command getAnswer(String name) {
+    public Command getAnswer(final String name) {
         return getCommandIfAnswer(name);
     }
 
 
     @Override
-    public void add(Command command) {
+    public void add(final Command command) {
         if (command.isRequestTag()) {
             put(command, this.requests);
         } else {
@@ -62,12 +62,12 @@ public class CommandDictionary implements CommandProvider {
     }
 
     @Override
-    public boolean containsRequest(int code) {
+    public boolean containsRequest(final int code) {
         return requests.containsKey(code);
     }
 
     @Override
-    public boolean containsAnswer(int code) {
+    public boolean containsAnswer(final int code) {
         return answers.containsKey(code);
     }
 
@@ -77,20 +77,22 @@ public class CommandDictionary implements CommandProvider {
         this.answers.clear();
     }
 
-    private void put(Command command, Map<Object, Command> table) {
+    private void put(final Command command, final Map<Object, Command> table) {
         table.put(command.getId(), command);
         table.put(command.getShortName(), command);
     }
 
-    private Command getCommandIfRequest(Object identifier) {
+    private Command getCommandIfRequest(final Object identifier) {
         return getCommandOfTypeOrThrow(identifier, this.requests, "requests");
     }
 
-    private Command getCommandIfAnswer(Object identifier) {
+    private Command getCommandIfAnswer(final Object identifier) {
         return getCommandOfTypeOrThrow(identifier, this.answers, "answers");
     }
 
-    private Command getCommandOfTypeOrThrow(Object identifier, Map<Object, Command> commandsMap, String commandType) {
+    private Command getCommandOfTypeOrThrow(final Object identifier,
+                                            final Map<Object, Command> commandsMap,
+                                            final String commandType) {
         Command command = commandsMap.get(identifier);
         if (command == null) {
             throw new IllegalArgumentException(

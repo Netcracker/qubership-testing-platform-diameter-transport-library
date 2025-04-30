@@ -20,7 +20,13 @@ package org.qubership.automation.diameter.avp;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @SuppressWarnings("AbbreviationAsWordInName")
 public class AVPEntity {
     private AVPType type;
@@ -30,9 +36,6 @@ public class AVPEntity {
     private int vendorId;
     private int id;
     private Map<Integer, String> enumeratedValues;
-
-    public AVPEntity() {
-    }
 
     public AVPEntity(AVPType type, String name) {
         this.type = type;
@@ -56,77 +59,36 @@ public class AVPEntity {
         this.vendorId = vendorId;
     }
 
-    public AVPType getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AVPRule getProtect() {
-        return protect;
-    }
-
-    public AVPRule getMandatory() {
-        return mandatory;
-    }
-
-    public int getVendorId() {
-        return vendorId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setType(AVPType type) {
-        this.type = type;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setProtect(AVPRule protect) {
-        this.protect = protect;
-    }
-
-    public void setMandatory(AVPRule mandatory) {
-        this.mandatory = mandatory;
-    }
-
-    public void setVendorId(int vendorId) {
-        this.vendorId = vendorId;
-    }
-
     /**
-     * Add {id, value} entry into enumeratedValues map; initialize new map if needed.
+     * Add {key, value} entry into enumeratedValues map; initialize new map if needed.
      *
-     * @param id - key of entry to add,
+     * @param key - key of entry to add,
      * @param value - value of entry to add.
      */
-    public void addEnumerated(int id, String value) {
-        if (enumeratedValues == null) {
-            enumeratedValues = Maps.newHashMapWithExpectedSize(10);
+    public void addEnumerated(final int key, final String value) {
+        synchronized (this) {
+            if (enumeratedValues == null) {
+                enumeratedValues = Maps.newHashMapWithExpectedSize(10);
+            }
         }
-        enumeratedValues.put(id, value);
+        enumeratedValues.put(key, value);
     }
 
     /**
      * Find by key in enumeratedValues.
      *
-     * @param id - key to search in enumeratedValues.
+     * @param key - key to search in enumeratedValues.
      * @return value of found entry.
      */
-    public String getEnumerated(int id) {
-        return enumeratedValues.get(id);
+    public String getEnumerated(final int key) {
+        return enumeratedValues.get(key);
     }
 
+    /**
+     * Get String representation of the AVPEntity.
+     *
+     * @return String containing name, vendorId and id properties.
+     */
     @Override
     public String toString() {
         return "AVP{name='" + name + "', vendorId=" + vendorId + ", id=" + id + '}';
@@ -138,7 +100,7 @@ public class AVPEntity {
      * @param value - value to search.
      * @return key of found entry, otherwise return 0.
      */
-    public int enumerated(String value) {
+    public int enumerated(final String value) {
         for (Map.Entry<Integer, String> entry : enumeratedValues.entrySet()) {
             if (entry.getValue().equalsIgnoreCase(value)) {
                 return entry.getKey();

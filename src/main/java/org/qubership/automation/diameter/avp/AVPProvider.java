@@ -20,25 +20,45 @@ package org.qubership.automation.diameter.avp;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Setter;
+
 @SuppressWarnings("AbbreviationAsWordInName")
 public class AVPProvider {
     private final Map<Object, AVPEntity> avpMap = new HashMap<>();
+    @Setter
     private int vendorId;
 
-    public AVPEntity getById(Integer id) {
+    /**
+     * Search AVPEntity by id.
+     *
+     * @param id - Integer id of AVPEntity to search for
+     * @return AVPEntity found in the avpMap.
+     */
+    public AVPEntity getById(final Integer id) {
         return get(id);
     }
 
-    public AVPEntity getByName(String name) {
+    /**
+     * Search AVPEntity by name.
+     *
+     * @param name - String name of AVPEntity to search for
+     * @return AVPEntity found in the avpMap.
+     */
+    public AVPEntity getByName(final String name) {
         return get(name);
     }
 
-    public void add(AVPEntity entity) {
+    /**
+     * Add AVPEntity to avpMap, as 2 entries: by id and by name keys.
+     *
+     * @param entity - AVPEntity to be added to avpMap.
+     */
+    public void add(final AVPEntity entity) {
         avpMap.put(entity.getName(), entity);
         avpMap.put(entity.getId(), entity);
     }
 
-    private AVPEntity get(Object identifier) {
+    private AVPEntity get(final Object identifier) {
         AVPEntity avpEntity = avpMap.get(identifier);
         if (avpEntity == null) {
             throw new IllegalArgumentException("AVP not found by identifier " + identifier + ". Vendor Id: "
@@ -47,14 +67,19 @@ public class AVPProvider {
         return avpEntity;
     }
 
-    public AVPEntity getByNameOrNull(String name) {
+    /**
+     * Search AVPEntity by name.
+     *
+     * @param name - String name of AVPEntity to search for
+     * @return AVPEntity found in the avpMap.
+     */
+    public AVPEntity getByNameOrNull(final String name) {
         return avpMap.get(name);
     }
 
-    public void setVendorId(int vendorId) {
-        this.vendorId = vendorId;
-    }
-
+    /**
+     * Clear avpMap of the provider.
+     */
     public void clear() {
         avpMap.clear();
     }

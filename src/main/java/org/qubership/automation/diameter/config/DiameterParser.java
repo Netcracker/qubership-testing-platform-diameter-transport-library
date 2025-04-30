@@ -70,37 +70,35 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
-    protected abstract void startElementProcessing(String uri, String localName, String tag, Attributes attributes)
-            throws SAXException;
+    protected abstract void startElementProcessing(final String uri,
+                                                   final String localName,
+                                                   final String tag,
+                                                   final Attributes attributes) throws SAXException;
 
     @Override
-    public void endElement(String uri, String localName, String tag) {
+    public void endElement(final String uri, final String localName, final String tag) {
         switch (tag) {
-            case APPLICATION: {
+            case APPLICATION:
                 this.application = null;
                 break;
-            }
-            case COMMAND: {
+            case COMMAND:
                 DictionaryService.getInstance().getCommandDictionary(dictionaryConfig).add(command);
                 break;
-            }
-            case AVP: {
+            case AVP:
                 if (this.avp == null) {
                     break;
                 }
                 isAvp = false;
                 addAvp(avp);
                 break;
-            }
-            case REQUIRED: {
+            case REQUIRED:
                 isRequired = false;
                 break;
-            }
             default:
         }
     }
 
-    protected void addAvp(AVPEntity avp) {
+    protected void addAvp(final AVPEntity avp) {
         AVPDictionary avpDictionary = DictionaryService.getInstance().getAvpDictionary(dictionaryConfig);
         if (avp.getVendorId() > 0) {
             avpDictionary.addVendor(this.avp.getVendorId());
@@ -111,7 +109,7 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
-    protected String getAttributes(Attributes attributes) {
+    protected String getAttributes(final Attributes attributes) {
         StringBuilder builder = new StringBuilder();
         for (int index = 0; index < attributes.getLength(); index++) {
             builder.append(attributes.getQName(index)).append('=').append(attributes.getValue(index)).append('\n');
@@ -119,7 +117,7 @@ public abstract class DiameterParser extends DefaultHandler {
         return builder.toString();
     }
 
-    protected void setRules(Attributes attributes) {
+    protected void setRules(final Attributes attributes) {
         String name = attributes.getValue(NAME);
         AVPRule rule = AVPRule.of(attributes.getValue(RULE));
         if ("mandatory".equalsIgnoreCase(name)) {
@@ -129,7 +127,7 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
-    protected void addEnumerated(AVPEntity avp, Attributes attributes) {
+    protected void addEnumerated(final AVPEntity avp, final Attributes attributes) {
         String id = attributes.getValue(VALUE);
         String name = attributes.getValue(NAME);
         if (!StringUtils.isNumeric(id)) {
@@ -138,7 +136,7 @@ public abstract class DiameterParser extends DefaultHandler {
         this.avp.addEnumerated(Utils.parseInt(id), name);
     }
 
-    protected void initAvpAttributes(Attributes attributes) {
+    protected void initAvpAttributes(final Attributes attributes) {
         String id = attributes.getValue("id");
         String vendor = attributes.getValue("vendor");
         String name = attributes.getValue(NAME);
@@ -147,27 +145,24 @@ public abstract class DiameterParser extends DefaultHandler {
         this.avp.setVendorId(vendor == null ? 0 : Utils.parseInt(vendor));
     }
 
-    protected void initHeaderBit(Attributes attributes) {
+    protected void initHeaderBit(final Attributes attributes) {
         String name = attributes.getValue(NAME);
         int value = Utils.parseInt(attributes.getValue(VALUE));
         switch (name.toLowerCase()) {
-            case "request": {
+            case "request":
                 command.setRequest(value > 0);
                 break;
-            }
-            case "proxiable": {
+            case "proxiable":
                 command.setProxiable(value > 0);
                 break;
-            }
-            case "error": {
+            case "error":
                 command.setError(value > 0);
                 break;
-            }
             default:
         }
     }
 
-    protected String getShortName(Attributes attributes) {
+    protected String getShortName(final Attributes attributes) {
         String name = attributes.getValue(NAME);
         if (StringUtils.isBlank(name)) {
             throw new IllegalStateException("Name is not specified");

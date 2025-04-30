@@ -30,7 +30,7 @@ public class DiameterParserType {
      * @param parserTypeName name of parser type,
      * @return - Parser class if determined, otherwise IllegalArgumentException or RuntimeException is thrown.
      */
-    public static Class<? extends DiameterParser> defineParserClass(String parserTypeName) {
+    public static Class<? extends DiameterParser> defineParserClass(final String parserTypeName) {
         if (Objects.isNull(parserTypeName) || parserTypeName.isEmpty()) {
             throw new IllegalArgumentException("Can't define parser class for empty parser type name!");
         }

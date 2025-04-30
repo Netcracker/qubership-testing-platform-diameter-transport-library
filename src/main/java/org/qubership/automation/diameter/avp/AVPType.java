@@ -27,35 +27,35 @@ import org.qubership.automation.diameter.data.Converter;
 public enum AVPType {
 
     UTF8_STRING("UTF8String") {
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return message.getBytes(StandardCharsets.UTF_8);
         }
 
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return new String(message, StandardCharsets.UTF_8);
         }
     },
 
     INTEGER32("Integer32") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.intToBytes(message);
         }
 
         @Override
-        public byte[] encode(int message) {
+        public byte[] encode(final int message) {
             return Converter.intToBytes(message);
         }
 
         @Override
-        public Integer decode(byte[] message) {
+        public Integer decode(final byte[] message) {
             return Converter.bytesToInt(message);
         }
     },
 
     UNSIGNED32("Unsigned32") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             if (message.contains(HEX_PREFIX)) {
                 return Converter.hexToBytes(message.replaceFirst(HEX_PREFIX, StringUtils.EMPTY), 4);
             }
@@ -63,106 +63,106 @@ public enum AVPType {
         }
 
         @Override
-        public byte[] encode(int message) {
+        public byte[] encode(final int message) {
             return Converter.usigned32ToBytes(message);
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesToUnsigned(message).toString();
         }
     },
 
     ADDRESS("Address") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.addressToBytes(message);
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesToAddress(message);
         }
     },
 
     INTEGER64("Integer64") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.longToBytes(Long.parseLong(message));
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesToUnsigned(message).toString();
         }
     },
 
     UNSIGNED64("Unsigned64") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.usigned64ToBytes(message);
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesToUnsigned(message).toString();
         }
     },
 
     SIGNED32("Signed32") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.intToBytes(message);
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return String.valueOf(Converter.bytesToInt(message));
         }
     },
 
     SIGNED64("Signed64") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.longToBytes(Long.parseLong(message));
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesToLong(message).toString();
         }
     },
 
     DIAMETER_IDENTITY("DiameterIdentity") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return message.getBytes();
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return new String(message);
         }
     },
     DIAMETER_URI("DiameterURI") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return message.getBytes();
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return new String(message);
         }
     },
     IP_FILTER_RULE("IPFilterRule") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return message.getBytes();
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return new String(message);
         }
     },
@@ -197,57 +197,57 @@ public enum AVPType {
                 return result.toString().getBytes();
             }
             /*
-                According to NITP-4761 ticket, octet string must be converted as simple text.
+                According to project requirements, octet string must be converted as simple text.
             */
             return message.getBytes();
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesHexToText(message);
         }
     },
     TIME("Time") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.linuxDateToBytes(message);
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesToLinuxDate(message);
         }
     },
     FLOAT64("Float64") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             return Converter.longToBytes(Long.parseLong(message));
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             return Converter.bytesToLong(message).toString();
         }
     },
     GROUPED("Grouped") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             throw new NotImplementedException("Grouped can't be encoded through the type");
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             throw new NotImplementedException("Grouped can't be decoded through the type");
         }
     },
     ENUMERATE("Enumerated") {
         @Override
-        public byte[] encode(String message) {
+        public byte[] encode(final String message) {
             throw new NotImplementedException("Enumerated can't be encoded through the type");
         }
 
         @Override
-        public String decode(byte[] message) {
+        public String decode(final byte[] message) {
             throw new NotImplementedException("Enumerated can't be decoded through the type");
         }
     };
@@ -256,7 +256,7 @@ public enum AVPType {
     private static final String BYTES_PREFIX = "Bx";
     private final String avpType;
 
-    AVPType(String avpType) {
+    AVPType(final String avpType) {
         this.avpType = avpType;
     }
 
@@ -266,7 +266,7 @@ public enum AVPType {
      * @param value - type name to search,
      * @return - AVPType found; IllegalArgumentException otherwise.
      */
-    public static AVPType fromString(String value) {
+    public static AVPType fromString(final String value) {
         for (AVPType type : AVPType.class.getEnumConstants()) {
             if (type.getAvpType().equalsIgnoreCase(value)) {
                 return type;
@@ -281,7 +281,7 @@ public enum AVPType {
 
     public abstract byte[] encode(String message);
 
-    public byte[] encode(int message) {
+    public byte[] encode(final int message) {
         throw new NotImplementedException("Method is not allowed for this AVP type");
     }
 

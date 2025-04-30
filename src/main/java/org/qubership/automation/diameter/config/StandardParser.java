@@ -32,20 +32,22 @@ public class StandardParser extends DiameterParser {
      *
      * @param dictionaryConfig {@link DictionaryConfig}
      */
-    public StandardParser(DictionaryConfig dictionaryConfig) {
+    public StandardParser(final DictionaryConfig dictionaryConfig) {
         this.dictionaryConfig = dictionaryConfig;
     }
 
     @Override
-    protected void startElementProcessing(String uri, String localName, String tag, Attributes attributes) {
+    protected void startElementProcessing(final String uri,
+                                          final String localName,
+                                          final String tag,
+                                          final Attributes attributes) {
         switch (tag.toLowerCase()) {
-            case APPLICATION: {
+            case APPLICATION:
                 this.application = new HashMap<>();
                 this.application.put("id", attributes.getValue("id"));
                 this.application.put("vendor", attributes.getValue("vendor"));
                 break;
-            }
-            case COMMAND: {
+            case COMMAND:
                 this.command = new Command();
                 this.command.setId(Integer.parseInt(attributes.getValue("id")));
                 String commandApplication = attributes.getValue("application");
@@ -53,55 +55,44 @@ public class StandardParser extends DiameterParser {
                         ? this.application.get("id")
                         : commandApplication));
                 break;
-            }
-            case REQUEST: {
+            case REQUEST:
                 command.setRequestTag(true);
                 command.setShortName(getShortName(attributes));
                 break;
-            }
-            case ANSWER: {
+            case ANSWER:
                 command.setRequestTag(false);
                 command.setShortName(getShortName(attributes));
                 break;
-            }
-            case HEADER_BIT: {
+            case HEADER_BIT:
                 initHeaderBit(attributes);
                 break;
-            }
-            case AVP: {
+            case AVP:
                 isAvp = true;
                 this.avp = new AVPEntity();
                 initAvpAttributes(attributes);
                 break;
-            }
-            case SIMPLE_TYPE: {
+            case SIMPLE_TYPE:
                 this.avp.setType(AVPType.fromString(attributes.getValue("name")));
                 break;
-            }
-            case ENUMERATOR: {
-                AVPType type = this.avp.getType();
-                if (type == null) {
+            case ENUMERATOR:
+                if (this.avp.getType() == null) {
                     this.avp.setType(AVPType.ENUMERATE);
                 }
                 addEnumerated(avp, attributes);
                 break;
-            }
-            case LAYOUT: {
+            case LAYOUT:
                 if (this.avp == null) {
                     //we don't handle it for command. so, it should be skipped.
                     break;
                 }
-                AVPType type = this.avp.getType();
-                if (type == null) {
+                if (this.avp.getType() == null) {
                     this.avp.setType(AVPType.GROUPED);
                 }
                 break;
-            }
-            case REQUIRED: {
+            case REQUIRED:
                 this.isRequired = true;
-            }
-            // fallthrough
-            case AVP_REF: {
+                /* fallthrough */
+            case AVP_REF:
                 if (isRequired && command != null) {
                     command.addRequired(attributes.getValue(NAME));
                     break;
@@ -111,11 +102,9 @@ public class StandardParser extends DiameterParser {
                 }
                 avp.setType(AVPType.GROUPED);
                 break;
-            }
-            case FLAG_RULE: {
+            case FLAG_RULE:
                 setRules(attributes);
                 break;
-            }
             default:
         }
     }

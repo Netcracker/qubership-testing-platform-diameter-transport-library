@@ -23,13 +23,30 @@ import java.util.Set;
 
 import org.qubership.automation.diameter.data.Converter;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Command {
+    @Setter
+    @Getter
     private int applicationId = 0;
+    @Setter
+    @Getter
     private boolean requestTag = false;
+    @Setter
+    @Getter
     private boolean request = false;
+    @Setter
+    @Getter
     private boolean proxiable = false;
+    @Setter
+    @Getter
     private boolean error = false;
+    @Setter
+    @Getter
     private int id;
+    @Setter
+    @Getter
     private String shortName = "";
     private final Set<String> required = new HashSet<>();
 
@@ -39,62 +56,6 @@ public class Command {
     public Command(int id, int applicationId) {
         this.id = id;
         this.applicationId = applicationId;
-    }
-
-    public int getApplicationId() {
-        return applicationId;
-    }
-
-    public void setApplicationId(int applicationId) {
-        this.applicationId = applicationId;
-    }
-
-    public boolean isRequestTag() {
-        return requestTag;
-    }
-
-    public void setRequestTag(boolean requestTag) {
-        this.requestTag = requestTag;
-    }
-
-    public boolean isRequest() {
-        return request;
-    }
-
-    public void setRequest(boolean request) {
-        this.request = request;
-    }
-
-    public boolean isProxiable() {
-        return proxiable;
-    }
-
-    public void setProxiable(boolean proxiable) {
-        this.proxiable = proxiable;
-    }
-
-    public boolean isError() {
-        return error;
-    }
-
-    public void setError(boolean error) {
-        this.error = error;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
     }
 
     @Override
@@ -149,11 +110,11 @@ public class Command {
         bytes[0] = (byte) Integer.parseInt(flagAsString, 2);
     }
 
-    public void addRequired(String name) {
+    public void addRequired(final String name) {
         this.required.add(name);
     }
 
-    public boolean isRequired(String name) {
+    public boolean isRequired(final String name) {
         return required.contains(name);
 
     }

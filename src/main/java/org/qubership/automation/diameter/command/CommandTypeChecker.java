@@ -32,10 +32,10 @@ public class CommandTypeChecker {
      * @param command - String command short name
      * @return - boolean
      */
-    public static boolean isConnectionCommand(String command) {
-        return "CER".equalsIgnoreCase(command) || "CEA".equalsIgnoreCase(command) || "DWR".equalsIgnoreCase(
-                command) || "DWA".equalsIgnoreCase(command) || "DPR".equalsIgnoreCase(
-                command) || "DPA".equalsIgnoreCase(command);
+    public static boolean isConnectionCommand(final String command) {
+        return "CER".equalsIgnoreCase(command) || "CEA".equalsIgnoreCase(command)
+                || "DWR".equalsIgnoreCase(command) || "DWA".equalsIgnoreCase(command)
+                || "DPR".equalsIgnoreCase(command) || "DPA".equalsIgnoreCase(command);
     }
 
     /**
@@ -44,10 +44,10 @@ public class CommandTypeChecker {
      * @param command - String command short name
      * @return - boolean
      */
-    public static boolean isSessionCommand(String command) {
-        return "RAR".equalsIgnoreCase(command) || "RAA".equalsIgnoreCase(command) || "ASR".equalsIgnoreCase(
-                command) || "ASA".equalsIgnoreCase(command) || "STR".equalsIgnoreCase(
-                command) || "STA".equalsIgnoreCase(command);
+    public static boolean isSessionCommand(final String command) {
+        return "RAR".equalsIgnoreCase(command) || "RAA".equalsIgnoreCase(command)
+                || "ASR".equalsIgnoreCase(command) || "ASA".equalsIgnoreCase(command)
+                || "STR".equalsIgnoreCase(command) || "STA".equalsIgnoreCase(command);
     }
 
     /**
@@ -56,7 +56,7 @@ public class CommandTypeChecker {
      * @param command - String command short name
      * @return - boolean
      */
-    public static boolean isCreditControlCommand(String command) {
+    public static boolean isCreditControlCommand(final String command) {
         return "CCR".equalsIgnoreCase(command) || "CCA".equalsIgnoreCase(command);
     }
 
@@ -66,7 +66,7 @@ public class CommandTypeChecker {
      * @param command - String command short name
      * @return - boolean
      */
-    public static boolean isWatchdogCommand(String command) {
+    public static boolean isWatchdogCommand(final String command) {
         return "DWR".equalsIgnoreCase(command) || "DWA".equalsIgnoreCase(command);
     }
 
@@ -76,7 +76,7 @@ public class CommandTypeChecker {
      * @param command - String command short name
      * @return - boolean
      */
-    public static boolean isSpendingLimitCommand(String command) {
+    public static boolean isSpendingLimitCommand(final String command) {
         return "SLR".equalsIgnoreCase(command) || "SLA".equalsIgnoreCase(command);
     }
 
@@ -86,7 +86,7 @@ public class CommandTypeChecker {
      * @param command - String command short name
      * @return - boolean
      */
-    public static boolean isStatusNotificationCommand(String command) {
+    public static boolean isStatusNotificationCommand(final String command) {
         return "SNR".equalsIgnoreCase(command) || "SNA".equalsIgnoreCase(command);
     }
 }

@@ -52,10 +52,15 @@ public enum AVPRule {
 
     private final String rule;
 
-    AVPRule(String rule) {
-        this.rule = rule;
+    AVPRule(final String thisRule) {
+        this.rule = thisRule;
     }
 
+    /**
+     * Get flag value.
+     *
+     * @return byte flag value.
+     */
     public abstract byte flag();
 
     /**
@@ -64,7 +69,7 @@ public enum AVPRule {
      * @param value rule type to search.
      * @return AVPRule if found; otherwise IllegalArgumentException is thrown.
      */
-    public static AVPRule of(String value) {
+    public static AVPRule of(final String value) {
         for (AVPRule avpRule : AVPRule.class.getEnumConstants()) {
             if (avpRule.toString().equalsIgnoreCase(value)) {
                 return avpRule;

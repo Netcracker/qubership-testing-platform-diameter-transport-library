@@ -43,7 +43,7 @@ public class AVPDictionary extends AVPProvider {
      * @param vendorId - id of vendor to search.
      * @return AVPProvider found by id, otherwise IllegalArgumentException is thrown.
      */
-    public AVPProvider getVendor(int vendorId) {
+    public AVPProvider getVendor(final int vendorId) {
         AVPProvider avpProvider = vendors.get(vendorId);
         if (avpProvider == null) {
             throw new IllegalArgumentException("Vendor is not found by id " + vendorId);
@@ -57,12 +57,18 @@ public class AVPDictionary extends AVPProvider {
      * @param vendorId - id of vendor to check.
      * @return true if vendor with this id is present in vendors map, otherwise false.
      */
-    public boolean isVendorExist(int vendorId) {
+    public boolean isVendorExist(final int vendorId) {
         return vendors.containsKey(vendorId);
     }
 
+    /**
+     * Find AVP by name.
+     *
+     * @param name - AVP name to search
+     * @return AVPEntity found by name, or IllegalArgumentException is thrown.
+     */
     @Override
-    public AVPEntity getByName(String name) {
+    public AVPEntity getByName(final String name) {
         AVPEntity byName = getByNameOrNull(name);
         if (byName == null) {
             byName = getFromVendors(name);
@@ -79,7 +85,7 @@ public class AVPDictionary extends AVPProvider {
      * @param id - id of AVP to search.
      * @return AVPEntity found by id, or IllegalArgumentException is thrown.
      */
-    public AVPEntity getByIdGlobal(Integer id) {
+    public AVPEntity getByIdGlobal(final Integer id) {
         AVPEntity byId = getById(id);
         if (byId == null) {
             byId = getByIdFromVendors(id);
@@ -95,7 +101,7 @@ public class AVPDictionary extends AVPProvider {
         vendors.clear();
     }
 
-    private AVPEntity getFromVendors(String name) {
+    private AVPEntity getFromVendors(final String name) {
         for (AVPProvider provider : vendors.values()) {
             AVPEntity entity = provider.getByNameOrNull(name);
             if (entity != null) {
@@ -105,7 +111,7 @@ public class AVPDictionary extends AVPProvider {
         throw new IllegalArgumentException("AVP not found by name " + name);
     }
 
-    private AVPEntity getByIdFromVendors(Integer id) {
+    private AVPEntity getByIdFromVendors(final Integer id) {
         for (AVPProvider provider : vendors.values()) {
             AVPEntity entity = provider.getById(id);
             if (entity != null) {

@@ -54,7 +54,7 @@ public class ConfigReader {
      * @throws IOException                  dictionary files IO exceptions.
      * @throws SAXException                 if a parser cannot be created which satisfies the requested configuration.
      */
-    public static void read(@Nonnull DictionaryConfig dictionaryConfig, boolean force)
+    public static void read(@Nonnull final DictionaryConfig dictionaryConfig, final boolean force)
             throws ParserConfigurationException, SAXException, IOException {
         DiameterDictionaryHolder dictionaryHolder = DiameterDictionaryHolder.getInstance();
         DiameterDictionary dictionary = dictionaryHolder.getDictionary(dictionaryConfig);
@@ -69,7 +69,7 @@ public class ConfigReader {
         }
     }
 
-    private void readConfig(DictionaryConfig dictionaryConfig, DiameterParser diameterParser)
+    private void readConfig(final DictionaryConfig dictionaryConfig, final DiameterParser diameterParser)
             throws SAXException, ParserConfigurationException {
         String path = dictionaryConfig.getDictionaryPath();
         File directory = new File(path);
@@ -83,8 +83,9 @@ public class ConfigReader {
         readFiles(directory, diameterParser, dictionaryConfig);
     }
 
-    private synchronized void readFiles(File directory, DiameterParser diameterParser,
-                                        DictionaryConfig dictionaryConfig)
+    private synchronized void readFiles(final File directory,
+                                        final DiameterParser diameterParser,
+                                        final DictionaryConfig dictionaryConfig)
             throws ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
@@ -108,11 +109,11 @@ public class ConfigReader {
         setDictionaryAsReady(dictionaryConfig);
     }
 
-    private void setDictionaryAsReady(DictionaryConfig dictionaryConfig) {
+    private void setDictionaryAsReady(final DictionaryConfig dictionaryConfig) {
         DiameterDictionaryHolder.getInstance().getDictionary(dictionaryConfig).setReady(true);
     }
 
-    private void initDictionary(DictionaryConfig dictionaryConfig) {
+    private void initDictionary(final DictionaryConfig dictionaryConfig) {
         DiameterDictionaryHolder.getInstance().createDictionary(dictionaryConfig);
     }
 }

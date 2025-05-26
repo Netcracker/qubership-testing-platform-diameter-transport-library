@@ -46,10 +46,35 @@ public class AvpFormatter {
      * Pattern to identify that row contains not only command.
      */
     private static final Pattern NOT_ONLY_COMMAND_IN_ROW_PATTERN = Pattern.compile("^<(.+?[^<>])>+[^.*]+$");
+
     /**
      * Constant for end of XML tag.
      */
     private static final char END = '>';
+
+    /**
+     * Constant for incorrect row format message (only opened/closed bracket in the row).
+     */
+    public static final String INCORRECT_FORMAT_ONLY_BRACKETS =
+            "Row has incorrect xml format - only opened/closed bracket in the row: ";
+
+    /**
+     * Constant for incorrect row format message (many opened xml tags in 1 row).
+     */
+    public static final String INCORRECT_FORMAT_MANY_TAGS =
+            "Row has incorrect xml format - many opened xml tags in 1 row: ";
+
+    /**
+     * Constant for incorrect row format message (avp tag doesn't have end bracket).
+     */
+    public static final String INCORRECT_FORMAT_NO_END_BRACKET =
+            "Row has incorrect xml format - avp tag doesn't have end bracket. Row: ";
+
+    /**
+     * Constant for incorrect row format message (Command open tag has not closed bracket).
+     */
+    public static final String INCORRECT_FORMAT_NO_CLOSED_BRACKET =
+            "Command open tag has not closed bracket. Row: ";
 
     /**
      * This method add code and vendor attribute from diameter dictionary (by path and type) for all opened avp tags
@@ -175,16 +200,14 @@ public class AvpFormatter {
      */
     protected static void interruptIfRowHasOnlyBracket(final String row) {
         if (row.trim().equals("<") || row.trim().equals(">")) {
-            throw new DiameterXmlFormatException(
-                    "Row has incorrect xml format - only opened/closed bracket in the row: " + escapeXmlBrackets(row));
+            throw new DiameterXmlFormatException(INCORRECT_FORMAT_ONLY_BRACKETS + escapeXmlBrackets(row));
         }
     }
 
     protected static void interruptIfRowHasManyOpenedXmlTags(final String row) {
         boolean hasTwoOrManyOpenedTags = row.trim().matches(TWO_OPEN_XML_TAG_PATTERN.pattern());
         if (hasTwoOrManyOpenedTags) {
-            throw new DiameterXmlFormatException(
-                    "Row has incorrect xml format - many opened xml tags in 1 row:" + escapeXmlBrackets(row));
+            throw new DiameterXmlFormatException(INCORRECT_FORMAT_MANY_TAGS + escapeXmlBrackets(row));
         }
     }
 
@@ -202,8 +225,7 @@ public class AvpFormatter {
             }
         } else {
             if (hasAvpTagWithoutEndBracket(row, dictionary)) {
-                throw new DiameterXmlFormatException("Row has incorrect xml format: avp tag doesn't have end bracket. "
-                        + "Row: " + escapeXmlBrackets(row));
+                throw new DiameterXmlFormatException(INCORRECT_FORMAT_NO_END_BRACKET + escapeXmlBrackets(row));
             }
         }
         return result;
@@ -246,12 +268,11 @@ public class AvpFormatter {
     private static void interruptIfWrongRowWithCommandTag(final String row, final String commandTag) {
         boolean hasCommandClosedBracket = hasCommandClosedBracket(row, commandTag);
         if (!hasCommandClosedBracket) {
-            throw new DiameterXmlFormatException(
-                    "Command open tag has not closed bracket. Row: " + escapeXmlBrackets(row));
+            throw new DiameterXmlFormatException(INCORRECT_FORMAT_NO_CLOSED_BRACKET + escapeXmlBrackets(row));
         }
         if (rowHasNotOnlyCommandTag(row, commandTag)) {
             throw new DiameterXmlFormatException(
-                    "Command " + commandTag.substring(1).toUpperCase() + " has some chars before/after.. Row: "
+                    "Command " + commandTag.substring(1).toUpperCase() + " has some chars before/after. Row: "
                             + escapeXmlBrackets(row));
         }
     }

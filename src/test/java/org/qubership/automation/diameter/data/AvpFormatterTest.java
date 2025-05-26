@@ -71,32 +71,30 @@ public class AvpFormatterTest extends MarbenConfigProvider {
         try {
             AvpFormatter.formatAvp(XMLMessages.CCR_WITH_DESCRIPTION_ATTR_AND_WITHOUT_END_BRACKET, DICTIONARY_CONFIG);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Command open tag has not closed bracket. Row: &lt;CCR Description=\"CCR-I\" " + "Retransmit"
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_CLOSED_BRACKET
+                    + "&lt;CCR Description=\"CCR-I\" Retransmit"
                     + "=\"true\" Service=\"To_DiameterPeer_User_dp_user2\"", e.getMessage());
         }
         try {
             AvpFormatter.formatAvp(XMLMessages.AVP_WITH_ATTR_WITHOUT_END_BRACKET, DICTIONARY_CONFIG);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: &lt;Session-Id code"
-                    + "=\"123\"", e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET
+                    + "&lt;Session-Id code=\"123\"", e.getMessage());
         }
         try {
             AvpFormatter.formatAvp(XMLMessages.SESSION_ID_AVP_WITHOUT_END_BRACKET_AND_NEW_LINE, DICTIONARY_CONFIG);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: \t&lt;Session-Id",
-                    e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "\t&lt;Session-Id", e.getMessage());
         }
         try {
             AvpFormatter.formatAvp(XMLMessages.SESSION_ID_AVP_WITHOUT_END_BRACKET_AND_RETURN_CARET, DICTIONARY_CONFIG);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: \t&lt;Session-Id",
-                    e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "\t&lt;Session-Id", e.getMessage());
         }
         try {
             AvpFormatter.formatAvp(XMLMessages.SESSION_ID_AVP_WITHOUT_END_BRACKET_AND_TAB_AT_THE_END, DICTIONARY_CONFIG);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: \t&lt;Session-Id",
-                    e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "\t&lt;Session-Id", e.getMessage());
         }
         assertEquals("<fff<bbb\n" + "    >$SessionId</Session-Id>\n",
                 AvpFormatter.formatAvp(XMLMessages.NOT_AVP_WITHOUT_END_BRACKET_SOME_CHARS_INTO_AND_OPENED_BRACKET_AFTER,
@@ -109,7 +107,7 @@ public class AvpFormatterTest extends MarbenConfigProvider {
             AvpFormatter.formatAvp(XMLMessages.SESSION_ID_AVP_WITH_SPACE_AFTER_AND_WITHOUT_END_BRACKET,
                     DICTIONARY_CONFIG);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: \t&lt;Session-Id ",
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "\t&lt;Session-Id ",
                     e.getMessage());
         }
         assertEquals("\t<Session-Id code=\"263\" vendor=\"0\"\t>    $SessionId</Session-Id>\n",
@@ -141,12 +139,12 @@ public class AvpFormatterTest extends MarbenConfigProvider {
         try {
             assertEquals("ccr", AvpFormatter.hasOpenedCorrectCommandTag(OPENED_CCR_TAG_WITH_SOMETHING_BEFORE));
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Command CCR has some chars before/after.. Row: ddd&gt;&lt;CCR&gt;", e.getMessage());
+            assertEquals("Command CCR has some chars before/after. Row: ddd&gt;&lt;CCR&gt;", e.getMessage());
         }
         try {
             assertEquals("ccr", AvpFormatter.hasOpenedCorrectCommandTag(OPENED_CCR_TAG_WITH_SOMETHING_AFTER));
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Command CCR has some chars before/after.. Row: &lt;CCR&gt;ddd&gt;", e.getMessage());
+            assertEquals("Command CCR has some chars before/after. Row: &lt;CCR&gt;ddd&gt;", e.getMessage());
         }
         assertEquals("", AvpFormatter.hasOpenedCorrectCommandTag(CLOSED_CCR_TAG));
         try {
@@ -159,7 +157,7 @@ public class AvpFormatterTest extends MarbenConfigProvider {
             assertEquals("",
                     AvpFormatter.hasOpenedCorrectCommandTag(XMLMessages.CCR_WITH_DESCRIPTION_ATTR_AND_OPENED_AVP_TAG));
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Command CCR has some chars before/after.. Row: &lt;CCR Description=\"CCR-I\" " + "Retransmit"
+            assertEquals("Command CCR has some chars before/after. Row: &lt;CCR Description=\"CCR-I\" " + "Retransmit"
                     + "=\"true\"" + " Service=\"To_DiameterPeer_User_dp_user2\"&gt;\t&lt;" + "Session-Id&gt;"
                     + "$SessionId", e.getMessage());
         }
@@ -167,7 +165,7 @@ public class AvpFormatterTest extends MarbenConfigProvider {
             assertEquals("", AvpFormatter.hasOpenedCorrectCommandTag(
                     XMLMessages.CCR_WITH_DESCRIPTION_ATTR_AND_OPENED_AVP_TAG_WITH_WHITESPACE));
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Command CCR has some chars before/after.. Row: &lt;CCR Description=\"CCR-I\" " + "Retransmit"
+            assertEquals("Command CCR has some chars before/after. Row: &lt;CCR Description=\"CCR-I\" " + "Retransmit"
                     + "=\"true\"" + " Service=\"To_DiameterPeer_User_dp_user2\"&gt; &lt;" + "Session-Id&gt;"
                     + "$SessionId", e.getMessage());
         }
@@ -195,12 +193,12 @@ public class AvpFormatterTest extends MarbenConfigProvider {
         try {
             AvpFormatter.interruptIfRowHasOnlyBracket("<");
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - only opened/closed bracket in the row: &lt;", e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_ONLY_BRACKETS + "&lt;", e.getMessage());
         }
         try {
             AvpFormatter.interruptIfRowHasOnlyBracket(">");
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - only opened/closed bracket in the row: &gt;", e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_ONLY_BRACKETS + "&gt;", e.getMessage());
         }
         AvpFormatter.interruptIfRowHasOnlyBracket("hfdh<");
     }
@@ -210,7 +208,7 @@ public class AvpFormatterTest extends MarbenConfigProvider {
         try {
             AvpFormatter.interruptIfRowHasManyOpenedXmlTags(OPENED_CCR_TAG + OPENED_CCR_TAG);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - many opened xml tags in 1 row:&lt;CCR&gt;&lt;CCR&gt;",
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_MANY_TAGS + "&lt;CCR&gt;&lt;CCR&gt;",
                     e.getMessage());
         }
         AvpFormatter.interruptIfRowHasManyOpenedXmlTags(OPENED_CCR_TAG + CLOSED_CCR_TAG);
@@ -241,28 +239,25 @@ public class AvpFormatterTest extends MarbenConfigProvider {
         try {
             AvpFormatter.hasOpenedNotFormattedAvpTag(OPENED_ORIGIN_HOST_AVP_TAG_WITHOUT_END_BRACKET, dictionary);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: &lt;Origin-Host",
-                    e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "&lt;Origin-Host", e.getMessage());
         }
         try {
             AvpFormatter.hasOpenedNotFormattedAvpTag(
                     OPENED_ORIGIN_HOST_AVP_TAG_WITHOUT_END_BRACKET_AND_TAB_SYMBOL_AT_THE_END, dictionary);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: &lt;Origin-Host\t",
-                    e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "&lt;Origin-Host\t", e.getMessage());
         }
         try {
             AvpFormatter.hasOpenedNotFormattedAvpTag(
                     OPENED_ORIGIN_HOST_AVP_TAG_WITHOUT_END_BRACKET_AND_RETURN_CARET_SYMBOL_AT_THE_END, dictionary);
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: &lt;Origin-Host\r",
-                    e.getMessage());
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "&lt;Origin-Host\r", e.getMessage());
         }
         try {
             assertNull(AvpFormatter.hasOpenedNotFormattedAvpTag(
                     OPENED_ORIGIN_HOST_AVP_TAG_WITH_SOMETHING_BEFORE_AND_NOT_CLOSED_BRACKET, dictionary));
         } catch (DiameterXmlFormatException e) {
-            assertEquals("Row has incorrect xml format - avp tag hasn't got end bracket. Row: ddd&gt;&lt;Origin-Host",
+            assertEquals(AvpFormatter.INCORRECT_FORMAT_NO_END_BRACKET + "ddd&gt;&lt;Origin-Host",
                     e.getMessage());
         }
     }

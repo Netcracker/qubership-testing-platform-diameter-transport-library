@@ -201,7 +201,8 @@ public class ResponseListener implements Runnable {
     }
 
     /**
-     * Perform buffer cleanup after checking that content contains diameter message & version, but buffer isn't empty.
+     * Perform buffer cleanup after checking that content contains diameter message and version,
+     * but buffer isn't empty.
      *
      * @param content - content buffer, possibly containing diameter message.
      */

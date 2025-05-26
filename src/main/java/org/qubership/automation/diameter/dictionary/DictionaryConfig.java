@@ -38,8 +38,8 @@ public class DictionaryConfig {
      * If id is null will create new BigInteger("0")
      *
      * @param dictionaryPath absolute path to dictionary.
-     * @param parser         Class<? extends DiameterParser>
-     * @param id             unique id. If id is null will create new BigInteger.'ZERO'
+     * @param parser         object of Class extending DiameterParser
+     * @param id             unique id; If id is null will create new BigInteger.ZERO.
      */
     public DictionaryConfig(
             @Nonnull String dictionaryPath, @Nonnull Class<? extends DiameterParser> parser, BigInteger id) {

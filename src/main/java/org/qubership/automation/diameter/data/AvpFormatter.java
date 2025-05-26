@@ -81,14 +81,14 @@ public class AvpFormatter {
      * that xml template contains.
      *
      * @param templateContent  xml diameter template content (text)
-     * @param dictionaryConfig {@link DictionaryConfig} that contains dictionary path, parser Class<? extends
-     *                         DiameterParser>, UUID.
+     * @param dictionaryConfig {@link DictionaryConfig} that contains dictionary path,
+     *                                                 parser Class extending DiameterParser, UUID.
      * @return return formatted content if all avp was found by name in dictionaries and content isn't contains wrong
      *         xml string format.
      * @throws DiameterXmlFormatException when xml string has wrong format.
      *                                    - two or more opened xml tags in one row
      *                                    - command or avp hasn't got closed bracket
-     *                                    - row has got only one symbol - "<" or ">"
+     *                                    - row has got only one symbol - "&lt;" or "&gt;"
      *                                    - command has something before/after tag
      */
     public static String formatAvp(final String templateContent, final DictionaryConfig dictionaryConfig)
@@ -193,10 +193,10 @@ public class AvpFormatter {
     }
 
     /**
-     * This method throw exception if row contains only "<" or ">" symbol.
+     * This method throw exception if row contains only "&lt;" or "&gt;" symbol.
      *
      * @param row string that you need to validate
-     * @throws DiameterXmlFormatException if input string contains only "<" or ">" symbol.
+     * @throws DiameterXmlFormatException if input string contains only "&lt;" or "&gt;" symbol.
      */
     protected static void interruptIfRowHasOnlyBracket(final String row) {
         if (row.trim().equals("<") || row.trim().equals(">")) {

@@ -40,20 +40,65 @@ import com.sun.nio.sctp.SctpChannel;
 import com.sun.nio.sctp.ShutdownNotification;
 
 public class ExtraChannel {
+
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ExtraChannel.class);
+
+    /**
+     * Constant for 1 minute (in milliseconds).
+     */
     private static final long MINUTE = 60 * 1000;
+
+    /**
+     * Diameter Connection Timeout (milliseconds).
+     */
     private static final int CONNECTION_TIMEOUT = Integer.parseInt(
             System.getProperty("diameter.connection.timeout", "10000"));
+
+    /**
+     * Transport Type (tcp or sctp).
+     */
+    @lombok.Getter
     private TransportType transport = TransportType.getType("tcp");
+
+    /**
+     * SCTP Channel.
+     */
     private SctpChannel sctpChannel;
+
+    /**
+     * Socket Channel.
+     */
+    @lombok.Getter
     private SocketChannel socketChannel;
+
+    /**
+     * Multiplexer of selectable channels.
+     */
+    @lombok.Getter
     private Selector selector;
+
+    /**
+     * Last time when DWR is received; 0L if there was no DWR yet.
+     */
+    @lombok.Setter
     private long lastDwrTime;
 
+    /**
+     * MessageInfo field.
+     */
     private MessageInfo messageInfo = null;
 
+    /**
+     * Socket Address to connect to.
+     */
     private InetSocketAddress inetSocketAddress;
 
+    /**
+     * Constructor.
+     */
     public ExtraChannel() {
         lastDwrTime = System.currentTimeMillis();
     }
@@ -65,7 +110,7 @@ public class ExtraChannel {
      * @return ExtraChannel channel if opened successfully.
      * @throws IOException - in case errors while opening a channel.
      */
-    public static ExtraChannel open(TransportType transportType) throws IOException {
+    public static ExtraChannel open(final TransportType transportType) throws IOException {
         ExtraChannel result = new ExtraChannel();
         result.transport = transportType;
         if (result.transport == TransportType.SCTP) {
@@ -101,7 +146,7 @@ public class ExtraChannel {
      * @return - count of bytes read.
      * @throws IOException - in case errors while reading from the channel.
      */
-    public int read(ByteBuffer allocate) throws IOException {
+    public int read(final ByteBuffer allocate) throws IOException {
         if (this.transport == TransportType.SCTP) {
             messageInfo = null;
             ReceiveNotificationHandler receive = new ReceiveNotificationHandler(this.sctpChannel);
@@ -125,7 +170,7 @@ public class ExtraChannel {
      * @param encode - buffer to write into the channel.
      * @throws IOException - in case errors while sending.
      */
-    public void write(ByteBuffer encode) throws IOException {
+    public void write(final ByteBuffer encode) throws IOException {
         if (this.transport == TransportType.SCTP) {
             Association association = sctpChannel.association();
             InetSocketAddress socketAddress = (InetSocketAddress) this.sctpChannel.getRemoteAddresses().toArray()[0];
@@ -145,7 +190,7 @@ public class ExtraChannel {
      * @return true if connected successfully; if not connected - false or throw IOException, in different cases,
      * @throws IOException - in case connection errors.
      */
-    public boolean connect(InetSocketAddress inetSocketAddress) throws IOException {
+    public boolean connect(final InetSocketAddress inetSocketAddress) throws IOException {
         this.inetSocketAddress = inetSocketAddress;
         LOGGER.info("Connecting [{}]:{}", this.transport, inetSocketAddress);
         if (this.transport == TransportType.SCTP) {
@@ -184,58 +229,115 @@ public class ExtraChannel {
         }
     }
 
+    /**
+     * Check if channel is open.
+     *
+     * @return true if there was no DWR yet or last DWR was less than 1 minute ago;
+     * otherwise false.
+     */
     public boolean isOpen() {
         return lastDwrTime == 0L || lastDwrTime + MINUTE > System.currentTimeMillis();
     }
 
     class SendNotificationHandler extends AbstractNotificationHandler<Void> {
-        boolean receivedCommUp;  // false 
+
+        /**
+         * Flag if AssocChangeEvent.COMM_UP event is already received or not.
+         */
+        boolean receivedCommUp;  // false
+
+        /**
+         * Maximum number of inbound streams.
+         */
         int maxInStreams;
+
+        /**
+         * Maximum number of outbound streams.
+         */
         int maxOutStreams;
 
+        /**
+         * Handle notification of unknown type.
+         *
+         * @param notification The notification
+         * @param attachment   The object attached to the received operation when it was initiated.
+         * @return HandlerResult.CONTINUE.
+         */
         @Override
-        public HandlerResult handleNotification(
-                Notification notification, Void attachment) {
+        public HandlerResult handleNotification(final Notification notification,
+                                                final Void attachment) {
             LOGGER.debug("Unknown notification type");
             return HandlerResult.CONTINUE;
         }
 
+        /**
+         * Handle AssociationChange notification.
+         *
+         * @param notification The notification about AssociationChange
+         * @param attachment   The object attached to the {@code receive} operation when it was
+         *                     initiated.
+         * @return HandlerResult.RETURN.
+         */
         @Override
-        public HandlerResult handleNotification(AssociationChangeNotification notification, Void attachment) {
-            LOGGER.debug("Association change notification: {}", notification.association());
+        public HandlerResult handleNotification(final AssociationChangeNotification notification,
+                                                final Void attachment) {
             AssocChangeEvent event = notification.event();
             Association association = notification.association();
-            LOGGER.debug("Event: {}", event);
+            LOGGER.debug("Association change notification: {}, Event: {}", association, event);
             if (AssocChangeEvent.COMM_UP.equals(event)) {
                 receivedCommUp = true;
             }
             this.maxInStreams = association.maxInboundStreams();
             this.maxOutStreams = association.maxOutboundStreams();
-
             return HandlerResult.RETURN;
         }
 
     }
 
     public class ReceiveNotificationHandler extends AbstractNotificationHandler<Object> {
+
+        /**
+         * SctpChannel to use.
+         */
         SctpChannel channel;
 
-        ReceiveNotificationHandler(SctpChannel channel) {
+        /**
+         * Constructor.
+         *
+         * @param channel SctpChannel to use.
+         */
+        ReceiveNotificationHandler(final SctpChannel channel) {
             this.channel = channel;
         }
 
+        /**
+         * Handle notification of unknown type.
+         *
+         * @param notification The notification
+         * @param attachment   The object attached to the received operation when it was initiated.
+         * @return HandlerResult.CONTINUE.
+         */
         @Override
-        public HandlerResult handleNotification(Notification notification, Object attachment) {
+        public HandlerResult handleNotification(final Notification notification,
+                                                final Object attachment) {
             LOGGER.debug("Unknown notification type");
             return HandlerResult.CONTINUE;
         }
 
+        /**
+         * Handle AssociationChange notification.
+         *
+         * @param notification The notification about AssociationChange
+         * @param attachment   The object attached to the {@code receive} operation when it was
+         *                     initiated.
+         * @return HandlerResult.CONTINUE.
+         */
         @Override
-        public HandlerResult handleNotification(AssociationChangeNotification notification, Object attachment) {
-            LOGGER.debug("Association notification:  {}", notification.association());
+        public HandlerResult handleNotification(final AssociationChangeNotification notification,
+                                                final Object attachment) {
             AssocChangeEvent event = notification.event();
             Association association = notification.association();
-            LOGGER.debug("Event: {}", event);
+            LOGGER.debug("Association notification:  {}, Event: {}", association, event);
             if (AssocChangeEvent.COMM_UP.equals(event)) {
                 int outbound = association.maxOutboundStreams();
                 int inbound = association.maxInboundStreams();
@@ -244,30 +346,27 @@ public class ExtraChannel {
             return HandlerResult.CONTINUE;
         }
 
+        /**
+         * Handle shutdown notification.
+         *
+         * @param notification The notification about shutdown
+         * @param attachment   The object attached to the {@code receive} operation when it was
+         *                     initiated.
+         * @return HandlerResult.RETURN.
+         */
         @Override
-        public HandlerResult handleNotification(
-                ShutdownNotification notification, Object attachment) {
+        public HandlerResult handleNotification(final ShutdownNotification notification,
+                                                final Object attachment) {
             LOGGER.debug("Association shutdown: {}", notification.association());
             return HandlerResult.RETURN;
         }
     }
 
-    public void setLastDwrTime(long lastDwrTime) {
-        this.lastDwrTime = lastDwrTime;
-    }
-
-    public Selector getSelector() {
-        return selector;
-    }
-
-    public TransportType getTransport() {
-        return transport;
-    }
-
-    public SocketChannel getSocketChannel() {
-        return socketChannel;
-    }
-
+    /**
+     * Make String representation of the object.
+     *
+     * @return String representation of the object.
+     */
     @Override
     public String toString() {
         return inetSocketAddress == null ? "Not Connected yet" : inetSocketAddress.toString();

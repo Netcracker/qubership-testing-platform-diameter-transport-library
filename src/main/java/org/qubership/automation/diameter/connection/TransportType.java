@@ -19,14 +19,35 @@ package org.qubership.automation.diameter.connection;
 
 public enum TransportType {
 
+    /**
+     * Constant for SCTP transport type.
+     */
     SCTP("sctp"),
+
+    /**
+     * Constant for TCP transport type.
+     */
     TCP("tcp");
+
+    /**
+     * Name of type.
+     */
     private final String name;
 
-    TransportType(String transportTypeName) {
+    /**
+     * Constructor.
+     *
+     * @param transportTypeName String type name.
+     */
+    TransportType(final String transportTypeName) {
         this.name = transportTypeName;
     }
 
+    /**
+     * Get name of the transport type.
+     *
+     * @return String name.
+     */
     public String getName() {
         return this.name;
     }
@@ -37,7 +58,7 @@ public enum TransportType {
      * @param name - transport type name.
      * @return TransportType if found, otherwise IllegalArgumentException is thrown.
      */
-    public static TransportType getType(String name) {
+    public static TransportType getType(final String name) {
         for (TransportType type : values()) {
             if (type.name.equalsIgnoreCase(name)) {
                 return type;

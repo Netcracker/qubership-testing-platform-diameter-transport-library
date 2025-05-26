@@ -19,30 +19,50 @@ package org.qubership.automation.diameter.avp;
 
 @SuppressWarnings("AbbreviationAsWordInName")
 public enum AVPRule {
+
+    /**
+     * Rule Name for 'must'-rule.
+     */
     MUST("must") {
         @Override
         public byte flag() {
             return 0x40;
         }
     },
+
+    /**
+     * Rule Name for 'may'-rule.
+     */
     MAY("may") {
         @Override
         public byte flag() {
             return 0x20;
         }
     },
+
+    /**
+     * Rule Name for 'mustnot'-rule.
+     */
     MUSTNOT("mustnot") {
         @Override
         public byte flag() {
             return 0x0;
         }
     },
+
+    /**
+     * Rule Name for 'shouldnot'-rule.
+     */
     SHOULDNOT("shouldnot") {
         @Override
         public byte flag() {
             return 0x0;
         }
     },
+
+    /**
+     * Rule Name for 'should'-rule.
+     */
     SHOULD("should") {
         @Override
         public byte flag() {
@@ -50,8 +70,16 @@ public enum AVPRule {
         }
     };
 
+    /**
+     * Rule Name.
+     */
     private final String rule;
 
+    /**
+     * Constructor.
+     *
+     * @param thisRule String Rule Name.
+     */
     AVPRule(final String thisRule) {
         this.rule = thisRule;
     }

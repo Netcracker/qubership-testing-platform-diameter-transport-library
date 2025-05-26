@@ -46,14 +46,49 @@ import com.google.common.collect.Sets;
 
 public class ResponseListener implements Runnable {
 
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponseListener.class);
+
+    /**
+     * Empty ByteBuffer[] constant.
+     */
     private static final ByteBuffer[] EMPTY = {};
+
+    /**
+     * Set of interceptors.
+     */
+    @lombok.Getter
     private final Set<Interceptor> interceptors = Sets.newConcurrentHashSet();
+
+    /**
+     * Channel.
+     */
+    @lombok.Setter
+    @lombok.Getter
     private ExtraChannel channel;
+
+    /**
+     * Flag if listening is stopped (true) or not.
+     */
     private boolean stopped = false;
+
+    /**
+     * Decoder object to use to decode received messages.
+     */
+    @lombok.Setter
+    @lombok.Getter
     private Decoder decoder;
+
+    /**
+     * Byte[] buffer to process messages.
+     */
     private byte[] buffer = new byte[]{};
 
+    /**
+     * Invoke listening loop via TCP/SCTP channel, according to channel transport.
+     */
     @Override
     public void run() {
         ByteBuffer allocate = ByteBuffer.allocate(512);
@@ -69,7 +104,7 @@ public class ResponseListener implements Runnable {
         }
     }
 
-    private void runTcp(ByteBuffer allocate) {
+    private void runTcp(final ByteBuffer allocate) {
         while (!Thread.interrupted() && !stopped) {
             try {
                 int keys = channel.getSelector().selectNow();
@@ -95,7 +130,7 @@ public class ResponseListener implements Runnable {
         }
     }
 
-    private void runSctp(ByteBuffer allocate) {
+    private void runSctp(final ByteBuffer allocate) {
         while (!Thread.interrupted() && !stopped) {
             int read = readSctp(allocate);
             if (read < 0) {
@@ -127,7 +162,7 @@ public class ResponseListener implements Runnable {
      * @param allocate   - {@link ByteBuffer} data which has been read from socket
      * @param readLength - how many bytes were read from socket.
      */
-    public void processData(ByteBuffer allocate, int readLength) {
+    public void processData(final ByteBuffer allocate, final int readLength) {
         byte[] content = null;
         ByteBuffer[] messages = null;
         ByteBuffer message = null;
@@ -170,7 +205,7 @@ public class ResponseListener implements Runnable {
      *
      * @param content - content buffer, possibly containing diameter message.
      */
-    public void cleanupBuffer(byte[] content) {
+    public void cleanupBuffer(final byte[] content) {
         if (content.length < 8) {
             return;
         }
@@ -193,7 +228,7 @@ public class ResponseListener implements Runnable {
      *
      * @param content - content buffer to append to the buffer.
      */
-    public void appendBuffer(byte[] content) {
+    public void appendBuffer(final byte[] content) {
         byte[] array = new byte[content.length + buffer.length];
         System.arraycopy(buffer, 0, array, 0, buffer.length);
         System.arraycopy(content, 0, array, buffer.length, content.length);
@@ -223,23 +258,24 @@ public class ResponseListener implements Runnable {
             }
         }
         //Remove found messages
-        buffers.forEach(buffer -> this.buffer = Arrays.copyOfRange(this.buffer, buffer.limit(), this.buffer.length));
+        buffers.forEach(buffer ->
+                this.buffer = Arrays.copyOfRange(this.buffer, buffer.limit(), this.buffer.length));
         return buffers.toArray(new ByteBuffer[buffers.size()]);
     }
 
-    private int getLength(int length) {
+    private int getLength(final int length) {
         return length % 4 == 0 ? length : (int) (Math.ceil((double) length / 4) * 4);
     }
 
-    private String getData(ByteBuffer data) {
+    private String getData(final ByteBuffer data) {
         return decoder.decode(data);
     }
 
-    private byte[] sliceContent(ByteBuffer allocate, int read) {
+    private byte[] sliceContent(final ByteBuffer allocate, final int read) {
         return Arrays.copyOfRange(allocate.array(), 0, read);
     }
 
-    private void processError(String message, Throwable ex) {
+    private void processError(final String message, final Throwable ex) {
         for (Interceptor interceptor : interceptors) {
             if (StringUtils.isBlank(interceptor.getResponse())) {
                 interceptor.setError(message, ex);
@@ -247,7 +283,7 @@ public class ResponseListener implements Runnable {
         }
     }
 
-    private void processInterceptors(String data, @Nullable byte[] content) {
+    private void processInterceptors(final String data, @Nullable final byte[] content) {
         Iterator<Interceptor> iterator = interceptors.iterator();
         while (iterator.hasNext()) {
             Interceptor interceptor = iterator.next();
@@ -264,7 +300,7 @@ public class ResponseListener implements Runnable {
         }
     }
 
-    private void setHbHAndE2E(String data, byte[] content, Interceptor interceptor) {
+    private void setHbHAndE2E(final String data, final byte[] content, final Interceptor interceptor) {
         if (interceptor instanceof DWRInterceptor) {
             DWRInterceptor dwr = (DWRInterceptor) interceptor;
             dwr.setHopByHop(Arrays.copyOfRange(content, 12, 16));
@@ -275,13 +311,13 @@ public class ResponseListener implements Runnable {
         }
     }
 
-    private int readTcp(ByteBuffer allocate) {
+    private int readTcp(final ByteBuffer allocate) {
         try {
             Iterator<SelectionKey> iter = channel.getSelector().selectedKeys().iterator();
             int read = 0;
             while (iter.hasNext()) {
                 SelectionKey selectionKey = iter.next();
-                SocketChannel socketChannel = (SocketChannel)selectionKey.channel();
+                SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
                 if (selectionKey.isValid() && selectionKey.isReadable()) {
                     iter.remove();
                     read += socketChannel.read(allocate);
@@ -296,7 +332,7 @@ public class ResponseListener implements Runnable {
         }
     }
 
-    private int readSctp(ByteBuffer allocate) {
+    private int readSctp(final ByteBuffer allocate) {
         try {
             return channel.read(allocate);
         } catch (IOException e) {
@@ -315,16 +351,21 @@ public class ResponseListener implements Runnable {
         }
     }
 
+    /**
+     * Stop listening.
+     */
     public void stop() {
         stopped = true;
     }
 
     /**
-     * Add interceptors into the list.
+     * Add Set of interceptors into this.interceptors list.
+     * (technical dept: it was List in the previous implementation, but currently it's Set.
+     * So, the method can be simplified.)
      *
      * @param interceptor - set of interceptors to add to the list.
      */
-    public void addInterceptors(Set<Interceptor> interceptor) {
+    public void addInterceptors(final Set<Interceptor> interceptor) {
         for (Iterator<Interceptor> interceptorIterator = interceptor.iterator(); interceptorIterator.hasNext(); ) {
             Interceptor next = interceptorIterator.next();
             for (Interceptor interceptor1 : interceptors) {
@@ -337,34 +378,29 @@ public class ResponseListener implements Runnable {
         this.interceptors.addAll(interceptor);
     }
 
-    public Set<Interceptor> getInterceptors() {
-        return interceptors;
-    }
-
-    public ExtraChannel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(ExtraChannel channel) {
-        this.channel = channel;
-    }
-
-    public Decoder getDecoder() {
-        return decoder;
-    }
-
-    public void setDecoder(Decoder decoder) {
-        this.decoder = decoder;
-    }
-
-    public void remove(Interceptor interceptor) {
+    /**
+     * Remove interceptor from interceptors Set.
+     *
+     * @param interceptor Interceptor to be removed.
+     */
+    public void remove(final Interceptor interceptor) {
         this.interceptors.remove(interceptor);
     }
 
+    /**
+     * Get byte[] copy of the buffer.
+     *
+     * @return byte[] copy of the buffer truncated to the actual buffer.length.
+     */
     public byte[] getBuffer() {
         return Arrays.copyOf(buffer, buffer.length);
     }
 
+    /**
+     * Make String representation of the object.
+     *
+     * @return String representation of the object.
+     */
     @Override
     public String toString() {
         return "ResponseListener{interceptors=" + interceptors + '}';

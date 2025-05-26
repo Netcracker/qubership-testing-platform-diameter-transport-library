@@ -29,7 +29,7 @@ public class AVPDictionary extends AVPProvider {
      *
      * @param vendorId - id of vendor to add.
      */
-    public void addVendor(int vendorId) {
+    public void addVendor(final int vendorId) {
         if (!vendors.containsKey(vendorId)) {
             AVPDictionary value = new AVPDictionary();
             value.setVendorId(vendorId);

@@ -34,10 +34,24 @@ import org.xml.sax.SAXException;
 
 public class ConfigReader {
 
+    /**
+     * Instance object link.
+     */
     private static final ConfigReader INSTANCE = new ConfigReader();
+
+    /**
+     * XML files filter by file extension.
+     */
     private static final FileFilter XML_FILTER = pathname -> pathname.getName().endsWith(".xml");
+
+    /**
+     * Marben parser class simple name.
+     */
     private static final String MARBEN_PARSER = MarbenParser.class.getSimpleName();
 
+    /**
+     * Constructor.
+     */
     private ConfigReader() {
     }
 

@@ -62,52 +62,52 @@ public class ConverterTest {
 
     @Test
     public void testUnsigned32() {
-        byte[] bytes = Converter.usigned32ToBytes(2868904937L);
+        byte[] bytes = Converter.unsigned32ToBytes(2868904937L);
         assertEquals(-85, bytes[0]);
         assertEquals(-23, bytes[3]);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testExceptionOutOfRange() {
-        Converter.usigned32ToBytes(5294967295L);
+        Converter.unsigned32ToBytes(5294967295L);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testExceptionOutOfRangeLessZero() {
-        byte[] bytes = Converter.usigned32ToBytes("0");
+        byte[] bytes = Converter.unsigned32ToBytes("0");
         assertEquals(0, bytes[bytes.length - 1]);
-        Converter.usigned64ToBytes("-1");
+        Converter.unsigned64ToBytes("-1");
     }
 
     @Test
     public void testUnsigned64() {
-        byte[] bytes = Converter.usigned64ToBytes("2868904937");
+        byte[] bytes = Converter.unsigned64ToBytes("2868904937");
         assertEquals(-85, bytes[4]);
         assertEquals(-23, bytes[7]);
     }
 
     @Test
     public void testUnsigned64SmallValue() {
-        byte[] bytes = Converter.usigned64ToBytes("10");
+        byte[] bytes = Converter.unsigned64ToBytes("10");
         assertEquals(10, bytes[7]);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testExceptionOutOfRange64() {
-        Converter.usigned64ToBytes("18446744073709551616");
+        Converter.unsigned64ToBytes("18446744073709551616");
     }
 
     @Test
     public void testUnsigned64Test() {
-        byte[] bytes = Converter.usigned64ToBytes("2560000");
+        byte[] bytes = Converter.unsigned64ToBytes("2560000");
         assertEquals(2560000, Converter.bytesToUnsigned(bytes).intValue());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testExceptionOutOfRange64LessZero() {
-        byte[] bytes = Converter.usigned64ToBytes("0");
+        byte[] bytes = Converter.unsigned64ToBytes("0");
         assertEquals(0, bytes[bytes.length - 1]);
-        Converter.usigned64ToBytes("-1");
+        Converter.unsigned64ToBytes("-1");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ConverterTest {
     @Test
     public void testBytesToAddress() {
         String address = Converter.bytesToAddress(new byte[]{0, 1, 10, -24, 4, -112});
-        assertEquals(address, "10.232.4.144");
+        assertEquals("10.232.4.144", address);
     }
 
     @Test

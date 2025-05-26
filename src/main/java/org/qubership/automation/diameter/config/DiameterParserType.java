@@ -21,7 +21,14 @@ import java.util.Objects;
 
 public class DiameterParserType {
 
+    /**
+     * Constant for Standard parser name.
+     */
     public static final String STANDARD = "Standard";
+
+    /**
+     * Constant for Marben parser name.
+     */
     public static final String MARBEN = "Marben";
 
     /**

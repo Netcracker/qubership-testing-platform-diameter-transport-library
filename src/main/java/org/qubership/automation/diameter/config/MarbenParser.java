@@ -30,6 +30,7 @@ import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 import org.qubership.automation.diameter.dictionary.DictionaryService;
 import org.xml.sax.Attributes;
 
+@SuppressWarnings("checkstyle:JavadocVariable")
 public class MarbenParser extends DiameterParser {
 
     private static final String DIAMETER_COMMAND_DICTIONARY = "diameter-command-dictionary";

@@ -23,35 +23,76 @@ import java.util.Objects;
 
 public class CommandDictionary implements CommandProvider {
 
+    /**
+     * Map of request commands.
+     */
     private final Map<Object, Command> requests = new HashMap<>();
+
+    /**
+     * Map of answer commands.
+     */
     private final Map<Object, Command> answers = new HashMap<>();
 
+    /**
+     * Get Request Command by ID.
+     *
+     * @param commandId Command ID to search
+     * @return Command if found, otherwise IllegalArgumentException is thrown.
+     */
     @Override
     public Command getRequest(final int commandId) {
         return getCommandIfRequest(commandId);
     }
 
+    /**
+     * Get Request Command by name.
+     *
+     * @param name Command name to search
+     * @return Command if found, otherwise IllegalArgumentException is thrown.
+     */
     @Override
     public Command getRequest(final String name) {
         return getCommandIfRequest(name);
     }
 
+    /**
+     * Check if requests map contains element by the name.
+     *
+     * @param name Command name to search
+     * @return true if requests map contains element by the name, otherwise false.
+     */
     @Override
     public boolean isRequest(final String name) {
         return Objects.nonNull(requests.get(name));
     }
 
+    /**
+     * Get Answer Command by id.
+     *
+     * @param commandId Command ID to search
+     * @return Command if found, otherwise IllegalArgumentException is thrown.
+     */
     @Override
     public Command getAnswer(final int commandId) {
         return getCommandIfAnswer(commandId);
     }
 
+    /**
+     * Get Answer Command by name.
+     *
+     * @param name Command Name to search
+     * @return Command if found, otherwise IllegalArgumentException is thrown.
+     */
     @Override
     public Command getAnswer(final String name) {
         return getCommandIfAnswer(name);
     }
 
-
+    /**
+     * Add the command into requests or answers map, depending on .isRequestTag() value.
+     *
+     * @param command Command to add.
+     */
     @Override
     public void add(final Command command) {
         if (command.isRequestTag()) {
@@ -61,16 +102,31 @@ public class CommandDictionary implements CommandProvider {
         }
     }
 
+    /**
+     * Check if requests map contains this code as key.
+     *
+     * @param code Command ID to check
+     * @return true if requests map contains this code as key, otherwise false.
+     */
     @Override
     public boolean containsRequest(final int code) {
         return requests.containsKey(code);
     }
 
+    /**
+     * Check if answers map contains this code as key.
+     *
+     * @param code Command ID to check
+     * @return true if answers map contains this code as key, otherwise false.
+     */
     @Override
     public boolean containsAnswer(final int code) {
         return answers.containsKey(code);
     }
 
+    /**
+     * Clear Requests Map and Answers Map.
+     */
     @Override
     public void clear() {
         this.requests.clear();

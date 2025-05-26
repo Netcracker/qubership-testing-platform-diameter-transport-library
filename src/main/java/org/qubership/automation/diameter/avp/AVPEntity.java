@@ -29,15 +29,43 @@ import lombok.Setter;
 @NoArgsConstructor
 @SuppressWarnings("AbbreviationAsWordInName")
 public class AVPEntity {
+
+    /**
+     * Type of Entity.
+     */
     private AVPType type;
+
+    /**
+     * Name of Entity.
+     */
     private String name;
+
+    /**
+     * Protection rule.
+     */
     private AVPRule protect;
+
+    /**
+     * Mandatory rule.
+     */
     private AVPRule mandatory;
+
+    /**
+     * Vendor ID.
+     */
     private int vendorId;
+
+    /**
+     * Entity ID.
+     */
     private int id;
+
+    /**
+     * Enumerated Values Map.
+     */
     private Map<Integer, String> enumeratedValues;
 
-    public AVPEntity(AVPType type, String name) {
+    public AVPEntity(final AVPType type, final String name) {
         this.type = type;
         this.name = name;
     }
@@ -51,7 +79,11 @@ public class AVPEntity {
      * @param mandatory - mandatory rule,
      * @param vendorId - id of vendor.
      */
-    public AVPEntity(AVPType type, String name, AVPRule protect, AVPRule mandatory, int vendorId) {
+    public AVPEntity(final AVPType type,
+                     final String name,
+                     final AVPRule protect,
+                     final AVPRule mandatory,
+                     final int vendorId) {
         this.type = type;
         this.name = name;
         this.protect = protect;

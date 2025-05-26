@@ -38,8 +38,20 @@ import com.google.common.cache.RemovalListener;
 import lombok.Setter;
 
 public class ConnectionFactory {
+
+    /**
+     * Executor service to perform cache maintenance by schedule.
+     */
     private static final ScheduledExecutorService SERVICE = Executors.newSingleThreadScheduledExecutor();
+
+    /**
+     * Cache 'Expire After Access' property value (hours).
+     */
     private static final int CACHE_LIFETIME = Integer.parseInt(System.getProperty("diameter.cacheLifetime", "12"));
+
+    /**
+     * Connections Cache with expireAfterAccess property and removal listener configured.
+     */
     @Setter
     private static Cache<Object, DiameterConnection> connectionCache = CacheBuilder.newBuilder()
             .expireAfterAccess(CACHE_LIFETIME, TimeUnit.HOURS)
@@ -52,6 +64,10 @@ public class ConnectionFactory {
                     }
             )
             .build();
+
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionFactory.class);
 
     /**
@@ -79,17 +95,36 @@ public class ConnectionFactory {
         }, 10, 30, TimeUnit.MINUTES);
     }
 
+    /**
+     * Get the whole connectionCache.
+     *
+     * @return Cache of diameter connections.
+     */
     public static synchronized Cache<Object, DiameterConnection> getAll() {
         return connectionCache;
     }
 
+    /**
+     * Diameter Connection object.
+     */
     private static DiameterConnection diameterConnection;
 
+    /**
+     * Create Diameter Connection.
+     *
+     * @return new DiameterConnection object.
+     */
     public static synchronized DiameterConnection createConnection() {
         diameterConnection = new DiameterConnection();
         return diameterConnection;
     }
 
+    /**
+     * Create Diameter Connection.
+     *
+     * @param dpr String DPR message
+     * @return new DiameterConnection object.
+     */
     public static synchronized DiameterConnection createConnection(final String dpr) {
         diameterConnection = new DiameterConnection(dpr);
         return diameterConnection;
@@ -162,10 +197,21 @@ public class ConnectionFactory {
         connectionCache.put(connectionKey, diameterConnection);
     }
 
+    /**
+     * Put connection into connectionCache by key.
+     *
+     * @param key Object key for connectionCache
+     * @param connection DiameterConnection object to put into connectionCache by key.
+     */
     public static void cache(final Object key, final DiameterConnection connection) {
         connectionCache.put(key, connection);
     }
 
+    /**
+     * Invalidate Connection from connectionCache by key.
+     *
+     * @param key Object key to invalidate Connection from connectionCache by key.
+     */
     public static void destroy(final Object key) {
         LOGGER.info("Destroy connection for key: {}", key);
         connectionCache.invalidate(key);

@@ -41,38 +41,64 @@ import com.google.common.collect.Sets;
 
 public class DiameterConnection implements Closeable {
 
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DiameterConnection.class);
+
+    /**
+     * DPR message.
+     */
     private final String dpr;
+
+    /**
+     * Decoder object used to decode messages from binary format.
+     */
+    @lombok.Setter
+    @lombok.Getter
     private Decoder decoder;
+
+    /**
+     * Encoder object used to encode messages to binary format.
+     */
+    @lombok.Setter
+    @lombok.Getter
     private Encoder encoder;
+
+    /**
+     * Channel.
+     */
+    @lombok.Getter
     private ExtraChannel channel;
+
+    /**
+     * Response Listener.
+     */
     private ResponseListener responseListener = new ResponseListener();
 
+
+    /**
+     * Constructor.
+     */
     public DiameterConnection() {
         this.dpr = null;
     }
 
-    public DiameterConnection(String dpr) {
+    /**
+     * Constructor.
+     *
+     * @param dpr String DPR message.
+     */
+    public DiameterConnection(final String dpr) {
         this.dpr = dpr;
     }
 
-    public Decoder getDecoder() {
-        return decoder;
-    }
-
-    public void setDecoder(Decoder decoder) {
-        this.decoder = decoder;
-    }
-
-    public Encoder getEncoder() {
-        return encoder;
-    }
-
-    public void setEncoder(Encoder encoder) {
-        this.encoder = encoder;
-    }
-
-    public void setSocketChannel(ExtraChannel channel) {
+    /**
+     * Setter for channel field.
+     *
+     * @param channel ExtraChannel object.
+     */
+    public void setSocketChannel(final ExtraChannel channel) {
         this.channel = channel;
     }
 
@@ -83,7 +109,7 @@ public class DiameterConnection implements Closeable {
      * @return DiameterConnection itself.
      * @throws Exception - in case errors while sending.
      */
-    public DiameterConnection send(String message) throws Exception {
+    public DiameterConnection send(final String message) throws Exception {
         LOGGER.debug("Send message to {}, message:\n{}", channel, message);
         try {
             ByteBuffer byteBuffer = prepare(message);
@@ -95,7 +121,7 @@ public class DiameterConnection implements Closeable {
         return this;
     }
 
-    private ByteBuffer prepare(String message) throws Exception {
+    private ByteBuffer prepare(final String message) throws Exception {
         if (isNotificationAnswer(message)) {
             String interceptorType = getInterceptorTypeFromAnswerMessage(message);
             Map<String, Object> headers = new HashMap<>();
@@ -115,19 +141,29 @@ public class DiameterConnection implements Closeable {
      *
      * @param connectionName - name of connection to set as thread name.
      */
-    public void startListening(Object connectionName) {
+    public void startListening(final Object connectionName) {
         responseListener.setChannel(channel);
         responseListener.setDecoder(decoder);
         Thread thread = new Thread(responseListener);
-        thread.setName(String.format("Connection listener: %s'", connectionName));
+        thread.setName(String.format("Connection listener: %s", connectionName));
         thread.setDaemon(true);
         thread.start();
     }
 
-    public void addInterceptors(Collection<Interceptor> interceptors) {
+    /**
+     * Add all interceptors into responseListener interceptors set.
+     *
+     * @param interceptors Collection of interceptors to be added.
+     */
+    public void addInterceptors(final Collection<Interceptor> interceptors) {
         this.responseListener.addInterceptors(Sets.newHashSet(interceptors));
     }
 
+    /**
+     * Get interceptors of the responseListener.
+     *
+     * @return Set of responseListener's interceptors.
+     */
     public Set<Interceptor> getInterceptors() {
         return this.responseListener.getInterceptors();
     }
@@ -135,8 +171,8 @@ public class DiameterConnection implements Closeable {
     /**
      * Stop listening on the connection.
      * Synchronization is added because a connection can be used by more than one context executed simultaneously.
-     * So, they possibly invoke 'stopListening' method in parallel, and can face NullPointerException,
-     * if responseListener becomes null (TASUP-11062)
+     * So, they possibly invoke 'stopListening' method in parallel,
+     * and can face NullPointerException, if responseListener becomes null.
      */
     public synchronized void stopListening() {
         if (responseListener != null) {
@@ -145,14 +181,20 @@ public class DiameterConnection implements Closeable {
         }
     }
 
-    public void removeInterceptor(Interceptor interceptor) {
+    /**
+     * Remove the interceptor from the responseListener.
+     *
+     * @param interceptor Interceptor object to be removed.
+     */
+    public void removeInterceptor(final Interceptor interceptor) {
         this.responseListener.remove(interceptor);
     }
 
-    public ExtraChannel getChannel() {
-        return channel;
-    }
-
+    /**
+     * Send DPR message, sleep 500 ms, then close the channel.
+     *
+     * @throws IOException in case IO errors occurred.
+     */
     @Override
     public void close() throws IOException {
         sendDpr();
@@ -174,6 +216,11 @@ public class DiameterConnection implements Closeable {
         }
     }
 
+    /**
+     * Check if channel is open or not.
+     *
+     * @return true if channel is open, otherwise false.
+     */
     public boolean isOpen() {
         return channel.isOpen();
     }

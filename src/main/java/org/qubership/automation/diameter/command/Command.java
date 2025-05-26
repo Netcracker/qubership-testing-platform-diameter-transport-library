@@ -27,39 +27,86 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Command {
+
+    /**
+     * Application ID.
+     */
     @Setter
     @Getter
     private int applicationId = 0;
+
+    /**
+     * Flag if it's request tag or not.
+     */
     @Setter
     @Getter
     private boolean requestTag = false;
+
+    /**
+     * Flag if it's request or not.
+     */
     @Setter
     @Getter
     private boolean request = false;
+
+    /**
+     * Flag if it's proxiable or not.
+     */
     @Setter
     @Getter
     private boolean proxiable = false;
+
+    /**
+     * Flag if it's error command or not.
+     */
     @Setter
     @Getter
     private boolean error = false;
+
+    /**
+     * Command ID.
+     */
     @Setter
     @Getter
     private int id;
+
+    /**
+     * Short Name.
+     */
     @Setter
     @Getter
     private String shortName = "";
+
+    /**
+     * Set of required tags.
+     */
     private final Set<String> required = new HashSet<>();
 
+    /**
+     * Constructor.
+     */
     public Command() {
     }
 
-    public Command(int id, int applicationId) {
+    /**
+     * Constructor.
+     *
+     * @param id Command ID.
+     * @param applicationId Application ID.
+     */
+    public Command(final int id, final int applicationId) {
         this.id = id;
         this.applicationId = applicationId;
     }
 
+    /**
+     * Check if the object equals to obj parameter.
+     *
+     * @param obj Object to compare.
+     * @return true if objects equal each other; otherwise false.
+     */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof Command)) {
             return false;
         }
@@ -69,11 +116,21 @@ public class Command {
                 && Objects.equals(target.getApplicationId(), this.applicationId);
     }
 
+    /**
+     * Make String representation of the command.
+     *
+     * @return String representation of the command.
+     */
     @Override
     public String toString() {
         return "Command{applicationId=" + applicationId + ", id=" + id + ", shortName='" + shortName + "'}";
     }
 
+    /**
+     * Calculate HashCode of the object.
+     *
+     * @return HashCode of the object.
+     */
     @Override
     public int hashCode() {
         int result = applicationId;
@@ -94,13 +151,13 @@ public class Command {
     }
 
     /**
-     * This method receives as input an array of bytes (quarter) that contains the flags byte (the first (0) byte of
-     * this quarter).
-     * The flags byte will be calculated and modified.
+     * This method receives as input an array of bytes (quarter) that contains the flags byte
+     * (the first (0) byte of this quarter).
+     * The flags byte is calculated and modified.
      *
      * @param bytes - the bytes array (quarter) to be modified.
      */
-    private void setFlags(byte[] bytes) {
+    private void setFlags(final byte[] bytes) {
         String flagAsString = isRequest()
                 ? "1"
                 : "0"; // 'Request' flag

@@ -33,16 +33,56 @@ import org.apache.commons.lang3.StringUtils;
 import org.qubership.automation.diameter.avp.AVPType;
 import org.qubership.automation.diameter.data.encoder.Utils;
 
+@SuppressWarnings("checkstyle:MagicNumber")
 public class Converter {
 
+    /**
+     * Constant for default timezone.
+     */
     public static String DEFAULT_TIMEZONE = "Etc/GMT+0";
+
+    /**
+     * Maximum unsigned 64-bit value.
+     */
     private static final BigInteger MAX_UNSIGNED_64 = new BigInteger("18446744073709551615");
+
     /* Unused, commented. Not deleted, for possible future use
     private static final byte[] IPV_4_FAMILY = {0x00, 0x01};
     private static final byte[] IPV_6_FAMILY = {0x00, 0x02};
      */
 
-    public static int bytesToInt(byte[] bytesArray) {
+    /**
+     * Main date time format String.
+     */
+    private static final String DATE_TIME_FORMAT_MAIN = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * Secondary date time format String.
+     */
+    private static final String DATE_TIME_FORMAT_SECONDARY = "MMM dd, yyyy HH:mm:ss";
+
+    /**
+     * UTC time zone constant.
+     */
+    private static final TimeZone UTC_TIME_ZONE = TimeZone.getTimeZone("UTC");
+
+    /**
+     * Date time zero point in the main format.
+     */
+    private static final String DATE_TIME_ZERO_POINT_MAIN_FORMAT = "1900-01-01 00:00:00";
+
+    /**
+     * Date time zero point in the secondary format.
+     */
+    private static final String DATE_TIME_ZERO_POINT_SECONDARY_FORMAT = "Jan 01, 1900 00:00:00";
+
+    /**
+     * Convert byte[] to int.
+     *
+     * @param bytesArray byte[] to convert
+     * @return int value of conversion.
+     */
+    public static int bytesToInt(final byte[] bytesArray) {
         ByteBuffer bb = ByteBuffer.wrap(bytesArray);
         return bb.getInt();
     }
@@ -53,7 +93,7 @@ public class Converter {
      * @param address - String address to convert,
      * @return byte array converted result.
      */
-    public static byte[] addressToBytes(String address) {
+    public static byte[] addressToBytes(final String address) {
         /*
             As we discussed with Maxim Paramonov, address must be converted to octet string.
             https://developer.opencloud.com/devportal/devportal/apis/diameter/diameter-connectivity-pack/2.0/
@@ -98,7 +138,7 @@ public class Converter {
      * @param len - length from the beginning of the string - how many characters to convert.
      * @return - byte array - converted result.
      */
-    public static byte[] hexToBytes(final String string, int len) {
+    public static byte[] hexToBytes(final String string, final int len) {
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             char current = string.charAt(i);
@@ -115,7 +155,7 @@ public class Converter {
      * @param message - byte array to convert.
      * @return - String ip-address representation.
      */
-    public static String bytesToAddress(byte[] message) {
+    public static String bytesToAddress(final byte[] message) {
         try {
             StringBuilder builder = new StringBuilder();
             byte[] bytes;
@@ -139,7 +179,7 @@ public class Converter {
         }
     }
 
-    public static byte[] longToBytes(long longValue) {
+    public static byte[] longToBytes(final long longValue) {
         return ByteBuffer.allocate(8).putLong(longValue).array();
     }
 
@@ -149,7 +189,7 @@ public class Converter {
      * @param message - byte array to convert.
      * @return long value got from message.
      */
-    public static Long bytesToLong(byte[] message) {
+    public static Long bytesToLong(final byte[] message) {
         if (message.length != 8) {
             byte[] result = new byte[8];
             System.arraycopy(message, 0, result, result.length - message.length, message.length);
@@ -164,7 +204,7 @@ public class Converter {
      * @param message - byte array to convert.
      * @return String representation of date in default timezone.
      */
-    public static String bytesToLinuxDate(byte[] message) {
+    public static String bytesToLinuxDate(final byte[] message) {
         try {
             return ntpToString(bytesToLong(message));
         } catch (ParseException e) {
@@ -178,45 +218,50 @@ public class Converter {
      * @param message - Linux Date String representation,
      * @return - byte array - converted result.
      */
-    public static byte[] linuxDateToBytes(String message) {
+    public static byte[] linuxDateToBytes(final String message) {
         try {
             return intToBytes((int) stringToNtp(message));
         } catch (ParseException e) {
             throw new IllegalArgumentException("Unable to parse date from value " + message
-                    + ". Probably invalid date format. Required: yyyy-MM-dd HH:mm:ss", e);
+                    + ". Probably invalid date format. Required: " + DATE_TIME_FORMAT_MAIN, e);
         }
     }
 
-    private static long stringToNtp(String s) throws ParseException {
+    private static long stringToNtp(final String s) throws ParseException {
         Date date2;
         DateFormat formatter;
         if (!s.matches("^\\d.+")) {
             //Sep  7, 2017 06:14:13.000000000 UTC
-            formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.ENGLISH);
-            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-            date2 = formatter.parse("Jan 01, 1900 00:00:00");
+            formatter = new SimpleDateFormat(DATE_TIME_FORMAT_SECONDARY, Locale.ENGLISH);
+            formatter.setTimeZone(UTC_TIME_ZONE);
+            date2 = formatter.parse(DATE_TIME_ZERO_POINT_SECONDARY_FORMAT);
         } else {
-            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-            date2 = formatter.parse("1900-01-01 00:00:00");
+            formatter = new SimpleDateFormat(DATE_TIME_FORMAT_MAIN, Locale.ENGLISH);
+            formatter.setTimeZone(UTC_TIME_ZONE);
+            date2 = formatter.parse(DATE_TIME_ZERO_POINT_MAIN_FORMAT);
         }
         formatter.setTimeZone(TimeZone.getTimeZone(Converter.DEFAULT_TIMEZONE));
         Date date = formatter.parse(s);
         return (date.getTime() - date2.getTime()) / 1000;
     }
 
-    private static String ntpToString(long l) throws ParseException {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date date2 = formatter.parse("1900-01-01 00:00:00");
+    private static String ntpToString(final long l) throws ParseException {
+        DateFormat formatter = new SimpleDateFormat(DATE_TIME_FORMAT_MAIN);
+        formatter.setTimeZone(UTC_TIME_ZONE);
+        Date date2 = formatter.parse(DATE_TIME_ZERO_POINT_MAIN_FORMAT);
         Date date = new Date(l);
         int offset = TimeZone.getTimeZone(Converter.DEFAULT_TIMEZONE).getRawOffset();
-        l = date.getTime() * 1000 + offset + date2.getTime();
-        return formatter.format(new Date(l));
+        return formatter.format(new Date(date.getTime() * 1000 + offset + date2.getTime()));
     }
 
-    public static byte[] usigned32ToBytes(String value) {
-        return usigned32ToBytes(Long.parseLong(value.trim()));
+    /**
+     * Convert String (as unsigned 32-bit) into byte array.
+     *
+     * @param value - String value to convert.
+     * @return - byte array - converted result.
+     */
+    public static byte[] unsigned32ToBytes(final String value) {
+        return unsigned32ToBytes(Long.parseLong(value.trim()));
     }
 
     /**
@@ -225,7 +270,7 @@ public class Converter {
      * @param value - long value to convert.
      * @return - byte array - converted result.
      */
-    public static byte[] usigned32ToBytes(long value) {
+    public static byte[] unsigned32ToBytes(final long value) {
         if (value <= 4294967295L && value >= 0) {
             byte[] bytes = longToBytes(value);
             byte[] range = Arrays.copyOfRange(bytes, 4, bytes.length);
@@ -240,7 +285,7 @@ public class Converter {
      * @param value - String value to convert.
      * @return - byte array - converted result.
      */
-    public static byte[] usigned64ToBytes(String value) {
+    public static byte[] unsigned64ToBytes(final String value) {
         BigInteger val = new BigInteger(value);
         int upperRange = MAX_UNSIGNED_64.compareTo(val);
         int loverRange = BigInteger.ZERO.compareTo(val);
@@ -253,17 +298,17 @@ public class Converter {
         throw new IllegalArgumentException("Unsigned64 is out of range 0<=" + value + "<=18446744073709551615");
     }
 
-    public static BigInteger bytesToUnsigned(byte[] bytes) {
+    public static BigInteger bytesToUnsigned(final byte[] bytes) {
         return new BigInteger(bytes);
     }
 
-    private static byte[] getBytes(int length, byte[] range) {
+    private static byte[] getBytes(final int length, final byte[] range) {
         byte[] result = new byte[length];
         System.arraycopy(range, 0, result, length - range.length, range.length);
         return result;
     }
 
-    private static int getNotEmptyFirstOffset(byte[] result) {
+    private static int getNotEmptyFirstOffset(final byte[] result) {
         int offset = 0;
         for (byte b : result) {
             if (b == 0) {
@@ -275,7 +320,7 @@ public class Converter {
         return offset;
     }
 
-    private static byte[] ipToHexBytes(String ip) {
+    private static byte[] ipToHexBytes(final String ip) {
         StringBuilder hex = new StringBuilder();
         String[] part = ip.split("[.,]");
         if (part.length < 4) {
@@ -290,9 +335,9 @@ public class Converter {
             }
         }
         if (hex.length() == 8) {
-            hex.insert(0,"0001");
+            hex.insert(0, "0001");
         } else {
-            hex.insert(0,"0002");
+            hex.insert(0, "0002");
         }
         return DatatypeConverter.parseHexBinary(hex.toString());
     }
@@ -303,7 +348,7 @@ public class Converter {
      * @param message String message to convert.
      * @return - byte array - converted result.
      */
-    public static byte[] textToHex(String message) {
+    public static byte[] textToHex(final String message) {
         StringBuilder builder = new StringBuilder();
         for (char ch : message.toCharArray()) {
             builder.append(Integer.toHexString(ch));
@@ -311,6 +356,9 @@ public class Converter {
         return builder.toString().getBytes();
     }
 
+    /**
+     * Array of hex digit characters.
+     */
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     /**
@@ -319,7 +367,7 @@ public class Converter {
      * @param bytes - bytes array.
      * @return - String representation converted.
      */
-    public static String bytesHexToText(byte[] bytes) {
+    public static String bytesHexToText(final byte[] bytes) {
         StringBuilder output = new StringBuilder();
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {

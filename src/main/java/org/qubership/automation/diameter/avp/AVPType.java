@@ -23,7 +23,9 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.automation.diameter.data.Converter;
 
-@SuppressWarnings("AbbreviationAsWordInName")
+@SuppressWarnings({"AbbreviationAsWordInName",
+        "checkstyle:JavadocVariable",
+        "checkstyle:MagicNumber"})
 public enum AVPType {
 
     UTF8_STRING("UTF8String") {
@@ -59,12 +61,12 @@ public enum AVPType {
             if (message.contains(HEX_PREFIX)) {
                 return Converter.hexToBytes(message.replaceFirst(HEX_PREFIX, StringUtils.EMPTY), 4);
             }
-            return Converter.usigned32ToBytes(message);
+            return Converter.unsigned32ToBytes(message);
         }
 
         @Override
         public byte[] encode(final int message) {
-            return Converter.usigned32ToBytes(message);
+            return Converter.unsigned32ToBytes(message);
         }
 
         @Override
@@ -100,7 +102,7 @@ public enum AVPType {
     UNSIGNED64("Unsigned64") {
         @Override
         public byte[] encode(final String message) {
-            return Converter.usigned64ToBytes(message);
+            return Converter.unsigned64ToBytes(message);
         }
 
         @Override

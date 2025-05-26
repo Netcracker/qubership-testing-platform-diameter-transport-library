@@ -34,6 +34,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+@SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class DiameterParser extends DefaultHandler {
 
     protected static final String FLAG_RULE = "flag-rule";

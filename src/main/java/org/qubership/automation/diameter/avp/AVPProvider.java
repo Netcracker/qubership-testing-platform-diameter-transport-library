@@ -24,7 +24,15 @@ import lombok.Setter;
 
 @SuppressWarnings("AbbreviationAsWordInName")
 public class AVPProvider {
+
+    /**
+     * Map of AVPs.
+     */
     private final Map<Object, AVPEntity> avpMap = new HashMap<>();
+
+    /**
+     * Vendor ID.
+     */
     @Setter
     private int vendorId;
 

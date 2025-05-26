@@ -32,9 +32,23 @@ import org.qubership.automation.diameter.exception.DiameterXmlFormatException;
 
 public class AvpFormatter {
 
+    /**
+     * Pattern to identify XML tag.
+     */
     private static final Pattern XML_TAG_PATTERN = Pattern.compile("<(.+?)>");
+
+    /**
+     * Pattern to identify 2 opened XML tags.
+     */
     private static final Pattern TWO_OPEN_XML_TAG_PATTERN = Pattern.compile("<([a-zA-Z].+?)>(.*)<([a-zA-Z].+?)>");
+
+    /**
+     * Pattern to identify that row contains not only command.
+     */
     private static final Pattern NOT_ONLY_COMMAND_IN_ROW_PATTERN = Pattern.compile("^<(.+?[^<>])>+[^.*]+$");
+    /**
+     * Constant for end of XML tag.
+     */
     private static final char END = '>';
 
     /**
@@ -52,7 +66,7 @@ public class AvpFormatter {
      *                                    - row has got only one symbol - "<" or ">"
      *                                    - command has something before/after tag
      */
-    public static String formatAvp(String templateContent, DictionaryConfig dictionaryConfig)
+    public static String formatAvp(final String templateContent, final DictionaryConfig dictionaryConfig)
             throws DiameterXmlFormatException, IllegalArgumentException {
         String parserType = dictionaryConfig.getParserClass().getSimpleName();
         String dictionaryPath = dictionaryConfig.getDictionaryPath();
@@ -70,7 +84,9 @@ public class AvpFormatter {
         return String.valueOf(result);
     }
 
-    private static void validateRowAndFormatAvp(String row, StringBuilder result, DiameterDictionary dictionary)
+    private static void validateRowAndFormatAvp(final String row,
+                                                final StringBuilder result,
+                                                final DiameterDictionary dictionary)
             throws DiameterXmlFormatException, IllegalArgumentException {
         interruptIfRowHasOnlyBracket(row);
         interruptIfRowHasManyOpenedXmlTags(row);
@@ -89,14 +105,14 @@ public class AvpFormatter {
         format(row, avp, result);
     }
 
-    private static void format(String row, AVPEntity avpEntity, StringBuilder result) {
+    private static void format(final String row, final AVPEntity avpEntity, final StringBuilder result) {
         String avpName = avpEntity.getName();
         String s = row.replaceFirst(avpName,
                 avpName + String.format(" code=\"%d\" vendor=\"%d\"", avpEntity.getId(), avpEntity.getVendorId()));
         result.append(s).append("\n");
     }
 
-    public static String reverseFormatAvp(String templateContent) {
+    public static String reverseFormatAvp(final String templateContent) {
         return templateContent.replaceAll(" code=\"([0-9])+\" vendor=\"([0-9])+\"", "");
     }
 
@@ -106,7 +122,7 @@ public class AvpFormatter {
      * @param row - string message
      * @return command short name
      */
-    public static String hasOpenedCorrectCommandTag(String row) {
+    public static String hasOpenedCorrectCommandTag(final String row) {
         String result = null;
         for (String commandTag : COMMAND_XML_TAGS) {
             if (row != null && !row.isEmpty() && row.trim().toLowerCase().contains(commandTag)) {
@@ -128,7 +144,7 @@ public class AvpFormatter {
      * @param row string that can contains diameter xml tags.
      * @return true - if xml tag has closed bracket.
      */
-    private static boolean hasCommandClosedBracket(String row, String command) {
+    private static boolean hasCommandClosedBracket(final String row, final String command) {
         int indexOfStartCommandBracket = row.toLowerCase().indexOf(command.toLowerCase());
         int indexOfEndCommandBracket = row.indexOf(END, indexOfStartCommandBracket);
         if (indexOfEndCommandBracket != -1) {
@@ -145,12 +161,10 @@ public class AvpFormatter {
      * @param row string that can contains xml tag.
      * @return Matcher object if xml tag was found.
      */
-    public static Matcher rowHasCorrectOpenedXmlTag(String row) {
+    public static Matcher rowHasCorrectOpenedXmlTag(final String row) {
         Matcher matcher = XML_TAG_PATTERN.matcher(row);
         boolean found = matcher.find();
-        return found
-                ? matcher
-                : null;
+        return found ? matcher : null;
     }
 
     /**
@@ -159,14 +173,14 @@ public class AvpFormatter {
      * @param row string that you need to validate
      * @throws DiameterXmlFormatException if input string contains only "<" or ">" symbol.
      */
-    protected static void interruptIfRowHasOnlyBracket(String row) {
+    protected static void interruptIfRowHasOnlyBracket(final String row) {
         if (row.trim().equals("<") || row.trim().equals(">")) {
             throw new DiameterXmlFormatException(
                     "Row has incorrect xml format - only opened/closed bracket in the row: " + escapeXmlBrackets(row));
         }
     }
 
-    protected static void interruptIfRowHasManyOpenedXmlTags(String row) {
+    protected static void interruptIfRowHasManyOpenedXmlTags(final String row) {
         boolean hasTwoOrManyOpenedTags = row.trim().matches(TWO_OPEN_XML_TAG_PATTERN.pattern());
         if (hasTwoOrManyOpenedTags) {
             throw new DiameterXmlFormatException(
@@ -174,7 +188,8 @@ public class AvpFormatter {
         }
     }
 
-    protected static AVPEntity hasOpenedNotFormattedAvpTag(String row, DiameterDictionary dictionary)
+    protected static AVPEntity hasOpenedNotFormattedAvpTag(final String row,
+                                                           final DiameterDictionary dictionary)
             throws IllegalArgumentException {
         AVPEntity result = null;
         Matcher matcher = rowHasCorrectOpenedXmlTag(row);
@@ -187,15 +202,15 @@ public class AvpFormatter {
             }
         } else {
             if (hasAvpTagWithoutEndBracket(row, dictionary)) {
-                throw new DiameterXmlFormatException(
-                        "Row has incorrect xml format - avp tag hasn't got end bracket. " + "Row: " + escapeXmlBrackets(
-                                row));
+                throw new DiameterXmlFormatException("Row has incorrect xml format: avp tag doesn't have end bracket. "
+                        + "Row: " + escapeXmlBrackets(row));
             }
         }
         return result;
     }
 
-    private static boolean hasAvpTagWithoutEndBracket(String inputRow, DiameterDictionary dictionary) {
+    private static boolean hasAvpTagWithoutEndBracket(final String inputRow,
+                                                      final DiameterDictionary dictionary) {
         String[] split = inputRow.split("<");
         for (String splitRow : split) {
             splitRow = trimRow(splitRow);
@@ -215,20 +230,20 @@ public class AvpFormatter {
         return false;
     }
 
-    private static int findIndexBeforeSpace(String row) {
+    private static int findIndexBeforeSpace(final String row) {
         int spaceIndex = row.indexOf(" ");
         return spaceIndex == -1
                 ? row.length()
                 : spaceIndex;
     }
 
-    private static String trimRow(String row) {
-        row = row.replaceAll("\\t", "");
-        row = row.replaceAll("\\r", "");
-        return row.trim();
+    private static String trimRow(final String row) {
+        return row.replaceAll("\\t", "")
+                .replaceAll("\\r", "")
+                .trim();
     }
 
-    private static void interruptIfWrongRowWithCommandTag(String row, String commandTag) {
+    private static void interruptIfWrongRowWithCommandTag(final String row, final String commandTag) {
         boolean hasCommandClosedBracket = hasCommandClosedBracket(row, commandTag);
         if (!hasCommandClosedBracket) {
             throw new DiameterXmlFormatException(
@@ -241,7 +256,7 @@ public class AvpFormatter {
         }
     }
 
-    private static boolean rowHasNotOnlyCommandTag(String row, String commandTag) {
+    private static boolean rowHasNotOnlyCommandTag(final String row, final String commandTag) {
         boolean startWithCorrectCommandTag = row.trim().toLowerCase().startsWith(commandTag);
         if (!startWithCorrectCommandTag) {
             return true;
@@ -249,15 +264,15 @@ public class AvpFormatter {
         return row.trim().matches(NOT_ONLY_COMMAND_IN_ROW_PATTERN.pattern());
     }
 
-    private static boolean isAlreadyFormatted(String string) {
+    private static boolean isAlreadyFormatted(final String string) {
         return string.contains("code=") || string.contains("vendor=");
     }
 
-    private static boolean isEndXmlTag(String xmlTag) {
+    private static boolean isEndXmlTag(final String xmlTag) {
         return xmlTag.contains("/");
     }
 
-    private static String escapeXmlBrackets(String row) {
+    private static String escapeXmlBrackets(final String row) {
         return row.replaceAll(">", "&gt;").replaceAll("<", "&lt;");
     }
 }

@@ -19,11 +19,11 @@ package org.qubership.automation.diameter.exception;
 
 public class DiameterXmlFormatException extends RuntimeException {
 
-    public DiameterXmlFormatException(String message) {
+    public DiameterXmlFormatException(final String message) {
         super(message);
     }
 
-    public DiameterXmlFormatException(String message, Throwable cause) {
+    public DiameterXmlFormatException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

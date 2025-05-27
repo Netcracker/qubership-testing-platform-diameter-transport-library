@@ -141,6 +141,18 @@ public class MarbenParser extends DiameterParser {
         return (idVendor == null) ? 0 : idVendor;
     }
 
+    /**
+     * End element processing.
+     *
+     * @param uri       The Namespace URI, or the empty string if the
+     *                  element has no Namespace URI or if Namespace
+     *                  processing is not being performed.
+     * @param localName The local name (without prefix), or the
+     *                  empty string if Namespace processing is not being
+     *                  performed.
+     * @param tag       The qualified name (with prefix), or the
+     *                  empty string if qualified names are not available.
+     */
     @Override
     public void endElement(final String uri, final String localName, final String tag) {
         switch (tag) {

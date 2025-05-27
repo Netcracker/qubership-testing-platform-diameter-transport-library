@@ -19,11 +19,34 @@ package org.qubership.automation.diameter.data.constants;
 
 public class DiameterHeader {
 
-    public static String VERSION = "Version";
-    public static String LENGTH = "Length";
-    public static String COMMAND_CODE = "Command-code";
-    public static String APPLICATION_ID = "Application-Id";
-    public static String HBH = "Hop-by-Hop";
-    public static String E2E = "End-to-End";
+    /**
+     * Constant for Version Token String.
+     */
+    public static final String VERSION = "Version";
+
+    /**
+     * Constant for Length Token String.
+     */
+    public static final String LENGTH = "Length";
+
+    /**
+     * Constant for Command-code Token String.
+     */
+    public static final String COMMAND_CODE = "Command-code";
+
+    /**
+     * Constant for Application-Id Token String.
+     */
+    public static final String APPLICATION_ID = "Application-Id";
+
+    /**
+     * Constant for Hop-by-Hop Token String.
+     */
+    public static final String HBH = "Hop-by-Hop";
+
+    /**
+     * Constant for End-to-End Token String.
+     */
+    public static final String E2E = "End-to-End";
 
 }

@@ -40,14 +40,13 @@ import org.slf4j.LoggerFactory;
 public class WireSharkEncoder extends Encoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WireSharkEncoder.class);
-    //private static final String MINUS = "-"; // Unused, commented. Not deleted, for possible future use
 
-    public WireSharkEncoder(DictionaryConfig dictionaryConfig) {
+    public WireSharkEncoder(final DictionaryConfig dictionaryConfig) {
         this.dictionaryConfig = dictionaryConfig;
     }
 
     @Override
-    public ByteBuffer encode(String strMessage, Map<String, Object> headers) throws Exception {
+    public ByteBuffer encode(final String strMessage, final Map<String, Object> headers) throws Exception {
         WireSharkMessageParser wireSharkMessageParser = new WireSharkMessageParser();
         WireSharkMessage shMessage = wireSharkMessageParser.parse(strMessage);
         byte version = parseByte(shMessage.getVersion());
@@ -65,17 +64,20 @@ public class WireSharkEncoder extends Encoder {
     }
 
     @Override
-    public ByteBuffer encode(String message) throws Exception {
+    public ByteBuffer encode(final String message) throws Exception {
         return encode(message, new HashMap<>());
     }
 
-    private byte[] getAvps(List<Pair<Integer, AvpRecord>> avpRecords) {
+    private byte[] getAvps(final List<Pair<Integer, AvpRecord>> avpRecords) {
         AVPDictionary avpDictionary = DictionaryService.getInstance().getAvpDictionary(dictionaryConfig);
         AvpEncoder avpEncoder = new AvpEncoder(avpDictionary);
         return avpEncoder.encode(avpRecords);
     }
 
-    private byte[] buildMessageHeader(byte version, byte messageFlag, byte[] commandCode, byte[] applicationId) {
+    private byte[] buildMessageHeader(final byte version,
+                                      final byte messageFlag,
+                                      final byte[] commandCode,
+                                      final byte[] applicationId) {
         //version + length = 4
         //request flag + message code = 8
         //applicationId = 12
@@ -88,11 +90,11 @@ public class WireSharkEncoder extends Encoder {
         return message;
     }
 
-    public byte[] parseValue(String flag) {
+    public byte[] parseValue(final String flag) {
         return Converter.intToBytes(flag);
     }
 
-    private byte parseByte(String flag) {
+    private byte parseByte(final String flag) {
         @SuppressWarnings("StringOperationCanBeSimplified")
         String hex = flag.substring(2, flag.length());
         return DatatypeConverter.parseHexBinary(hex)[0];

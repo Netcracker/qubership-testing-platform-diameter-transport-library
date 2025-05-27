@@ -28,7 +28,9 @@ import org.qubership.automation.diameter.config.DiameterParser;
 
 public class DictionaryConfig {
 
+    @lombok.Getter
     private final BigInteger id;
+    @lombok.Getter
     private final String dictionaryPath;
     private final Class<? extends DiameterParser> parser;
 
@@ -54,15 +56,8 @@ public class DictionaryConfig {
         return String.format("%s_%s_%s", id.toString(), parser.getSimpleName(), dictionaryPath);
     }
 
-    public String getDictionaryPath() {
-        return dictionaryPath;
-    }
-
     public Class<? extends DiameterParser> getParserClass() {
         return parser;
     }
 
-    public BigInteger getId() {
-        return id;
-    }
 }

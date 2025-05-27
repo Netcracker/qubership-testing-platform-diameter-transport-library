@@ -22,6 +22,9 @@ import java.math.BigInteger;
 import org.qubership.automation.diameter.avp.AVPDictionary;
 import org.qubership.automation.diameter.command.CommandDictionary;
 
+import lombok.Getter;
+
+@Getter
 public class DiameterDictionary {
 
     private final CommandDictionary commandDictionary = new CommandDictionary();
@@ -29,6 +32,7 @@ public class DiameterDictionary {
     private final String path;
     private final String type;
     private final BigInteger id;
+    @lombok.Setter
     private boolean ready;
 
     /**
@@ -43,31 +47,4 @@ public class DiameterDictionary {
         this.ready = false;
     }
 
-    public CommandDictionary getCommandDictionary() {
-        return commandDictionary;
-    }
-
-    public AVPDictionary getAvpDictionary() {
-        return avpDictionary;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public boolean isReady() {
-        return ready;
-    }
-
-    public void setReady(boolean ready) {
-        this.ready = ready;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
 }

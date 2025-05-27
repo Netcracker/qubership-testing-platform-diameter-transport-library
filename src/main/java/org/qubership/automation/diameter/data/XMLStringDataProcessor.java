@@ -28,7 +28,7 @@ public class XMLStringDataProcessor {
      * @param message message that contains Session-Id xml tag
      * @return String session id value from Session-Id xml tag
      */
-    public static String getSessionId(String message) {
+    public static String getSessionId(final String message) {
         int sessionIdFirstTagIndex = message.indexOf("<Session-Id");
         int from = message.indexOf(">", sessionIdFirstTagIndex) + 1;
         int to = message.indexOf("</Session-Id>");
@@ -37,33 +37,37 @@ public class XMLStringDataProcessor {
 
     /**
      * Check command short name (request) that is SNR, RAR or ASR.
+     *
      * @param stringMessage short diameter command name.
      * @return true if input string start with SNR, RAR or ASR.
      */
-    public static boolean isNotificationRequest(String stringMessage) {
+    public static boolean isNotificationRequest(final String stringMessage) {
         String message = stringMessage.trim();
-        return message.startsWith(CommandXmlTags.SNR) || message.startsWith(CommandXmlTags.RAR) || message.startsWith(
-                CommandXmlTags.ASR);
+        return message.startsWith(CommandXmlTags.SNR)
+                || message.startsWith(CommandXmlTags.RAR)
+                || message.startsWith(CommandXmlTags.ASR);
     }
 
     /**
      * Check command short name (answer) that is SNA, RAA or ASA.
+     *
      * @param stringMessage short diameter command name.
      * @return true if input string start with SNA, RAA or ASA.
      */
-    public static boolean isNotificationAnswer(String stringMessage) {
+    public static boolean isNotificationAnswer(final String stringMessage) {
         String message = stringMessage.trim();
-        return message.startsWith(CommandXmlTags.SNA) || message.startsWith(CommandXmlTags.RAA) || message.startsWith(
-                CommandXmlTags.ASA);
+        return message.startsWith(CommandXmlTags.SNA)
+                || message.startsWith(CommandXmlTags.RAA)
+                || message.startsWith(CommandXmlTags.ASA);
     }
 
     /**
-     * getting interceptor type (string short name of interceptor type) from xml answer message.
+     * Get interceptor type (string short name of interceptor type) from xml answer message.
      *
      * @param message string xml answer message
      * @return string short name of interceptor type
      */
-    public static String getInterceptorTypeFromAnswerMessage(String message) {
+    public static String getInterceptorTypeFromAnswerMessage(final String message) {
         if (message.startsWith(CommandXmlTags.SNA)) {
             return InterceptorTypes.SNR;
         } else if (message.startsWith(CommandXmlTags.RAA)) {
@@ -75,12 +79,12 @@ public class XMLStringDataProcessor {
     }
 
     /**
-     * getting interceptor type (string short name of interceptor type) from xml request message.
+     * Get interceptor type (string short name of interceptor type) from xml request message.
      *
      * @param message string xml request message
      * @return string short name of interceptor type
      */
-    public static String getInterceptorTypeByRequestMessage(String message) {
+    public static String getInterceptorTypeByRequestMessage(final String message) {
         if (message.startsWith(CommandXmlTags.SNR)) {
             return InterceptorTypes.SNR;
         } else if (message.startsWith(CommandXmlTags.RAR)) {

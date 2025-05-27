@@ -62,23 +62,35 @@ public class XmlEncoder extends Encoder {
     private int currentCommonHbH = 0;
     private int currentCommonE2E = 0;
 
-    public XmlEncoder(@Nonnull DictionaryConfig dictionaryConfig) {
+    /**
+     * Constructor.
+     *
+     * @param dictionaryConfig DictionaryConfig object.
+     */
+    public XmlEncoder(@Nonnull final DictionaryConfig dictionaryConfig) {
         this.dictionaryConfig = dictionaryConfig;
-    }
-
-    public ByteBuffer encode(String stringMessage) throws Exception {
-        return encode(stringMessage, new HashMap<>());
     }
 
     /**
      * Encode xml string message to byte array (ByteBuffer).
+     *
+     * @param stringMessage String message to be encoded
+     * @return bytebuffer of string message
+     * @throws Exception if encoding is failed for message.
+     */
+    public ByteBuffer encode(final String stringMessage) throws Exception {
+        return encode(stringMessage, new HashMap<>());
+    }
+
+    /**
+     * Encode xml string message with headers to byte array (ByteBuffer).
      *
      * @param stringMessage xml string message.
      * @param headers       hbh and e2e diameter headers.
      * @return bytebuffer of string message.
      * @throws Exception if encoding is failed for message.
      */
-    public ByteBuffer encode(String stringMessage, Map<String, Object> headers) throws Exception {
+    public ByteBuffer encode(final String stringMessage, final Map<String, Object> headers) throws Exception {
         boolean isNotificationAnswer = isNotificationAnswer(stringMessage);
         boolean isHbhAndE2eHeadersExist = isHbHAndE2eHeadersExist(headers);
         int avpLength = 0;
@@ -122,18 +134,18 @@ public class XmlEncoder extends Encoder {
         return ByteBuffer.wrap(message);
     }
 
-    private byte[] encode(Node childNode, AVPEntity entry) {
+    private byte[] encode(final Node childNode, final AVPEntity entry) {
         Node firstChild = childNode.getFirstChild();
         if (firstChild == null) {
             return EMPTY_BYTES;
         }
         AVPType type = entry.getType();
         if (type == null) {
-            return EMPTY_BYTES; //ENUMERATE AVP doesn't have message body
+            return EMPTY_BYTES; // ENUMERATE AVP doesn't have message body
         }
         if (AVPType.ENUMERATE.equals(type)) {
             if (firstChild.hasChildNodes()) {
-                return EMPTY_BYTES; //ENUMERATE doesn't have self body, there for return empty
+                return EMPTY_BYTES; // ENUMERATE doesn't have self body, so return empty
             } else {
                 return AVPType.SIGNED32.encode(firstChild.getNodeValue());
             }
@@ -141,7 +153,7 @@ public class XmlEncoder extends Encoder {
         return type.encode(firstChild.getNodeValue());
     }
 
-    private Command getCommand(String commandName) {
+    private Command getCommand(final String commandName) {
         CommandDictionary commandDictionary = DictionaryService.getInstance().getCommandDictionary(dictionaryConfig);
         if (commandDictionary.isRequest(commandName)) {
             return commandDictionary.getRequest(commandName);
@@ -149,8 +161,7 @@ public class XmlEncoder extends Encoder {
         return commandDictionary.getAnswer(commandName);
     }
 
-    //TODO need refactoring... can't understand what the method doing...
-    private byte[] getContent(Node nodes, AVPDictionary dictionary) throws NumberFormatException {
+    private byte[] getContent(final Node nodes, final AVPDictionary dictionary) throws NumberFormatException {
         byte[] groupedAvp;
         byte[] local;
         Node childNode;
@@ -181,7 +192,7 @@ public class XmlEncoder extends Encoder {
                         if (childNode.getFirstChild() == null && entry.getMandatory() == AVPRule.MUST) {
                             throw new IllegalStateException(String.format(
                                     "AVP node '%s' with type '%s' is configured wrong: it should contain body.",
-                                    childNode.getNodeName(), entry.getType().toString()));
+                                    childNode.getNodeName(), entry.getType()));
                         }
                         try {
                             local = getAvp(entry, entry.getMandatory(), entry.getProtect(), entry.getVendorId(),
@@ -199,7 +210,7 @@ public class XmlEncoder extends Encoder {
         return temp;
     }
 
-    private AVPEntity determineAvp(Node thisNode, AVPDictionary dictionary) {
+    private AVPEntity determineAvp(final Node thisNode, final AVPDictionary dictionary) {
         AVPEntity entry;
         NamedNodeMap attributes = thisNode.getAttributes();
         if (attributes == null || attributes.getLength() == 0) {
@@ -233,29 +244,32 @@ public class XmlEncoder extends Encoder {
         return entry;
     }
 
-    private byte[] concatenate(byte[] temp, byte[] local) {
+    private byte[] concatenate(final byte[] temp, final byte[] local) {
         return ArrayUtils.addAll(temp, local);
     }
 
-    private Node getNodeFromString(String xmlMessage) {
-        xmlMessage = xmlMessage.replace(Character.MIN_VALUE, ' ');
-
+    private Node getNodeFromString(final String xmlMessage) {
         /*
-            According docs, neither DocumentBuilderFactory nor DocumentBuilder are thread-safe.
+            According to docs, neither DocumentBuilderFactory nor DocumentBuilder are thread-safe.
             So, we create new instances here.
          */
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new ByteArrayInputStream(xmlMessage.getBytes()));
+            Document doc = builder.parse(
+                    new ByteArrayInputStream(xmlMessage.replace(Character.MIN_VALUE, ' ').getBytes()));
             return doc.getFirstChild();
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(String.format("Encoding is failed for message: %s", xmlMessage), e);
         }
     }
 
-    private byte[] getAvp(AVPEntity entity, AVPRule mandatory, AVPRule protect, int vendorId, byte[] value) {
+    private byte[] getAvp(final AVPEntity entity,
+                          final AVPRule mandatory,
+                          final AVPRule protect,
+                          final int vendorId,
+                          byte[] value) {
         byte[] b = null;
         byte[] avpCode;
         byte[] flagsLength;
@@ -306,7 +320,7 @@ public class XmlEncoder extends Encoder {
         return b;
     }
 
-    private byte buildFlag(AVPRule mandatory, AVPRule protect, byte flags) {
+    private byte buildFlag(final AVPRule mandatory, final AVPRule protect, byte flags) {
         if (AVPRule.MUSTNOT.equals(mandatory)) {
             flags = AVPRule.MUSTNOT.flag();
             return flags;
@@ -314,7 +328,7 @@ public class XmlEncoder extends Encoder {
         if (AVPRule.MUST.equals(mandatory)) {
             flags += AVPRule.MUST.flag();
         }
-        if (AVPRule.MUST.equals(protect)) { //TODO it's not friendly that we check must and set may.
+        if (AVPRule.MUST.equals(protect)) {
             flags += AVPRule.MAY.flag();
         }
         return flags;
@@ -322,12 +336,13 @@ public class XmlEncoder extends Encoder {
 
     /*
      * This method will check is it "Session-Id" AVP or not,
-     * in case it is, then set current session as previous
-     * @param avpId - AVP avpId
+     * in case it is, then set current session as previous.
+     *
+     * @param name - AVP avpId
      * @param value - session avpId, it
-     * @return if @value is "Session-Id" then you'll get "Session-Id".getByes() else the @value
+     * @return if @value is "Session-Id" then you'll get "Session-Id".getByes() else the @value.
      */
-    private byte[] checkForCarryOverSessionId(String name, byte[] value) {
+    private byte[] checkForCarryOverSessionId(final String name, byte[] value) {
         if ("Session-Id".equals(name)) {
             String currentSessionId = new String(value);
             //bytesCurrentSessionId = value; // Used for RAR
@@ -340,7 +355,7 @@ public class XmlEncoder extends Encoder {
         return value;
     }
 
-    private byte[] getGroupAvp(AVPEntity avp, int vendor, int groupLength) {
+    private byte[] getGroupAvp(final AVPEntity avp, final int vendor, final int groupLength) {
         byte[] b;
         int groupAvpLength = 8;
         byte flags = 0x00;
@@ -360,11 +375,11 @@ public class XmlEncoder extends Encoder {
         return b;
     }
 
-    private boolean isHbHAndE2eHeadersExist(Map<String, Object> headers) {
+    private boolean isHbHAndE2eHeadersExist(final Map<String, Object> headers) {
         return isHeaderExist(headers, HBH) && isHeaderExist(headers, E2E);
     }
 
-    private boolean isHeaderExist(Map<String, Object> headers, String headerName) {
+    private boolean isHeaderExist(final Map<String, Object> headers, final String headerName) {
         return headers.containsKey(headerName);
     }
 }

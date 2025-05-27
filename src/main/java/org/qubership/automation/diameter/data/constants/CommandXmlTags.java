@@ -23,25 +23,99 @@ import java.util.List;
 
 public class CommandXmlTags {
 
+    /**
+     * Constant for ASR command prefix.
+     */
     public static final String ASR = "<ASR";
+
+    /**
+     * Constant for ASA command prefix.
+     */
     public static final String ASA = "<ASA";
+
+    /**
+     * Constant for SNR command prefix.
+     */
     public static final String SNR = "<SNR";
+
+    /**
+     * Constant for SNA command prefix.
+     */
     public static final String SNA = "<SNA";
+
+    /**
+     * Constant for CER command prefix.
+     */
     public static final String CER = "<CER";
+
+    /**
+     * Constant for CEA command prefix.
+     */
     public static final String CEA = "<CEA";
+
+    /**
+     * Constant for RAR command prefix.
+     */
     public static final String RAR = "<RAR";
+
+    /**
+     * Constant for RAA command prefix.
+     */
     public static final String RAA = "<RAA";
+
+    /**
+     * Constant for CCR command prefix.
+     */
     public static final String CCR = "<CCR";
+
+    /**
+     * Constant for CCA command prefix.
+     */
     public static final String CCA = "<CCA";
+
+    /**
+     * Constant for DWR command prefix.
+     */
     public static final String DWR = "<DWR";
+
+    /**
+     * Constant for DWA command prefix.
+     */
     public static final String DWA = "<DWA";
+
+    /**
+     * Constant for DPR command prefix.
+     */
     public static final String DPR = "<DPR";
+
+    /**
+     * Constant for DPA command prefix.
+     */
     public static final String DPA = "<DPA";
+
+    /**
+     * Constant for STR command prefix.
+     */
     public static final String STR = "<STR";
+
+    /**
+     * Constant for STA command prefix.
+     */
     public static final String STA = "<STA";
+
+    /**
+     * Constant for SLR command prefix.
+     */
     public static final String SLR = "<SLR";
+
+    /**
+     * Constant for SLA command prefix.
+     */
     public static final String SLA = "<SLA";
 
+    /**
+     * List of String command prefixes.
+     */
     public static final List<String> COMMAND_XML_TAGS = new ArrayList<>(
             Arrays.asList(ASR.toLowerCase(), ASA.toLowerCase(), SNR.toLowerCase(), SNA.toLowerCase(), CER.toLowerCase(),
                     CEA.toLowerCase(), RAR.toLowerCase(), RAA.toLowerCase(), CCR.toLowerCase(), CCA.toLowerCase(),

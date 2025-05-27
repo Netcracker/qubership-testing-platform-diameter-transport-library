@@ -45,7 +45,7 @@ public class DiameterDictionaryHolder {
      *                         simple name + UUID
      * @return DiameterDictionary if exists in holder, or null if it not exists.
      */
-    public DiameterDictionary getDictionary(DictionaryConfig dictionaryConfig) {
+    public DiameterDictionary getDictionary(final DictionaryConfig dictionaryConfig) {
         return holder.get(dictionaryConfig.getKey());
     }
 
@@ -57,7 +57,7 @@ public class DiameterDictionaryHolder {
      *                         {@link StandardParser} class
      *                         simple name + UUID
      */
-    public void createDictionary(DictionaryConfig dictionaryConfig) {
+    public void createDictionary(final DictionaryConfig dictionaryConfig) {
         DiameterDictionary dictionary = new DiameterDictionary(dictionaryConfig);
         holder.putIfAbsent(dictionaryConfig.getKey(), dictionary);
     }
@@ -67,7 +67,7 @@ public class DiameterDictionaryHolder {
      *
      * @param dictionaryConfig key that will use to remove unnecessary dictionary.
      */
-    public void removeDictionary(DictionaryConfig dictionaryConfig) {
+    public void removeDictionary(final DictionaryConfig dictionaryConfig) {
         holder.remove(dictionaryConfig.getKey());
     }
 }

@@ -23,18 +23,52 @@ import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 
 public abstract class Decoder {
 
+    /**
+     * Constant for 4 value.
+     */
     protected static final int QUARTER = 4;
+
+    /**
+     * Dictionary config field.
+     */
     protected DictionaryConfig dictionaryConfig;
 
+    /**
+     * Constructor.
+     *
+     * @param dictionaryConfig DictionaryConfig object.
+     */
     public Decoder(DictionaryConfig dictionaryConfig) {
         this.dictionaryConfig = dictionaryConfig;
     }
 
+    /**
+     * Decode ByteBuffer into String.
+     *
+     * @param data ByteBuffer to be decoded
+     * @return String decoded result.
+     */
     public abstract String decode(ByteBuffer data);
 
+    /**
+     * Get message length of byte[] data.
+     *
+     * @param data byte[] message to determine length
+     * @return int message length.
+     */
     public abstract int getMessageLength(byte[] data);
 
+    /**
+     * Set flag if AVP code should be appended to String representation of AVP (true) or not.
+     *
+     * @param b boolean value to set.
+     */
     public abstract void setAppendAvpcode(boolean b);
 
+    /**
+     * Set flag if AVP vendor ID should be appended to String representation of AVP (true) or not.
+     *
+     * @param b boolean value to set.
+     */
     public abstract void setAppendAvpvendor(boolean b);
 }

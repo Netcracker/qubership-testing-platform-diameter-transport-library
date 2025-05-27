@@ -24,9 +24,27 @@ import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 
 public abstract class Encoder {
 
+    /**
+     * Dictionary config object.
+     */
     protected DictionaryConfig dictionaryConfig;
 
+    /**
+     * Encode String message into ByteBuffer.
+     *
+     * @param stringMessage String message to be encoded
+     * @return ByteBuffer with encoded result
+     * @throws Exception in case errors while encoding.
+     */
     public abstract ByteBuffer encode(String stringMessage) throws Exception;
 
+    /**
+     * Encode String message with headers into ByteBuffer.
+     *
+     * @param message String message to be encoded
+     * @param headers Message Headers Map
+     * @return ByteBuffer with encoded result
+     * @throws Exception in case errors while encoding.
+     */
     public abstract ByteBuffer encode(String message, Map<String, Object> headers) throws Exception;
 }

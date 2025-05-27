@@ -42,11 +42,22 @@ public class AvpEncoder {
     private List<Pair<Integer, AvpRecord>> records;
     private int currentIndex = -1;
 
-    public AvpEncoder(AVPDictionary avpDictionary) {
+    /**
+     * Constructor.
+     *
+     * @param avpDictionary AVPDictionary object.
+     */
+    public AvpEncoder(final AVPDictionary avpDictionary) {
         this.avpDictionary = avpDictionary;
     }
 
-    public byte[] encode(List<Pair<Integer, AvpRecord>> avpRecords) {
+    /**
+     * Encode AVP records.
+     *
+     * @param avpRecords List of AVP records to be encoded
+     * @return byte[] result.
+     */
+    public byte[] encode(final List<Pair<Integer, AvpRecord>> avpRecords) {
         this.records = avpRecords;
         return getAvps();
     }
@@ -60,7 +71,7 @@ public class AvpEncoder {
             AvpRecord record = pair.getValue();
             AVPEntity entity = getEntity(record);
             if (entity.getType() == AVPType.GROUPED) {
-                if (hasChilds(currentIndex, pair.getKey())) {
+                if (hasChildren(currentIndex, pair.getKey())) {
                     currentIndex++;
                     grouped = getAvps();
                     temp = concatenate(temp, concatenate(getGroupAvp(entity, record, grouped.length), grouped));
@@ -86,7 +97,7 @@ public class AvpEncoder {
         return temp;
     }
 
-    private boolean back(int currentIndex, Integer lvl) {
+    private boolean back(final int currentIndex, final Integer lvl) {
         if (has(currentIndex + 1)) {
             Pair<Integer, AvpRecord> next = next(currentIndex + 1);
             return next.getKey().equals(lvl);
@@ -94,7 +105,7 @@ public class AvpEncoder {
         return false;
     }
 
-    private boolean hasChilds(int currentIndex, Integer lvl) {
+    private boolean hasChildren(final int currentIndex, final Integer lvl) {
         if (has(currentIndex + 1)) {
             Pair<Integer, AvpRecord> next = next(currentIndex + 1);
             return next.getKey() > lvl;
@@ -102,15 +113,15 @@ public class AvpEncoder {
         return false;
     }
 
-    private Pair<Integer, AvpRecord> next(int currentIndex) {
+    private Pair<Integer, AvpRecord> next(final int currentIndex) {
         return records.get(currentIndex + 1);
     }
 
-    private boolean has(int currentIndex) {
+    private boolean has(final int currentIndex) {
         return records.size() > currentIndex + 1;
     }
 
-    private AVPEntity getEntity(AvpRecord record) {
+    private AVPEntity getEntity(final AvpRecord record) {
         String vendor = record.getVendor();
         if (vendor == null) {
             return avpDictionary.getById(Utils.parseInt(record.getCode()));
@@ -118,7 +129,7 @@ public class AvpEncoder {
         return avpDictionary.getVendor(Utils.parseInt(vendor)).getById(Utils.parseInt(record.getCode()));
     }
 
-    private byte[] buildContent(AvpRecord record) {
+    private byte[] buildContent(final AvpRecord record) {
         Integer avpId = Utils.parseInt(record.getCode());
         AVPType avpType;
         int vendorId = -1;
@@ -142,7 +153,12 @@ public class AvpEncoder {
         return concatValues(vendorId, size, avpCode, flag, vendor, value);
     }
 
-    private byte[] concatValues(Integer vendorId, int size, byte[] avpCode, byte flag, byte[] vendor, byte[] value) {
+    private byte[] concatValues(final Integer vendorId,
+                                final int size,
+                                final byte[] avpCode,
+                                final byte flag,
+                                final byte[] vendor,
+                                final byte[] value) {
         int padding = Utils.getPadLength(size);
         byte[] result = new byte[size + padding];
         int destPos = 0;
@@ -159,7 +175,7 @@ public class AvpEncoder {
         return result;
     }
 
-    private byte[] getValue(AvpRecord record, AVPType avpType) {
+    private byte[] getValue(final AvpRecord record, final AVPType avpType) {
         if (avpType == AVPType.INTEGER32 || avpType == AVPType.INTEGER64
                 || avpType == AVPType.SIGNED32 || avpType == AVPType.SIGNED64
                 || avpType == AVPType.UNSIGNED32 || avpType == AVPType.UNSIGNED64) {
@@ -178,7 +194,7 @@ public class AvpEncoder {
         }
     }
 
-    private String getNumber(AvpRecord record) {
+    private String getNumber(final AvpRecord record) {
         String value = record.getValue();
         if (value.matches(".+\\(\\d+\\)")) {
             Matcher matcher = digestPattern.matcher(value);
@@ -195,7 +211,7 @@ public class AvpEncoder {
      * @param text String fragment containing 3 first bytes of AVP flags.
      * @return byte with AVP flags combined.
      */
-    public byte getAvpFlags(String text) {
+    public byte getAvpFlags(final String text) {
         char vendorSpecified = text.charAt(0);
         char mandatoryByte = text.charAt(1);
         char protectedByte = text.charAt(2);
@@ -206,14 +222,14 @@ public class AvpEncoder {
         return result;
     }
 
-    private byte increaseIfNotDash(char vendorSpecified, byte result) {
+    private byte increaseIfNotDash(final char vendorSpecified, final byte result) {
         if (vendorSpecified != DASH) {
             return result;
         }
         return 0x0;
     }
 
-    private byte[] getGroupAvp(AVPEntity avp, AvpRecord record, int groupLength) {
+    private byte[] getGroupAvp(final AVPEntity avp, final AvpRecord record, final int groupLength) {
         int vendor = StringUtils.isBlank(record.getVendor()) ? 0 : Utils.parseInt(record.getVendor());
         int groupAvpLength = 8;
         byte flags = 0x00;
@@ -232,7 +248,7 @@ public class AvpEncoder {
         return b;
     }
 
-    private byte[] concatenate(byte[] temp, byte[] local) {
+    private byte[] concatenate(final byte[] temp, final byte[] local) {
         return ArrayUtils.addAll(temp, local);
     }
 

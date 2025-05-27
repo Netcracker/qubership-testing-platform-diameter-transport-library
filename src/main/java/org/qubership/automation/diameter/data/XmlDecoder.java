@@ -48,14 +48,29 @@ public class XmlDecoder extends Decoder {
     private static boolean APPEND_AVPVENDOR = Boolean.parseBoolean(
             System.getProperty("diameter.xmldecoder.appendAvpvendor", "false"));
 
+    /**
+     * Constructor.
+     *
+     * @param dictionaryConfig DictionaryConfig object.
+     */
     public XmlDecoder(DictionaryConfig dictionaryConfig) {
         super(dictionaryConfig);
     }
 
+    /**
+     * Set flag if AVP code should be appended to AVP String representation or not.
+     *
+     * @param value boolean value to set.
+     */
     public void setAppendAvpcode(boolean value) {
         APPEND_AVPCODE = value;
     }
 
+    /**
+     * Set flag if AVP vendor ID should be appended to AVP String representation or not.
+     *
+     * @param value boolean value to set.
+     */
     public void setAppendAvpvendor(boolean value) {
         APPEND_AVPVENDOR = value;
     }
@@ -66,7 +81,7 @@ public class XmlDecoder extends Decoder {
      * @param data ByteBuffer diameter message
      * @return decoded string xml message
      */
-    public String decode(ByteBuffer data) {
+    public String decode(final ByteBuffer data) {
         byte[] message = data.array();
         //get message length
         int messageLength = getMessageLength(message);
@@ -87,7 +102,7 @@ public class XmlDecoder extends Decoder {
         return decodedMessage.toString();
     }
 
-    private Object decode(AVPEntity avp, byte[] avpBody, StringBuilder decodedMessage) {
+    private Object decode(final AVPEntity avp, final byte[] avpBody, final StringBuilder decodedMessage) {
         if (avpBody.length == 0) {
             return 0;
         }
@@ -105,7 +120,7 @@ public class XmlDecoder extends Decoder {
         return type.decode(avpBody);
     }
 
-    private byte[] cutApplicationId(byte[] message, String command) {
+    private byte[] cutApplicationId(byte[] message, final String command) {
         boolean connection = CommandTypeChecker.isConnectionCommand(command);
         boolean creditControl = CommandTypeChecker.isCreditControlCommand(command);
         boolean spendingLimit = CommandTypeChecker.isSpendingLimitCommand(command);
@@ -122,7 +137,7 @@ public class XmlDecoder extends Decoder {
         return message;
     }
 
-    private void parseContent(byte[] message, StringBuilder decodedMessage) {
+    private void parseContent(byte[] message, final StringBuilder decodedMessage) {
         int avpId;
         int length;
         int vendorId;
@@ -156,12 +171,12 @@ public class XmlDecoder extends Decoder {
         }
     }
 
-    private int getVendorId(byte[] message) {
+    private int getVendorId(final byte[] message) {
         byte[] avpVendor = Arrays.copyOfRange(message, QUARTER * 2, QUARTER * 3);
         return ByteBuffer.wrap(avpVendor).getInt();
     }
 
-    private int roundLength(int length) {
+    private int roundLength(final int length) {
         if (length % QUARTER != 0) {
             return (int) Math.ceil((double) length / QUARTER) * QUARTER;
         }
@@ -169,7 +184,7 @@ public class XmlDecoder extends Decoder {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private byte[] getAvpLengthBytes(byte[] message, int quarter, int to) {
+    private byte[] getAvpLengthBytes(final byte[] message, final int quarter, final int to) {
         byte[] bytes = Arrays.copyOfRange(message, quarter  /* +1 ignore the flag*/, to/*again this flag*/);
         bytes[0] = 0; //let's ignore the flag
         return bytes;
@@ -185,20 +200,20 @@ public class XmlDecoder extends Decoder {
      * @return true if vendor id is specified (not 0)
      */
     @SuppressWarnings("SameParameterValue")
-    private boolean isVendorSpecificFlag(byte[] message, int quarter, int to) {
+    private boolean isVendorSpecificFlag(final byte[] message, final int quarter, final int to) {
         byte[] bytes = Arrays.copyOfRange(message, quarter, to);
         byte avpFlags = bytes[0]; //getting the byte of AVP flags
         return (avpFlags & (1 << 7)) != 0; //checking the bit #7 ('V' bit - flag for vendor)
     }
 
-    private byte[] getBody(AVPEntity avp, byte[] message, int length) {
+    private byte[] getBody(final AVPEntity avp, final byte[] message, final int length) {
         if (!avp.getName().toLowerCase().endsWith("vendor-id") && avp.getVendorId() > 0) {
             return Arrays.copyOfRange(message, QUARTER * 3, length);
         }
         return Arrays.copyOfRange(message, QUARTER * 2, length);
     }
 
-    private AVPEntity getAvp(int avpId, int vendorId) {
+    private AVPEntity getAvp(final int avpId, final int vendorId) {
         AVPDictionary avpDictionary = DictionaryService.getInstance().getAvpDictionary(dictionaryConfig);
         AVPProvider avpProvider = avpDictionary;
         if (avpDictionary.isVendorExist(vendorId)) {
@@ -207,7 +222,7 @@ public class XmlDecoder extends Decoder {
         return avpProvider.getById(avpId);
     }
 
-    private String getCommand(byte[] message) {
+    private String getCommand(final byte[] message) {
         byte[] slice = slice(message, 0, 4);
         byte flags = slice[0];
         boolean request = isRequest(flags);
@@ -221,7 +236,7 @@ public class XmlDecoder extends Decoder {
         }
     }
 
-    private boolean isRequest(byte flags) {
+    private boolean isRequest(final byte flags) {
         switch (flags) {
             case REQUEST_FLAG:
             case REQUEST_AND_ERROR_FLAGS:
@@ -233,18 +248,18 @@ public class XmlDecoder extends Decoder {
         }
     }
 
-    private byte[] slice(byte[] message, int from, int to) {
+    private byte[] slice(final byte[] message, final int from, final int to) {
         return Arrays.copyOfRange(message, from, to);
     }
 
     /**
      * Getting diameter message length from specific bytes in message.
      *
-     * @param message part of whole diameter message (byte array) that contains specific byte and responsible to
-     *                length of message.
+     * @param message part of whole diameter message (byte array)
+     *                that contains specific byte and responsible to length of message.
      * @return int length of diameter message.
      */
-    public int getMessageLength(byte[] message) {
+    public int getMessageLength(final byte[] message) {
         byte[] bytes = Arrays.copyOfRange(message, 0, 4);
         bytes[0] = 0;
         return ByteBuffer.wrap(bytes).getInt();

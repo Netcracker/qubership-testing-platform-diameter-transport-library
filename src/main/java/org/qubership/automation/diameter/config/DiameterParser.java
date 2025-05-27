@@ -42,7 +42,8 @@ public abstract class DiameterParser extends DefaultHandler {
     protected static final String COMMAND = "command";
     protected static final String REQUEST = "request";
     protected static final String APPLICATION = "application";
-    protected static final Pattern SHORT_NAME_PATTER = Pattern.compile("(^[A-z]).*?-([A-z]).*?-([A-z])");
+    protected static final String SHORT_NAME_PATTERN_STRING = "(^[A-z]).*?-([A-z]).*?-([A-z])";
+    protected static final Pattern SHORT_NAME_PATTERN = Pattern.compile(SHORT_NAME_PATTERN_STRING);
     protected static final String ANSWER = "answer";
     protected static final String HEADER_BIT = "header-bit";
     protected static final String AVP = "avp";
@@ -62,8 +63,26 @@ public abstract class DiameterParser extends DefaultHandler {
 
     protected DictionaryConfig dictionaryConfig;
 
+    /**
+     * Start element processing.
+     *
+     * @param uri        The Namespace URI, or the empty string if the
+     *                   element has no Namespace URI or if Namespace
+     *                   processing is not being performed.
+     * @param localName  The local name (without prefix), or the
+     *                   empty string if Namespace processing is not being
+     *                   performed.
+     * @param tag        The qualified name (with prefix), or the
+     *                   empty string if qualified names are not available.
+     * @param attributes The attributes attached to the element.  If
+     *                   there are no attributes, it shall be an empty
+     *                   Attributes object.
+     */
     @Override
-    public void startElement(String uri, String localName, String tag, Attributes attributes) {
+    public void startElement(final String uri,
+                             final String localName,
+                             final String tag,
+                             final Attributes attributes) {
         try {
             startElementProcessing(uri, localName, tag, attributes);
         } catch (Exception e) {
@@ -71,11 +90,32 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
-    protected abstract void startElementProcessing(final String uri,
-                                                   final String localName,
-                                                   final String tag,
-                                                   final Attributes attributes) throws SAXException;
+    /**
+     * Start element processing.
+     *
+     * @param uri String URI value
+     * @param localName String Local Name of the element
+     * @param tag String tag qualified name
+     * @param attributes Attributes object
+     * @throws SAXException in case SAX parser errors occurred.
+     */
+    protected abstract void startElementProcessing(String uri,
+                                                   String localName,
+                                                   String tag,
+                                                   Attributes attributes) throws SAXException;
 
+    /**
+     * End element processing.
+     *
+     * @param uri       The Namespace URI, or the empty string if the
+     *                  element has no Namespace URI or if Namespace
+     *                  processing is not being performed.
+     * @param localName The local name (without prefix), or the
+     *                  empty string if Namespace processing is not being
+     *                  performed.
+     * @param tag       The qualified name (with prefix), or the
+     *                  empty string if qualified names are not available.
+     */
     @Override
     public void endElement(final String uri, final String localName, final String tag) {
         switch (tag) {
@@ -99,6 +139,11 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
+    /**
+     * Add avp to the dictionary.
+     *
+     * @param avp AVPEntity to be added.
+     */
     protected void addAvp(final AVPEntity avp) {
         AVPDictionary avpDictionary = DictionaryService.getInstance().getAvpDictionary(dictionaryConfig);
         if (avp.getVendorId() > 0) {
@@ -110,6 +155,12 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
+    /**
+     * Get String representation of attributes.
+     *
+     * @param attributes Attributes object
+     * @return String representation of attributes.
+     */
     protected String getAttributes(final Attributes attributes) {
         StringBuilder builder = new StringBuilder();
         for (int index = 0; index < attributes.getLength(); index++) {
@@ -118,6 +169,11 @@ public abstract class DiameterParser extends DefaultHandler {
         return builder.toString();
     }
 
+    /**
+     * Set rules of the AVP from attributes given.
+     *
+     * @param attributes Attributes object.
+     */
     protected void setRules(final Attributes attributes) {
         String name = attributes.getValue(NAME);
         AVPRule rule = AVPRule.of(attributes.getValue(RULE));
@@ -128,15 +184,27 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
+    /**
+     * Add id + name from attributes to enumerated list.
+     *
+     * @param avp AVPEntity object
+     * @param attributes Attributes object.
+     */
     protected void addEnumerated(final AVPEntity avp, final Attributes attributes) {
         String id = attributes.getValue(VALUE);
         String name = attributes.getValue(NAME);
         if (!StringUtils.isNumeric(id)) {
-            throw new IllegalStateException(avp.toString() + " is configured wrong. Enumerated hasn't numeric value");
+            throw new IllegalStateException(avp.toString()
+                    + " is configured wrong. Enumerated doesn't have numeric value");
         }
         this.avp.addEnumerated(Utils.parseInt(id), name);
     }
 
+    /**
+     * Init attributes of the AVP.
+     *
+     * @param attributes Attributes object.
+     */
     protected void initAvpAttributes(final Attributes attributes) {
         String id = attributes.getValue("id");
         String vendor = attributes.getValue("vendor");
@@ -146,6 +214,11 @@ public abstract class DiameterParser extends DefaultHandler {
         this.avp.setVendorId(vendor == null ? 0 : Utils.parseInt(vendor));
     }
 
+    /**
+     * Init Header Bit.
+     *
+     * @param attributes Attributes object.
+     */
     protected void initHeaderBit(final Attributes attributes) {
         String name = attributes.getValue(NAME);
         int value = Utils.parseInt(attributes.getValue(VALUE));
@@ -163,19 +236,25 @@ public abstract class DiameterParser extends DefaultHandler {
         }
     }
 
+    /**
+     * Get short name of a command.
+     *
+     * @param attributes Attributes object
+     * @return String short name.
+     */
     protected String getShortName(final Attributes attributes) {
         String name = attributes.getValue(NAME);
         if (StringUtils.isBlank(name)) {
             throw new IllegalStateException("Name is not specified");
         }
-        Matcher matcher = SHORT_NAME_PATTER.matcher(name);
+        Matcher matcher = SHORT_NAME_PATTERN.matcher(name);
         StringBuilder builder = new StringBuilder(3);
         if (matcher.find()) {
             builder.append(matcher.group(1)).append(matcher.group(2)).append(matcher.group(3));
         }
         if (builder.length() == 0) {
             throw new IllegalStateException(
-                    "Wrong name of diameter command. Name doesn't match '(^[A-z]).*?-([A-z]).*?-([A-z])': " + name);
+                    "Wrong name of diameter command. Name doesn't match '" + SHORT_NAME_PATTERN_STRING + "': " + name);
         }
         return builder.toString();
     }

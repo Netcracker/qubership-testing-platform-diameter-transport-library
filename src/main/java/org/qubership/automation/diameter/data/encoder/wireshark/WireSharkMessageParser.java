@@ -50,7 +50,7 @@ public class WireSharkMessageParser {
      * @param strMessage - message to parse.
      * @return - WireSharkMessage parsed.
      */
-    public WireSharkMessage parse(String strMessage) {
+    public WireSharkMessage parse(final String strMessage) {
         wireSharkMessage = new WireSharkMessage();
         Iterable<String> strings = Splitter.on("\n").split(strMessage);
         strings.forEach(value -> {
@@ -60,7 +60,7 @@ public class WireSharkMessageParser {
         return wireSharkMessage;
     }
 
-    private void parse(WireSharkMessage message, String trimmed, String source) {
+    private void parse(final WireSharkMessage message, final String trimmed, final String source) {
         if (trimmed.startsWith(VERSION)) {
             message.setVersion(getValue(VERSION, trimmed, BYTE_PATTERN));
         } else if (trimmed.startsWith(FLAGS)) {
@@ -79,7 +79,7 @@ public class WireSharkMessageParser {
         }
     }
 
-    private String getVendor(String trimmed) {
+    private String getVendor(final String trimmed) {
         Matcher matcher = AVP_CODE_PATTERN.matcher(trimmed);
         if (matcher.find()) {
             return matcher.group(1);
@@ -94,7 +94,7 @@ public class WireSharkMessageParser {
      * @param source - source String,
      * @return - pair of level + AvpRecord.
      */
-    public Pair<Integer, AvpRecord> parseAvp(String trimmed, String source) {
+    public Pair<Integer, AvpRecord> parseAvp(final String trimmed, final String source) {
         Matcher matcher = AVP_LENGTH_PATTERN.matcher(trimmed);
         record = new AvpRecord();
         if (matcher.find()) {
@@ -124,7 +124,7 @@ public class WireSharkMessageParser {
         return Pair.of(level, record);
     }
 
-    private String getValue(String property, String trim, String pattern) {
+    private String getValue(final String property, final String trim, final String pattern) {
         Pattern compile = Pattern.compile(pattern);
         Matcher matcher = compile.matcher(trim);
         if (matcher.find()) {

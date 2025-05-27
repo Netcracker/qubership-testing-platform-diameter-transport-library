@@ -32,7 +32,7 @@ import org.qubership.automation.diameter.dictionary.DiameterDictionaryHolder;
 import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 import org.xml.sax.SAXException;
 
-public class ConfigReader {
+public final class ConfigReader {
 
     /**
      * Instance object link.

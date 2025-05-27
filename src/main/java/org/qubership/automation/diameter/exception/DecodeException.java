@@ -20,15 +20,18 @@ package org.qubership.automation.diameter.exception;
 import java.util.Arrays;
 
 public class DecodeException extends RuntimeException {
-    public DecodeException(String message) {
+    public DecodeException(final String message) {
         super(message);
     }
 
-    public DecodeException(String message, Throwable cause) {
+    public DecodeException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public DecodeException(String message, String parsedContent, byte[] data, Throwable cause) {
+    public DecodeException(final String message,
+                           final String parsedContent,
+                           final byte[] data,
+                           final Throwable cause) {
         super(message + "\nParsed Content: " + parsedContent + "\nNot parsed byte data: " + Arrays.toString(data),
                 cause);
     }

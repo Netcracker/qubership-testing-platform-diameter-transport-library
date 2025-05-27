@@ -36,7 +36,7 @@ public class DictionaryService {
      * @param dictionaryConfig {@link DictionaryConfig} that contains key to provide dictionary from holder.
      * @return command dictionary if exist by key in holder
      */
-    public CommandDictionary getCommandDictionary(DictionaryConfig dictionaryConfig) {
+    public CommandDictionary getCommandDictionary(final DictionaryConfig dictionaryConfig) {
         if (Objects.isNull(dictionaryConfig)) {
             throw new IllegalArgumentException("Can't get command dictionary.. dictionaryKey is null");
         }
@@ -50,7 +50,7 @@ public class DictionaryService {
      * @return If input parameter "dictionaryKey" is null then will return avp dictionary from DictionaryHolder(not
      *         multi-dictionary) else will return
      */
-    public AVPDictionary getAvpDictionary(DictionaryConfig dictionaryConfig) {
+    public AVPDictionary getAvpDictionary(final DictionaryConfig dictionaryConfig) {
         if (Objects.isNull(dictionaryConfig)) {
             throw new IllegalArgumentException("Can't get avp dictionary.. dictionaryKey is null");
         }

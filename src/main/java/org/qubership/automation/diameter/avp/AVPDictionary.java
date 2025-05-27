@@ -79,7 +79,7 @@ public class AVPDictionary extends AVPProvider {
     /**
      * Get AVPEntity by id from this AVPProvider's avpMap.
      * If not found, find it under all providers and return the 1st found entry.
-     * TODO: it should be rechecked, because 'byId = getByIdFromVendors(id)' seems unachievable,
+     * It should be rechecked, because 'byId = getByIdFromVendors(id)' seems unachievable,
      * because IllegalArgumentException is thrown in getById() in case not found.
      *
      * @param id - id of AVP to search.

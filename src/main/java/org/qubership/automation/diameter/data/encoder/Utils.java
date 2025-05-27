@@ -21,7 +21,14 @@ import org.apache.commons.lang3.BooleanUtils;
 
 public class Utils {
 
+    /**
+     * Pattern to identify hex number.
+     */
     private static final String HEX_PATTERN = "-?[0-9a-fA-F]+";
+
+    /**
+     * Pattern to identify non-hex number.
+     */
     private static final String NONHEX_PATTERN = "-?[0-9]+";
 
     /**
@@ -30,7 +37,7 @@ public class Utils {
      * @param i - total current length of the buffer,
      * @return - count of characters to be padded.
      */
-    public static int getPadLength(int i) {
+    public static int getPadLength(final int i) {
         int intResult = 0;
         if (i % 4 != 0) {
             intResult = 4 - (i % 4);
@@ -38,7 +45,13 @@ public class Utils {
         return intResult;
     }
 
-    public static int parseInt(String input) {
+    /**
+     * Parse String into int with 10 radix.
+     *
+     * @param input String to parse
+     * @return int result.
+     */
+    public static int parseInt(final String input) {
         return parseInt(input, 10);
     }
 
@@ -49,7 +62,7 @@ public class Utils {
      * @param radix - radix value,
      * @return - int value parsed.
      */
-    public static int parseInt(String input, int radix) {
+    public static int parseInt(final String input, final int radix) {
         if (radix != 16 && (input == null || !input.matches(NONHEX_PATTERN))) {
             throw new IllegalArgumentException("Can't convert non-numeric value to int: '" + input + '\'');
         } else if (radix == 16 && (input == null || !input.matches(HEX_PATTERN))) {
@@ -58,7 +71,13 @@ public class Utils {
         return Integer.parseInt(input, radix);
     }
 
-    public static boolean parseBoolean(String input) {
+    /**
+     * Parse String to boolean.
+     *
+     * @param input String to parse
+     * @return boolean result.
+     */
+    public static boolean parseBoolean(final String input) {
         return BooleanUtils.toBoolean(input);
     }
 }

@@ -18,55 +18,29 @@
 package org.qubership.automation.diameter.data.encoder.wireshark;
 
 public class AvpRecord {
+    @lombok.Setter
+    @lombok.Getter
     private String length;
+    @lombok.Setter
+    @lombok.Getter
     private String code;
+    @lombok.Setter
+    @lombok.Getter
     private String value;
     // private String[] combinedValue; // Unused, commented. Not deleted, for possible future use
+    @lombok.Setter
+    @lombok.Getter
     private String flags;
+    @lombok.Setter
+    @lombok.Getter
     private String vendor;
+    @lombok.Setter
+    @lombok.Getter
     private String name;
+    @lombok.Setter
+    @lombok.Getter
     private String[] values;
     private String hex;
-
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public void setFlags(String flags) {
-        this.flags = flags;
-    }
-
-    public String getFlags() {
-        return flags;
-    }
-
-    public String getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
-    }
 
     @Override
     public String toString() {
@@ -77,23 +51,7 @@ public class AvpRecord {
                 + "', vendor='" + vendor + "'}";
     }
 
-    public void setName(String nameValue) {
-        this.name = nameValue;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setValues(String[] valuesArray) {
-        this.values = valuesArray;
-    }
-
-    public String[] getValues() {
-        return this.values;
-    }
-
-    public void setHexValue(String hexValue) {
+    public void setHexValue(final String hexValue) {
         this.hex = hexValue;
     }
 

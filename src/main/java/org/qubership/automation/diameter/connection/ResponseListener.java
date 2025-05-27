@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
+@SuppressWarnings("checkstyle:MagicNumber")
 public class ResponseListener implements Runnable {
 
     /**
@@ -367,7 +368,7 @@ public class ResponseListener implements Runnable {
      * @param interceptor - set of interceptors to add to the list.
      */
     public void addInterceptors(final Set<Interceptor> interceptor) {
-        for (Iterator<Interceptor> interceptorIterator = interceptor.iterator(); interceptorIterator.hasNext(); ) {
+        for (Iterator<Interceptor> interceptorIterator = interceptor.iterator(); interceptorIterator.hasNext();) {
             Interceptor next = interceptorIterator.next();
             for (Interceptor interceptor1 : interceptors) {
                 if (interceptor1.equals(next)) {

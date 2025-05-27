@@ -18,41 +18,17 @@
 package org.qubership.automation.diameter.data.encoder.wireshark;
 
 public class WireSharkMessage extends AvpRecordProvider {
+    @lombok.Setter
+    @lombok.Getter
     private String version;
+    @lombok.Setter
+    @lombok.Getter
     private String flag;
+    @lombok.Setter
+    @lombok.Getter
     private String command;
+    @lombok.Setter
+    @lombok.Getter
     private String applicationId;
 
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getFlag() {
-        return flag;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public void setCommand(String command) {
-        this.command = command;
-    }
-
-    public String getApplicationId() {
-        return applicationId;
-    }
-
-    public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
-    }
 }

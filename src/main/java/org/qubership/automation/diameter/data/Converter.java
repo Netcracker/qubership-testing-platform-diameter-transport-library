@@ -39,7 +39,7 @@ public class Converter {
     /**
      * Constant for default timezone.
      */
-    public static String DEFAULT_TIMEZONE = "Etc/GMT+0";
+    public static String defaultTimezone = "Etc/GMT+0";
 
     /**
      * Maximum unsigned 64-bit value.
@@ -240,7 +240,7 @@ public class Converter {
             formatter.setTimeZone(UTC_TIME_ZONE);
             date2 = formatter.parse(DATE_TIME_ZERO_POINT_MAIN_FORMAT);
         }
-        formatter.setTimeZone(TimeZone.getTimeZone(Converter.DEFAULT_TIMEZONE));
+        formatter.setTimeZone(TimeZone.getTimeZone(Converter.defaultTimezone));
         Date date = formatter.parse(s);
         return (date.getTime() - date2.getTime()) / 1000;
     }
@@ -250,7 +250,7 @@ public class Converter {
         formatter.setTimeZone(UTC_TIME_ZONE);
         Date date2 = formatter.parse(DATE_TIME_ZERO_POINT_MAIN_FORMAT);
         Date date = new Date(l);
-        int offset = TimeZone.getTimeZone(Converter.DEFAULT_TIMEZONE).getRawOffset();
+        int offset = TimeZone.getTimeZone(Converter.defaultTimezone).getRawOffset();
         return formatter.format(new Date(date.getTime() * 1000 + offset + date2.getTime()));
     }
 

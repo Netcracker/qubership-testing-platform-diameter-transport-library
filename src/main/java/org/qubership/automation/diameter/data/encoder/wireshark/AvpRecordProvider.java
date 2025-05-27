@@ -22,16 +22,12 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public abstract class AvpRecordProvider {
     private List<Pair<Integer, AvpRecord>> avpRecords = Lists.newLinkedList();
-
-    public List<Pair<Integer, AvpRecord>> getAvpRecords() {
-        return avpRecords;
-    }
-
-    public void setAvpRecords(List<Pair<Integer, AvpRecord>> avpRecords) {
-        this.avpRecords = avpRecords;
-    }
 
 }

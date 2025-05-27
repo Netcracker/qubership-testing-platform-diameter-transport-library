@@ -137,6 +137,12 @@ public class AvpFormatter {
         result.append(s).append("\n");
     }
 
+    /**
+     * Format AVP without code and vendor attributes.
+     *
+     * @param templateContent  String to process
+     * @return String AVP representation.
+     */
     public static String reverseFormatAvp(final String templateContent) {
         return templateContent.replaceAll(" code=\"([0-9])+\" vendor=\"([0-9])+\"", "");
     }
@@ -166,7 +172,8 @@ public class AvpFormatter {
      * This method validate that row contains closed bracket after diameter command xml tag
      * in the input row.
      *
-     * @param row string that can contains diameter xml tags.
+     * @param row string that can contains diameter xml tags
+     * @param command String command to parse
      * @return true - if xml tag has closed bracket.
      */
     private static boolean hasCommandClosedBracket(final String row, final String command) {

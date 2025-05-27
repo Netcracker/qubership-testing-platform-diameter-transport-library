@@ -76,7 +76,6 @@ public class DiameterConnection implements Closeable {
      */
     private ResponseListener responseListener = new ResponseListener();
 
-
     /**
      * Constructor.
      */

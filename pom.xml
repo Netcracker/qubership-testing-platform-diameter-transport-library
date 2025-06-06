@@ -33,8 +33,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <atp.codechecks.version>1.1</atp.codechecks.version>
-
         <maven-pmd-plugin.version>3.8</maven-pmd-plugin.version>
         <spotbugs-maven-plugin.version>4.7.3.0</spotbugs-maven-plugin.version>
         <pmd.version>7.0.0</pmd.version>
@@ -62,7 +60,7 @@
     </developers>
     <scm>
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-diameter-transport-library.git</connection>
-        <developerConnection>scm:git:https://github.com:Netcracker/qubership-testing-platform-diameter-transport-library.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-diameter-transport-library.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-diameter-transport-library/tree/main</url>
     </scm>
 

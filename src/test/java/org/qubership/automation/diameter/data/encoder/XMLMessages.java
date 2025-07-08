@@ -48,12 +48,12 @@ public class XMLMessages {
                 "<Origin-Host>some-address.our-company.com</Origin-Host>\n" +
                 "<Origin-Realm>our-company.com</Origin-Realm>\n" +
                 "<Destination-Realm>our-company.com</Destination-Realm>\n" +
-                "<NC-Service-Context-Id>32251@tgpp.org</NC-Service-Context-Id>\n" +
+                "<NC-Service-Context-Id>example@example.com</NC-Service-Context-Id>\n" +
                 "<NC-Roaming-Indicator>T</NC-Roaming-Indicator>\n" +
                 "<NC-Originating-Country-Code>RUS</NC-Originating-Country-Code>\n" +
                 "<Destination-Host>10.109.2.41</Destination-Host>\n" +
                 "<Auth-Application-Id>4</Auth-Application-Id>\n" +
-                "<Service-Context-Id>32251@3gpp.org</Service-Context-Id>\n" +
+                "<Service-Context-Id>example@example.com</Service-Context-Id>\n" +
                 "<Event-Timestamp>2021-11-30 00:38:28 +0000 UTC</Event-Timestamp>\n" +
                 "<CC-Request-Type>1</CC-Request-Type>\n" +
                 "<CC-Request-Number>0</CC-Request-Number>\n" +

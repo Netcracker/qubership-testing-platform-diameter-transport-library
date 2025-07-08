@@ -44,7 +44,7 @@ public class XmlEncoderWithMarbenConfigsTest extends MarbenConfigProvider {
     public void testEncodeCommandCCR() throws Exception {
         ByteBuffer encode = encoder.encode(XMLMessages.CCR);
         assertEquals(-128, encode.array()[4]);
-        assertEquals(868, encode.array().length);
+        assertEquals(876, encode.array().length);
     }
 
     @Test

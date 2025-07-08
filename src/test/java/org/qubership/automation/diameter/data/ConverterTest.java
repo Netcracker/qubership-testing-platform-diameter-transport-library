@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.nio.ByteBuffer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 public class ConverterTest {
@@ -214,4 +215,25 @@ public class ConverterTest {
     public void testConvertAddressWithEmptyValueThrowsError() {
         Converter.addressToBytes("");
     }
+
+    /**
+     * Test of zero character replacement against the following PostgreSQL exception:
+     * Caused by: org.postgresql.util.PSQLException:
+     * ERROR: invalid byte sequence for encoding "UTF8": 0x00.
+     */
+    @Test
+    public void testFixZeroCharacters() {
+        String wrongString1 = "Test:\u0000.";
+        String fixedString1 = wrongString1.replace("\u0000", StringUtils.EMPTY);
+        assertEquals("Test:.", fixedString1);
+        String fixedString2 = wrongString1.replace((char) 0, (char) 32);
+        assertEquals("Test: .", fixedString2);
+
+        String wrongString2 = "Test:" + (char) 0 + ".";
+        String fixedString3 = wrongString2.replace("\u0000", StringUtils.EMPTY);
+        assertEquals("Test:.", fixedString3);
+        String fixedString4 = wrongString2.replace((char) 0, (char) 32);
+        assertEquals("Test: .", fixedString4);
+    }
+
 }

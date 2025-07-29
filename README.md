@@ -12,7 +12,7 @@ It is used by Qubership Testing Platform ITF-Executor Service.
     - SCTP layer support is available on Unix only, and depends on 3rd party installed on OS.
 - Messages can be configured 2 formats
     - XML format. XML message is encoded by the library into binary (byte[]) before sending,
-    - and text format like Wireshark text representation of SS7 protocol messages. In that case, text message is encoded by the library into binary (byte[]) before sending
+    - and text format like Wireshark text representation of Diameter protocol messages. In that case, text message is encoded by the library into binary (byte[]) before sending
 - Responses are decoded back from binary format into XML format
 - Encoders and Decoders handle the following Diameter message types:
     - CER (Capabilities-Exchange-Request) and the corresponding answer CEA (Capabilities-Exchange-Answer)

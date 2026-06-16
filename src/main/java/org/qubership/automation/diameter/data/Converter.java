@@ -27,11 +27,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.automation.diameter.avp.AVPType;
 import org.qubership.automation.diameter.data.encoder.Utils;
+
+import jakarta.xml.bind.DatatypeConverter;
 
 @SuppressWarnings("checkstyle:MagicNumber")
 public class Converter {

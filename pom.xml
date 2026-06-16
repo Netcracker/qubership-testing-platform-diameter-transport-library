@@ -21,7 +21,7 @@
 
     <groupId>org.qubership.automation</groupId>
     <artifactId>diameter-transport</artifactId>
-    <version>2.2.9-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <properties>
         <java.version>21</java.version>

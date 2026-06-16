@@ -31,8 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.automation.diameter.data.Converter;
@@ -43,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings("checkstyle:MagicNumber")
 public class ResponseListener implements Runnable {

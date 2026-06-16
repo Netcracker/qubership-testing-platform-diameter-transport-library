@@ -22,7 +22,6 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -31,6 +30,8 @@ import org.qubership.automation.diameter.dictionary.DiameterDictionary;
 import org.qubership.automation.diameter.dictionary.DiameterDictionaryHolder;
 import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 import org.xml.sax.SAXException;
+
+import jakarta.annotation.Nonnull;
 
 public final class ConfigReader {
 

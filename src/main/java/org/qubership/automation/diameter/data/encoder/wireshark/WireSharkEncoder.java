@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.qubership.automation.diameter.avp.AVPDictionary;
@@ -36,6 +34,8 @@ import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 import org.qubership.automation.diameter.dictionary.DictionaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.xml.bind.DatatypeConverter;
 
 public class WireSharkEncoder extends Encoder {
 

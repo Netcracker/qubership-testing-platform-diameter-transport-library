@@ -22,9 +22,9 @@ import static java.math.BigInteger.ZERO;
 import java.math.BigInteger;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.automation.diameter.config.DiameterParser;
+
+import jakarta.annotation.Nonnull;
 
 public class DictionaryConfig {
 

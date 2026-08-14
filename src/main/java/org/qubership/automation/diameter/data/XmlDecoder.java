@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.qubership.automation.diameter.avp.AVPDictionary;
 import org.qubership.automation.diameter.avp.AVPEntity;
 import org.qubership.automation.diameter.avp.AVPProvider;
@@ -152,16 +153,25 @@ public class XmlDecoder extends Decoder {
                 AVPEntity avp = getAvp(avpId, vendorId);
                 byte[] avpBody = getBody(avp, message, length);
                 if (avpBody.length != 0) {
-                    decodedMessage.append(BEGIN).append(avp.getName());
+                    // Escape AVP name (in case it contains invalid XML characters)
+                    String escapedName = StringEscapeUtils.escapeXml10(avp.getName());
+                    decodedMessage.append(BEGIN).append(escapedName);
                     if (APPEND_AVPCODE) {
                         decodedMessage.append(" code=\"").append(avp.getId()).append("\"");
                         if (APPEND_AVPVENDOR && avp.getVendorId() != 0) {
                             decodedMessage.append(" vendor=\"").append(avp.getVendorId()).append("\"");
                         }
                     }
+                    decodedMessage.append(END);
+
+                    // Escape AVP value before appending
+                    Object decodedValue = decode(avp, avpBody, decodedMessage);
+                    String valueStr = decodedValue != null ? decodedValue.toString() : "";
+                    decodedMessage.append(StringEscapeUtils.escapeXml10(valueStr));
+
                     decodedMessage
-                            .append(END).append(decode(avp, avpBody, decodedMessage))
-                            .append(CLOSE).append(avp.getName())
+                            .append(CLOSE)
+                            .append(escapedName)
                             .append(END);
                 }
                 message = slice(message, roundLength(length), message.length);

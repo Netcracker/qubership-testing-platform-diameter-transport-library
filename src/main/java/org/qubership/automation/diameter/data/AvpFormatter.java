@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.qubership.automation.diameter.avp.AVPEntity;
 import org.qubership.automation.diameter.dictionary.DiameterDictionary;
 import org.qubership.automation.diameter.dictionary.DiameterDictionaryHolder;
@@ -132,8 +133,10 @@ public class AvpFormatter {
 
     private static void format(final String row, final AVPEntity avpEntity, final StringBuilder result) {
         String avpName = avpEntity.getName();
+        String escapedName = StringEscapeUtils.escapeXml10(avpName);
         String s = row.replaceFirst(avpName,
-                avpName + String.format(" code=\"%d\" vendor=\"%d\"", avpEntity.getId(), avpEntity.getVendorId()));
+                escapedName
+                        + String.format(" code=\"%d\" vendor=\"%d\"", avpEntity.getId(), avpEntity.getVendorId()));
         result.append(s).append("\n");
     }
 

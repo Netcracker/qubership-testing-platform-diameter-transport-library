@@ -254,14 +254,22 @@ public class XmlEncoder extends Encoder {
             According to docs, neither DocumentBuilderFactory nor DocumentBuilder are thread-safe.
             So, we create new instances here.
          */
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
         try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+
+            // Defense against XXE
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            factory.setXIncludeAware(false);
+            factory.setExpandEntityReferences(false);
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(
                     new ByteArrayInputStream(xmlMessage.replace(Character.MIN_VALUE, ' ').getBytes()));
             return doc.getFirstChild();
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (IllegalArgumentException | ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(String.format("Encoding is failed for message: %s", xmlMessage), e);
         }
     }

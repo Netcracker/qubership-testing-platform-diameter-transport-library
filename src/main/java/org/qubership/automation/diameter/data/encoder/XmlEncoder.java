@@ -42,6 +42,7 @@ import org.qubership.automation.diameter.avp.AVPType;
 import org.qubership.automation.diameter.command.Command;
 import org.qubership.automation.diameter.command.CommandDictionary;
 import org.qubership.automation.diameter.data.Encoder;
+import org.qubership.automation.diameter.data.XMLStringDataProcessor;
 import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 import org.qubership.automation.diameter.dictionary.DictionaryService;
 import org.slf4j.Logger;
@@ -149,10 +150,10 @@ public class XmlEncoder extends Encoder {
             if (firstChild.hasChildNodes()) {
                 return EMPTY_BYTES; // ENUMERATE doesn't have self body, so return empty
             } else {
-                return AVPType.SIGNED32.encode(StringEscapeUtils.unescapeXml(firstChild.getNodeValue()));
+                return AVPType.SIGNED32.encode(XMLStringDataProcessor.unescapeXmlMinimal(firstChild.getNodeValue()));
             }
         }
-        return type.encode(StringEscapeUtils.unescapeXml(firstChild.getNodeValue()));
+        return type.encode(XMLStringDataProcessor.unescapeXmlMinimal(firstChild.getNodeValue()));
     }
 
     private Command getCommand(final String commandName) {

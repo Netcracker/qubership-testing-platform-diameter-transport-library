@@ -68,8 +68,8 @@ public class XmlEncoderWithConfigsTest extends StandardConfigProvider {
 
     @Test
     void shouldHandleMultipleEscapedEntitiesInAvpValue() throws Exception {
-        String expectedOriginHost = "host&amp;domain&lt;test&gt;";
-        String expectedSessionId = "session&quot;with&apos;quotes";
+        String expectedOriginHost = "host&amp;domain&lt;test&gt; and 'plain name'";
+        String expectedSessionId = "session \"Test\" with 'Sample text'";
         String xmlWithEscaped = "<CCR>"
                         + "<Origin-Host>" + expectedOriginHost + "</Origin-Host>"
                         + "<Session-Id>" + expectedSessionId + "</Session-Id>"

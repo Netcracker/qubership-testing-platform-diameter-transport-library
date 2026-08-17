@@ -165,7 +165,7 @@ public class XmlDecoder extends Decoder {
                     // Escape AVP value before appending
                     Object decodedValue = decode(avp, avpBody, decodedMessage);
                     String valueStr = decodedValue != null ? decodedValue.toString() : "";
-                    decodedMessage.append(StringEscapeUtils.escapeXml10(valueStr));
+                    decodedMessage.append(XMLStringDataProcessor.escapeXmlMinimal(valueStr));
 
                     decodedMessage
                             .append(CLOSE)

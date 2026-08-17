@@ -204,6 +204,14 @@
                 <configuration>
                     <argLine>-Dfile.encoding=UTF-8 --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
                 </configuration>
+                <dependencies>
+                    <!-- To help Surefire to invoke JUnit 5 tests with existing JUnit 4 (and even 3) -->
+                    <dependency>
+                        <groupId>org.junit.vintage</groupId>
+                        <artifactId>junit-vintage-engine</artifactId>
+                        <version>5.12.2</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

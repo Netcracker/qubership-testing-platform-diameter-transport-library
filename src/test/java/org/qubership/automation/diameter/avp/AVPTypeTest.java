@@ -17,21 +17,18 @@
 
 package org.qubership.automation.diameter.avp;
 
-import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-
 import java.nio.ByteBuffer;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * diameter-transport
  */
-public class AVPTypeTest {
+class AVPTypeTest {
+
     @Test
-    public void testConvertUTF8() {
+    void testConvertUTF8() {
         String stringMessage = "123";
         byte[] byteMessage = stringMessage.getBytes();
         AVPType utf8String = AVPType.fromString("UTF8String");
@@ -39,7 +36,7 @@ public class AVPTypeTest {
     }
 
     @Test
-    public void testConvertUnsigned32() {
+    void testConvertUnsigned32() {
         int intValue = 32;
         byte[] byteValue = ByteBuffer.allocate(4).putInt(intValue).array();
         AVPType unSIGNED32 = AVPType.fromString("UnSIGNED32");
@@ -47,7 +44,7 @@ public class AVPTypeTest {
     }
 
     @Test
-    public void testConvertIPAddress() {
+    void testConvertIPAddress() {
         AVPType avpType = AVPType.fromString("Address");
         String stringIp = "10.217.33.28";
         /*0,1 - it's marker that it's IPv4. 0,2 - it's IPv6*/
@@ -56,7 +53,7 @@ public class AVPTypeTest {
     }
 
     @Test
-    public void testConvertUnsigned64() {
+    void testConvertUnsigned64() {
         AVPType avpType = AVPType.fromString("Unsigned64");
         long longValue = 10;
         byte[] byteValue = ByteBuffer.allocate(8).putLong(longValue).array();
@@ -64,7 +61,7 @@ public class AVPTypeTest {
     }
 
     @Test
-    public void testConvertSigned32() {
+    void testConvertSigned32() {
         AVPType avpType = AVPType.fromString("Signed32");
         int intValue = 10;
         byte[] byteValue = ByteBuffer.allocate(4).putInt(intValue).array();
@@ -72,7 +69,7 @@ public class AVPTypeTest {
     }
 
     @Test
-    public void testConvertSigned64() {
+    void testConvertSigned64() {
         AVPType avpType = AVPType.fromString("Signed64");
         long longValue = System.currentTimeMillis();
         byte[] byteValue = ByteBuffer.allocate(8).putLong(longValue).array();
@@ -80,7 +77,7 @@ public class AVPTypeTest {
     }
 
     @Test
-    public void testConvertFloat64() {
+    void testConvertFloat64() {
         AVPType avpType = AVPType.fromString("Float64");
         long longValue = System.currentTimeMillis();
         byte[] byteValue = ByteBuffer.allocate(8).putLong(longValue).array();
@@ -88,66 +85,62 @@ public class AVPTypeTest {
     }
 
     private void assertInOut(AVPType avpType, String stringIp, byte[] bytesIp) {
-        assertArrayEquals(bytesIp, avpType.encode(stringIp));
-        assertEquals(stringIp, avpType.decode(bytesIp));
+        Assertions.assertArrayEquals(bytesIp, avpType.encode(stringIp));
+        Assertions.assertEquals(stringIp, avpType.decode(bytesIp));
     }
     
     @Test
-    public void EncodeOneNumberAsStringToOctetStringforByte() {
+    void EncodeOneNumberAsStringToOctetStringforByte() {
         AVPType avpType = AVPType.fromString("OctetString");
         avpType.encode("Bx1");
         avpType.encode("Bx6");
     }
 
     @Test
-    public void givenNumber3332AndItHex_whenWeEncodeIt_thenWeHave32() {
+    void givenNumber3332AndItHex_whenWeEncodeIt_thenWeHave32() {
         AVPType avpType = AVPType.fromString("OctetString");
-        assertArrayEquals(new byte[]{51, 50}, avpType.encode("0x3332"));
+        Assertions.assertArrayEquals(new byte[]{51, 50}, avpType.encode("0x3332"));
     }
-    
-   
-        @Test
-    public void givenNumber32AndItHex_whenWeEncodeIt_thenWeHave32() {
+
+    @Test
+    void givenNumber32AndItHex_whenWeEncodeIt_thenWeHave32() {
         AVPType avpType = AVPType.fromString("OctetString");
-        assertArrayEquals(new byte[]{3, 2}, avpType.encode("0x0302"));
+        Assertions.assertArrayEquals(new byte[]{3, 2}, avpType.encode("0x0302"));
     }
     
     @Test
-    public void EncodeOneNumberAsStringToOctetStringForNumber() {
+    void EncodeOneNumberAsStringToOctetStringForNumber() {
         AVPType avpType = AVPType.fromString("OctetString");
-        assertArrayEquals(new byte[]{51, 50}, avpType.encode("32"));
+        Assertions.assertArrayEquals(new byte[]{51, 50}, avpType.encode("32"));
     }
-    
-    
-        @Test
-    public void givenHex_andOctetType_WhenWeencodeIt_thenWeGetBytesArray() {
-        AVPType avpType = AVPType.fromString("OctetString");
-        assertArrayEquals(new byte[]{50}, avpType.encode("0x32"));
-    }
-    
-    
+
     @Test
-    public void EncodeOneNumberAsStringToOctetStringForText() {
+    void givenHex_andOctetType_WhenWeencodeIt_thenWeGetBytesArray() {
         AVPType avpType = AVPType.fromString("OctetString");
-        assertArrayEquals(new byte[]{70, 100, 103, 114, 101}, avpType.encode("Fdgre"));
+        Assertions.assertArrayEquals(new byte[]{50}, avpType.encode("0x32"));
+    }
+
+    @Test
+    void EncodeOneNumberAsStringToOctetStringForText() {
+        AVPType avpType = AVPType.fromString("OctetString");
+        Assertions.assertArrayEquals(new byte[]{70, 100, 103, 114, 101}, avpType.encode("Fdgre"));
     }
     
     //@Test
     //TODO: Actualize me
-    public void givenOctetWithNumberAndText_whenDecode_thenItGivesText() {
+    void givenOctetWithNumberAndText_whenDecode_thenItGivesText() {
         AVPType avpType = AVPType.fromString("OctetString");
-        Assert.assertThat("Fdgre", containsString(avpType.decode(new byte[]{70, 100, 103, 114, 101})));
+        Assertions.assertTrue(avpType.decode(new byte[]{70, 100, 103, 114, 101}).toString().contains("Fdgre"));
     }
     
     //@Test
     //TODO: Actualize me
-    public void givenOctetWithNumber_whenDecode_thenItGivesNumbers() {
+    void givenOctetWithNumber_whenDecode_thenItGivesNumbers() {
         AVPType avpType = AVPType.fromString("OctetString");
-        Assert.assertThat("hello, world", containsString(avpType.decode(new byte[]{0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64})));
+        Assertions.assertTrue(avpType.decode(new byte[]{0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64}).toString().contains("hello, world"));
     }
     
     private void assertInOut(AVPType avpType, int stringIp, byte[] bytesIp) {
-        assertArrayEquals(bytesIp, avpType.encode(stringIp));
-        //assertEquals(stringIp, avpType.decode(bytesIp));
+        Assertions.assertArrayEquals(bytesIp, avpType.encode(stringIp));
     }
 }

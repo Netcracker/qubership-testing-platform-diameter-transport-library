@@ -34,6 +34,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.qubership.automation.diameter.avp.AVPDictionary;
 import org.qubership.automation.diameter.avp.AVPEntity;
 import org.qubership.automation.diameter.avp.AVPRule;
@@ -142,16 +143,16 @@ public class XmlEncoder extends Encoder {
         }
         AVPType type = entry.getType();
         if (type == null) {
-            return EMPTY_BYTES; // ENUMERATE AVP doesn't have message body
+            return EMPTY_BYTES;
         }
         if (AVPType.ENUMERATE.equals(type)) {
             if (firstChild.hasChildNodes()) {
                 return EMPTY_BYTES; // ENUMERATE doesn't have self body, so return empty
             } else {
-                return AVPType.SIGNED32.encode(firstChild.getNodeValue());
+                return AVPType.SIGNED32.encode(StringEscapeUtils.unescapeXml(firstChild.getNodeValue()));
             }
         }
-        return type.encode(firstChild.getNodeValue());
+        return type.encode(StringEscapeUtils.unescapeXml(firstChild.getNodeValue()));
     }
 
     private Command getCommand(final String commandName) {

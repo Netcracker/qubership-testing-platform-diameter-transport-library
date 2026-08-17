@@ -153,9 +153,7 @@ public class XmlDecoder extends Decoder {
                 AVPEntity avp = getAvp(avpId, vendorId);
                 byte[] avpBody = getBody(avp, message, length);
                 if (avpBody.length != 0) {
-                    // Escape AVP name (in case it contains invalid XML characters)
-                    String escapedName = StringEscapeUtils.escapeXml10(avp.getName());
-                    decodedMessage.append(BEGIN).append(escapedName);
+                    decodedMessage.append(BEGIN).append(avp.getName());
                     if (APPEND_AVPCODE) {
                         decodedMessage.append(" code=\"").append(avp.getId()).append("\"");
                         if (APPEND_AVPVENDOR && avp.getVendorId() != 0) {
@@ -171,7 +169,7 @@ public class XmlDecoder extends Decoder {
 
                     decodedMessage
                             .append(CLOSE)
-                            .append(escapedName)
+                            .append(avp.getName())
                             .append(END);
                 }
                 message = slice(message, roundLength(length), message.length);

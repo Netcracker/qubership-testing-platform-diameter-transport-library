@@ -12,9 +12,6 @@ import org.qubership.automation.diameter.exception.DecodeException;
 
 /**
  * Security tests for XmlDecoder, checking validation of AVP length.
- * <p>
- * The current behavior: Passed for correct messages, but failed for incorrect ones (because there is no validation).
- * Should be all passed after adding of validation into XmlDecoder.parseContent().
  */
 public class XmlDecoderSecurityTest extends StandardConfigProvider {
     private XmlDecoder decoder;
@@ -25,31 +22,28 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Тест 1: Корректное сообщение с валидными AVP должно декодироваться без ошибок
-     * GREEN на текущем коде ✅
+     * Test 1: Valid message with valid AVP(s) should be decoded w/o errors.
      */
     @Test
     void shouldDecodeValidMessageWithCorrectAvpLengths() {
-        // Given: валидное сообщение CER с корректными AVP
+        // Given: Valid CER message with valid AVPs
         byte[] validMessage = createValidCerMessage();
 
-        // When: декодируем
+        // When: Decode message
         String result = decoder.decode(ByteBuffer.wrap(validMessage));
 
-        // Then: не должно быть исключений
+        // Then: No exceptions. Successful parsing
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.contains("<CER>"));
         Assertions.assertTrue(result.contains("</CER>"));
     }
 
     /**
-     * Тест 2: AVP с length меньше минимального (8 байт)
-     * На текущем коде - Passed (нет проверки)
-     * После исправления - скорее всего, придется НЕ бросать ошибку - сохранить текущее поведение
+     * Test 2: AVP with length < minimum (< 8 bytes).
      */
     @Test
     void shouldRejectAvpWithLengthLessThan8() {
-        // Given: сообщение с AVP, у которого length = 4 (меньше 8)
+        // Given: Message with AVP, which length = 4 (< 8)
         byte[] malformedMessage = createMessageWithAvpLength(4);
 
         // When/Then:
@@ -59,13 +53,11 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Тест 3: AVP с length = 0
-     * На текущем коде - Passed (нет проверки)
-     * После исправления - скорее всего, придется НЕ бросать ошибку - сохранить текущее поведение
+     * Test 3: AVP with length = 0.
      */
     @Test
     void shouldRejectAvpWithLengthZero() {
-        // Given: сообщение с AVP, у которого length = 0
+        // Given: Message with AVP, which length = 0
         byte[] malformedMessage = createMessageWithAvpLength(0);
 
         // When/Then:
@@ -75,16 +67,14 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Тест 4: AVP с length > actual message length
-     * На текущем коде - RED (аллокация 16 МБ с паддингом)
-     * После исправления - GREEN (DecodeException)
+     * Test 4: AVP with length > actual message length.
      */
     @Test
     void shouldRejectAvpWithLengthExceedingMessageLength() {
-        // Given: сообщение длиной 100 байт, но AVP указывает length = 1000
+        // Given: Message with length = 100 bytes, but in the AVP length = 1000
         byte[] malformedMessage = createMessageWithAvpLengthExceedingMessage(1000);
 
-        // When/Then: должно быть DecodeException
+        // When/Then: Should be DecodeException about incorrect length
         DecodeException exception = Assertions.assertThrows(DecodeException.class,
                 () -> decoder.decode(ByteBuffer.wrap(malformedMessage)));
 
@@ -98,18 +88,16 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Тест 5: AVP с length = 16_000_000 (максимально возможный)
-     * На текущем коде - RED (аллокация 16 МБ и квадратичный BigInteger.toString)
-     * После исправления - GREEN (DecodeException или ограничение)
+     * Test 5: AVP with length = 16_000_000 (theoretical maximum).
      */
     @Disabled("Enable after fix")
     @Test
     void shouldRejectAvpWithMaximumPossibleLength() {
-        // Given: сообщение с AVP length = 16_000_000
+        // Given: Message with AVP length = 16_000_000
         int maxLength = 16_000_000;
         byte[] malformedMessage = createMessageWithAvpLength(maxLength);
 
-        // When/Then: должно быть DecodeException
+        // When/Then: Should be DecodeException
         DecodeException exception = Assertions.assertThrows(DecodeException.class,
                 () -> decoder.decode(ByteBuffer.wrap(malformedMessage)));
 
@@ -121,94 +109,82 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Тест 6: AVP с length = 16_000_000, но это единственный AVP в сообщении
-     * и сообщение имеет длину больше 16_000_000
-     * На текущем коде - RED (квадратичный BigInteger.toString)
-     * После исправления - GREEN (DecodeException или ограничение)
+     * Test 6: AVP with length = 16_000_000, but it's the only AVP in the message,
+     * and message length is greater than 16_000_000.
      */
     @Disabled("Enable after fix")
     @Test
     void shouldRejectSingleAvpWithMaximumLength() {
-        // Given: сообщение с одним AVP, length = 16_000_000
-        // и сообщение физически имеет такую длину
+        // Given: Message with 1 AVP, length = 16_000_000,
+        // and message in fact has such length
         byte[] malformedMessage = createSingleAvpMessageWithLength(16_000_000);
 
-        // Когда декодируем с большим таймаутом
+        // When: Decode message, measure processing time
         long startTime = System.currentTimeMillis();
         Exception exception = Assertions.assertThrows(DecodeException.class,
                 () -> decoder.decode(ByteBuffer.wrap(malformedMessage)));
         long duration = System.currentTimeMillis() - startTime;
 
-        // Тогда: должно быть быстро (не должно висеть секунды)
+        // Then: Should be quick, because exception should be thrown due to message size limit
         Assertions.assertTrue(duration < 1000, "Decode took " + duration + "ms, should be < 1000ms");
         Assertions.assertTrue(exception.getMessage().contains("length") ||
                 exception.getMessage().contains("exceeds"));
     }
 
     /**
-     * Тест 7: AVP с length = 1_000_000 (в пределах допустимого, если установлен лимит)
-     * На текущем коде - RED (аллокация 1 МБ и BigInteger.toString) - неверно. На текущем коде passed, и быстро
-     * После исправления - GREEN (если лимит >= 1M, то декодируется)
+     * Test 7: AVP with length = 1_000_000 (below configured limit).
      */
     @Test
     void shouldAcceptAvpWithLengthWithinConfiguredLimit() {
-        // Given: сообщение с AVP length = 1_000_000
-        // Это корректно, если MAX_AVP_SIZE >= 1_000_000
+        // Given: Message with AVP length = 1_000_000
+        // It's valid in case MAX_AVP_SIZE >= 1_000_000
         byte[] validMessage = createMessageWithAvpLength(1_000_000);
 
-        // When: декодируем
-        // Это должно работать, если лимит не меньше 1_000_000
+        // When: Decode message
         String result = decoder.decode(ByteBuffer.wrap(validMessage));
 
-        // Then: не должно быть исключений
+        // Then: Should be processed successfully
         Assertions.assertNotNull(result);
     }
 
     /**
-     * Тест 9: Несколько AVP, один из которых с oversized length
-     * На текущем коде - RED (аллокация на первом же oversized AVP) - на текущем коде адекватная ошибка длины
-     * После исправления - GREEN (исключение на первом же некорректном AVP)
+     * Test 9: Some (2+) AVPs, one of them has oversized length.
      */
     @Test
     void shouldStopProcessingOnFirstOversizedAvp() {
-        // Given: сообщение с 2 AVP, первый корректный, второй oversized
+        // Given: Message with 2 AVPs. The 1st AVP is valid, the 2nd is oversized
         byte[] malformedMessage = createMessageWithMixedAvpLengths();
 
-        // When/Then: должно быть DecodeException
+        // When/Then: Should be DecodeException
         Assertions.assertThrows(DecodeException.class,
                 () -> decoder.decode(ByteBuffer.wrap(malformedMessage)));
 
-        // Проверяем, что обработка остановилась на первом же ошибочном AVP
-        // (в логах должно быть сообщение о проблемном AVP)
+        // Should be thrown on the 1st incorrect AVP
     }
 
     /**
-     * Тест 10: Vendor-Specific AVP с oversized length
-     * На текущем коде - RED (аллокация с учетом vendorId)
-     * После исправления - GREEN (проверка до getBody)
+     * Test 10: Vendor-Specific AVP with oversized length.
      */
     @Disabled("Enable after fix")
     @Test
     void shouldRejectVendorSpecificAvpWithOversizedLength() {
-        // Given: Vendor-Specific AVP (V бит=1) с length = 16_000_000
+        // Given: Vendor-Specific AVP (V bit=1) with length = 16_000_000
         byte[] malformedMessage = createVendorSpecificAvpWithLength(16_000_000);
 
-        // When/Then: должно быть DecodeException
+        // When/Then: Should be DecodeException
         Assertions.assertThrows(DecodeException.class,
                 () -> decoder.decode(ByteBuffer.wrap(malformedMessage)));
     }
 
-    // ==================== Тесты производительности ==================
+    // ==================== Performance tests ==================
 
     /**
-     * Тест производительности: атака с 16 МБ AVP должна завершаться быстро
-     * На текущем коде - RED (зависает на секунды-минуты)
-     * После исправления - GREEN (< 100 мс)
+     * Performance test #1: attack with 16 Mb AVP should be processed quickly.
      */
     @Disabled("Enable or remove after fix")
     @Test
     void shouldNotHangOnOversizedAvp() {
-        // Given: сообщение с AVP length = 16_000_000
+        // Given: Message with AVP length = 16_000_000
         byte[] attackMessage = createMessageWithAvpLength(16_000_000);
 
         long startTime = System.currentTimeMillis();
@@ -216,14 +192,14 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
                 () -> decoder.decode(ByteBuffer.wrap(attackMessage)));
         long duration = System.currentTimeMillis() - startTime;
 
-        // Then: должно быть быстро (< 100 мс)
+        // Then: Should be quick (< 100 ms)
         Assertions.assertTrue(duration < 100,
                 "Decode took " + duration + "ms, should be < 100ms");
         Assertions.assertTrue(exception.getMessage().contains("length"));
     }
 
     /**
-     * Тест производительности: несколько атак подряд
+     * Performance test #2: 2+ attacks in the row.
      */
     @Disabled("Enable or remove after fix")
     @Test
@@ -239,22 +215,22 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
             totalTime += System.currentTimeMillis() - startTime;
         }
 
-        // Then: среднее время < 50 мс на атаку
+        // Then: Average timw < 50 ms per attack
         long averageTime = totalTime / attackCount;
         Assertions.assertTrue(averageTime < 50,
                 "Average time " + averageTime + "ms should be < 50ms");
     }
 
-    // ==================== Вспомогательные методы ====================
+    // ==================== Helper methods (create messages) ====================
 
     /**
-     * Создает валидное CER сообщение для позитивного теста
+     * Create valid CER message for positive test
      */
     private byte[] createValidCerMessage() {
-        // Минимальное валидное CER сообщение
-        // CER: код команды 257, Request флаг
+        // Minimum valid CER message
+        // CER: command code 257, Request flag=1
         return new byte[] {
-                // Header (20 байт)
+                // Header (20 bytes)
                 1, 0, 0, 20,     // Version=1, Length=20
                 -0x80, 0, 1, 1,   // Flags=-0x80 (Request), Command=257 (CER)
                 0, 0, 0, 0,      // Application-ID=0
@@ -264,24 +240,24 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Создает сообщение с одним AVP, у которого указан определенный length
+     * Create message with 1 AVP, which length is set from avpLength parameter.
      *
-     * @param avpLength длина AVP (может быть некорректной)
-     * @return сформированное сообщение
+     * @param avpLength Length of AVP (can be incorrect)
+     * @return Populated message.
      */
     private byte[] createMessageWithAvpLength(int avpLength) {
-        // Создаем базовое сообщение с одним AVP (Origin-Host)
-        // AVP код 264 (Origin-Host), тип UTF8String
+        // Create basic message with 1 AVP (Origin-Host)
+        // AVP code = 264 (Origin-Host), type UTF8String
 
-        int messageLength = 20 + roundLength(avpLength); // 20 байт заголовка + AVP
+        int messageLength = 20 + roundLength(avpLength); // 20 bytes header + AVP
         byte[] message = new byte[messageLength];
 
-        // Заголовок сообщения (CER)
+        // Message header (CER)
         message[0] = 1;  // Version
         message[1] = (byte)((messageLength >> 16) & 0xFF);
         message[2] = (byte)((messageLength >> 8) & 0xFF);
         message[3] = (byte)(messageLength & 0xFF);
-        message[4] = (byte) 0x80; // Request флаг
+        message[4] = (byte) 0x80; // Request flag
         message[5] = 0x00;
         message[6] = 0x01;
         message[7] = 0x01; // Command=257 (CER)
@@ -301,22 +277,22 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
         message[18] = 0x00;
         message[19] = 0x01;
 
-        // AVP заголовок (8 байт)
+        // AVP header (8 bytes)
         int offset = 20;
         try {
             message[offset] = 0x00; // AVP Code (264 = 0x0108)
             message[offset + 1] = 0x00;
             message[offset + 2] = 0x01;
             message[offset + 3] = (byte) 0x08;
-            message[offset + 4] = 0x40; // M бит=1
+            message[offset + 4] = 0x40; // M bit=1
             message[offset + 5] = (byte) ((avpLength >> 16) & 0xFF);
             message[offset + 6] = (byte) ((avpLength >> 8) & 0xFF);
             message[offset + 7] = (byte) (avpLength & 0xFF);
 
-            // AVP Body (если есть)
+            // AVP Body (if any)
             if (avpLength > 8) {
                 int bodyLength = avpLength - 8;
-                // Заполняем тестовыми данными
+                // Fill with test data
                 for (int i = 0; i < bodyLength && i + offset + 8 < message.length; i++) {
                     message[offset + 8 + i] = (byte) 'x';
                 }
@@ -329,17 +305,17 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Создает сообщение, где AVP length превышает длину сообщения
+     * Create message, where AVP length > message length
      */
     private byte[] createMessageWithAvpLengthExceedingMessage(int fakeAvpLength) {
-        // Создаем сообщение с AVP length = fakeAvpLength
-        // но реальная длина сообщения маленькая
+        // Create message with AVP length = fakeAvpLength
+        // But real message length is small
         byte[] message = createMessageWithAvpLength(fakeAvpLength);
-        // Обрезаем сообщение до 100 байт
+        // Truncate message to 100 bytes
         if (message.length > 100) {
             byte[] truncated = new byte[100];
             System.arraycopy(message, 0, truncated, 0, 100);
-            // Корректируем длину сообщения в заголовке
+            // Change message length in the header
             truncated[1] = 0;
             truncated[2] = 0;
             truncated[3] = 100;
@@ -349,26 +325,26 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Создает сообщение с одним большим AVP
+     * Create message with 1 big AVP
      */
     private byte[] createSingleAvpMessageWithLength(int avpLength) {
-        // Аналогично createMessageWithAvpLength, но гарантируем,
-        // что сообщение физически имеет длину >= avpLength
+        // The same as createMessageWithAvpLength, but ensure that
+        // message real length >= avpLength
         return createMessageWithAvpLength(avpLength);
     }
 
     /**
-     * Создает сообщение с несколькими AVP, где второй - oversized
+     * Create message with 2+ AVPs, where the 2nd AVP is oversized
      */
     private byte[] createMessageWithMixedAvpLengths() {
-        // Создаем сообщение с двумя AVP:
-        // 1. Корректный AVP (Origin-Host)
+        // Create message with 2 AVPs:
+        // 1. Valid AVP (Origin-Host)
         // 2. Oversized AVP (Session-Id)
-        byte[] message = createMessageWithAvpLength(12); // корректный AVP
-        // Добавляем второй AVP с длиной 1000 (но данных мало)
+        byte[] message = createMessageWithAvpLength(12); // Valid AVP
+        // Add the 2nd AVP with length 1000 (but it's shorter in fact)
         byte[] extended = new byte[message.length + 20];
         System.arraycopy(message, 0, extended, 0, message.length);
-        // Добавляем AVP с length=1000
+        // Add AVP with length=1000
         int offset = message.length;
         extended[offset] = 0x00; // AVP Code (Session-Id = 263)
         extended[offset + 1] = 0x00;
@@ -378,7 +354,7 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
         extended[offset + 5] = 0x00;
         extended[offset + 6] = 0x03;
         extended[offset + 7] = (byte)0xE8; // 1000
-        // Корректируем длину сообщения
+        // Change message length
         int newLength = offset + 20;
         extended[1] = (byte)((newLength >> 16) & 0xFF);
         extended[2] = (byte)((newLength >> 8) & 0xFF);
@@ -387,22 +363,21 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     }
 
     /**
-     * Создает Vendor-Specific AVP с указанной длиной
+     * Create Vendor-Specific AVP with length = avpLength
      */
     private byte[] createVendorSpecificAvpWithLength(int avpLength) {
-        // AVP с V битом=1 (vendor-specific)
+        // AVP with V bit=1 (vendor-specific)
         byte[] message = createMessageWithAvpLength(avpLength);
-        // Устанавливаем V бит в AVP флагах
+        // Set V bit in AVP flags
         int offset = 20;
-        message[offset + 4] = (byte)0xC0; // V бит=1, M бит=1
-        // Добавляем Vendor-ID (4 байта)
-        // Сдвигаем все данные на 4 байта
-        // ... (упрощенно)
+        message[offset + 4] = (byte)0xC0; // V bit=1, M bit=1
+        // Add Vendor-ID (4 bytes)
+        // Shift all data right to 4 bytes (simplified...)
         return message;
     }
 
     /**
-     * Округление длины до 4 байт
+     * Round length to 4*N bytes
      */
     private int roundLength(int length) {
         if (length % 4 != 0) {

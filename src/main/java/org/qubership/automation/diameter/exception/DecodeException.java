@@ -20,6 +20,11 @@ package org.qubership.automation.diameter.exception;
 import java.util.Arrays;
 
 public class DecodeException extends RuntimeException {
+
+    private static final int MAX_BYTES_IN_ERROR = Integer.parseInt(
+            System.getProperty("diameter.decode.maxBytesInError", "1024")
+    );
+
     public DecodeException(final String message) {
         super(message);
     }
@@ -32,7 +37,32 @@ public class DecodeException extends RuntimeException {
                            final String parsedContent,
                            final byte[] data,
                            final Throwable cause) {
-        super(message + "\nParsed Content: " + parsedContent + "\nNot parsed byte data: " + Arrays.toString(data),
-                cause);
+        super(buildErrorMessage(message, parsedContent, data), cause);
+    }
+
+    private static String buildErrorMessage(final String message,
+                                            final String parsedContent,
+                                            final byte[] data) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(message).append("\nParsed Content: ").append(parsedContent);
+
+        if (data == null) {
+            sb.append("\nNot parsed byte data: null");
+        } else if (data.length == 0) {
+            sb.append("\nNo unparsed data left");
+        } else if (data.length <= MAX_BYTES_IN_ERROR) {
+            sb.append("\nNot parsed byte data (total size=")
+                    .append(data.length)
+                    .append("): ")
+                    .append(Arrays.toString(data));
+        } else {
+            // Truncate data to MAX_BYTES_IN_ERROR
+            sb.append("\nNot parsed byte data (truncated, total size=")
+                    .append(data.length)
+                    .append("): ")
+                    .append(Arrays.toString(Arrays.copyOf(data, MAX_BYTES_IN_ERROR)))
+                    .append("...");
+        }
+        return sb.toString();
     }
 }

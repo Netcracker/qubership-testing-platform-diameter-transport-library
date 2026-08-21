@@ -52,6 +52,20 @@ public class ResponseListener implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponseListener.class);
 
     /**
+     * Limit of one message length, 1Mb by default
+     */
+    private static final int MAX_MESSAGE_SIZE = Integer.parseInt(
+            System.getProperty("diameter.decode.maxMessageSize", "1048576")
+    );
+
+    /**
+     * Limit of accumulated buffer size.
+     */
+    private static final int MAX_BUFFER_SIZE = Integer.parseInt(
+            System.getProperty("diameter.decode.maxBufferSize", "1048576")
+    );
+
+    /**
      * Empty ByteBuffer[] constant.
      */
     private static final ByteBuffer[] EMPTY = {};
@@ -173,9 +187,9 @@ public class ResponseListener implements Runnable {
             LOGGER.debug("Received byte data:\n{}", Arrays.toString(content));
             appendBuffer(content);
             messages = getMessages(buffer);
-            for (int i = 0, messagesLength = messages.length; i < messagesLength; i++) {
+            for (ByteBuffer byteBuffer : messages) {
                 currentData = null;
-                message = messages[i];
+                message = byteBuffer;
                 LOGGER.debug("Found command data:\n{}", Arrays.toString(message.array()));
                 String data = getData(message);
                 currentData = data;
@@ -248,20 +262,46 @@ public class ResponseListener implements Runnable {
             byte[] bytes = Arrays.copyOfRange(data, 0, 4);
             bytes[0] = 0;
             int length = getLength(Converter.bytesToInt(bytes));
+
+            // Check #1: Minimum length of Diameter message (20 bytes)
+            if (length < 20) {
+                LOGGER.error("Invalid message length: {} (minimum 20 bytes)", length);
+                this.buffer = new byte[]{};
+                return EMPTY;
+            }
+
+            // Check #2: Maximum message length
+            if (length > MAX_MESSAGE_SIZE) {
+                LOGGER.error("Message size exceeds limit: {} > {}", length, MAX_MESSAGE_SIZE);
+                this.buffer = new byte[]{};
+                return EMPTY;
+            }
+
+            // Check #3: If buffer has enough data (check it before buffer allocation)
+            if (length > data.length) {
+                // Check #4:  Check if buffer size exceeded MAX_BUFFER_SIZE limit
+                if (this.buffer.length > MAX_BUFFER_SIZE) {
+                    LOGGER.error("Buffer size exceeded limit: {} > {}", this.buffer.length, MAX_BUFFER_SIZE);
+                    this.buffer = new byte[]{};
+                    return EMPTY;
+                }
+                LOGGER.debug("Incomplete message: length={}, available={}", length, data.length);
+                return EMPTY;
+            }
+
+            // Now it's safe to allocate
             ByteBuffer buffer = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length));
             buffers.add(buffer);
             LOGGER.debug("Add message part to set: {}", Arrays.toString(buffer.array()));
-            if (length <= data.length) {
-                data = Arrays.copyOfRange(data, length, data.length);
-                LOGGER.debug("Remaining buffer size to process: {}", data.length);
-            } else {
-                return EMPTY;
-            }
+            data = Arrays.copyOfRange(data, length, data.length);
+            LOGGER.debug("Remaining buffer size to process: {}", data.length);
         }
-        //Remove found messages
+
+        // Remove found messages
         buffers.forEach(buffer ->
                 this.buffer = Arrays.copyOfRange(this.buffer, buffer.limit(), this.buffer.length));
-        return buffers.toArray(new ByteBuffer[buffers.size()]);
+
+        return buffers.toArray(new ByteBuffer[0]);
     }
 
     private int getLength(final int length) {
@@ -302,8 +342,7 @@ public class ResponseListener implements Runnable {
     }
 
     private void setHbHAndE2E(final String data, final byte[] content, final Interceptor interceptor) {
-        if (interceptor instanceof DWRInterceptor) {
-            DWRInterceptor dwr = (DWRInterceptor) interceptor;
+        if (interceptor instanceof DWRInterceptor dwr) {
             dwr.setHopByHop(Arrays.copyOfRange(content, 12, 16));
             dwr.setEnd2End(Arrays.copyOfRange(content, 16, 20));
         } else if (isNotificationRequest(data)) {

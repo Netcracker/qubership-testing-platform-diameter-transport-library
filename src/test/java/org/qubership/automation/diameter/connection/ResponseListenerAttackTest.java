@@ -69,8 +69,9 @@ public class ResponseListenerAttackTest extends StandardConfigProvider {
         Assertions.assertTrue(exception.getMessage().contains("Failed parsing AVPs"));
         Throwable cause = exception.getCause();
         Assertions.assertNotNull(cause);
-        Assertions.assertInstanceOf(IllegalArgumentException.class, cause);
-        Assertions.assertTrue(cause.getMessage().contains("16000000 > 40"));
+        Assertions.assertInstanceOf(DecodeException.class, cause);
+        Assertions.assertEquals("AVP length exceeds message: 16000000 > 40 (AVP code: 264)",
+                cause.getMessage());
     }
 
     /**

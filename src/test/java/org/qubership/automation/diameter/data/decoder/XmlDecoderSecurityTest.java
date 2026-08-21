@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.StandardConfigProvider;
 import org.qubership.automation.diameter.data.XmlDecoder;
@@ -83,14 +82,13 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
         Assertions.assertTrue(exception.getMessage().contains("Failed parsing AVPs"));
         Throwable cause = exception.getCause();
         Assertions.assertNotNull(cause);
-        Assertions.assertInstanceOf(IllegalArgumentException.class, cause);
-        Assertions.assertTrue(cause.getMessage().contains("1000 > 80"));
+        Assertions.assertInstanceOf(DecodeException.class, cause);
+        Assertions.assertEquals("AVP length exceeds message: 1000 > 80 (AVP code: 264)", cause.getMessage());
     }
 
     /**
      * Test 5: AVP with length = 16_000_000 (theoretical maximum).
      */
-    @Disabled("Enable after fix")
     @Test
     void shouldRejectAvpWithMaximumPossibleLength() {
         // Given: Message with AVP length = 16_000_000
@@ -105,14 +103,15 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
         Assertions.assertTrue(exception.getMessage().contains("Failed parsing AVPs"));
         Throwable cause = exception.getCause();
         Assertions.assertNotNull(cause);
-        Assertions.assertInstanceOf(IllegalArgumentException.class, cause);
+        Assertions.assertInstanceOf(DecodeException.class, cause);
+        Assertions.assertEquals("AVP size exceeds limit: 16000000 > 1048576 (AVP code: 264)",
+                cause.getMessage());
     }
 
     /**
      * Test 6: AVP with length = 16_000_000, but it's the only AVP in the message,
      * and message length is greater than 16_000_000.
      */
-    @Disabled("Enable after fix")
     @Test
     void shouldRejectSingleAvpWithMaximumLength() {
         // Given: Message with 1 AVP, length = 16_000_000,
@@ -127,8 +126,13 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
 
         // Then: Should be quick, because exception should be thrown due to message size limit
         Assertions.assertTrue(duration < 1000, "Decode took " + duration + "ms, should be < 1000ms");
-        Assertions.assertTrue(exception.getMessage().contains("length") ||
-                exception.getMessage().contains("exceeds"));
+
+        Assertions.assertTrue(exception.getMessage().contains("Failed parsing AVPs"));
+        Throwable cause = exception.getCause();
+        Assertions.assertNotNull(cause);
+        Assertions.assertInstanceOf(DecodeException.class, cause);
+        Assertions.assertEquals("AVP size exceeds limit: 16000000 > 1048576 (AVP code: 264)",
+                cause.getMessage());
     }
 
     /**
@@ -165,7 +169,6 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     /**
      * Test 10: Vendor-Specific AVP with oversized length.
      */
-    @Disabled("Enable after fix")
     @Test
     void shouldRejectVendorSpecificAvpWithOversizedLength() {
         // Given: Vendor-Specific AVP (V bit=1) with length = 16_000_000
@@ -181,7 +184,6 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
     /**
      * Performance test #1: attack with 16 Mb AVP should be processed quickly.
      */
-    @Disabled("Enable or remove after fix")
     @Test
     void shouldNotHangOnOversizedAvp() {
         // Given: Message with AVP length = 16_000_000
@@ -195,20 +197,25 @@ public class XmlDecoderSecurityTest extends StandardConfigProvider {
         // Then: Should be quick (< 100 ms)
         Assertions.assertTrue(duration < 100,
                 "Decode took " + duration + "ms, should be < 100ms");
-        Assertions.assertTrue(exception.getMessage().contains("length"));
+
+        Assertions.assertTrue(exception.getMessage().contains("Failed parsing AVPs"));
+        Throwable cause = exception.getCause();
+        Assertions.assertNotNull(cause);
+        Assertions.assertInstanceOf(DecodeException.class, cause);
+        Assertions.assertEquals("AVP size exceeds limit: 16000000 > 1048576 (AVP code: 264)",
+                cause.getMessage());
     }
 
     /**
      * Performance test #2: 2+ attacks in the row.
      */
-    @Disabled("Enable or remove after fix")
     @Test
     void shouldHandleMultipleAttacksEfficiently() {
         int attackCount = 10;
         long totalTime = 0;
 
         for (int i = 0; i < attackCount; i++) {
-            byte[] attackMessage = createMessageWithAvpLength(1_000_000);
+            byte[] attackMessage = createMessageWithAvpLength(1_100_000);
             long startTime = System.currentTimeMillis();
             Assertions.assertThrows(DecodeException.class,
                     () -> decoder.decode(ByteBuffer.wrap(attackMessage)));

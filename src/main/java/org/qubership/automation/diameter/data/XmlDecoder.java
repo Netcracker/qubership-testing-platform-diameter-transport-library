@@ -21,7 +21,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.qubership.automation.diameter.avp.AVPDictionary;
 import org.qubership.automation.diameter.avp.AVPEntity;
 import org.qubership.automation.diameter.avp.AVPProvider;
@@ -48,6 +47,13 @@ public class XmlDecoder extends Decoder {
             System.getProperty("diameter.xmldecoder.appendAvpcode", "false"));
     private static boolean APPEND_AVPVENDOR = Boolean.parseBoolean(
             System.getProperty("diameter.xmldecoder.appendAvpvendor", "false"));
+
+    /**
+     * Maximum AVP size, default is 1Mb.
+     */
+    private static final int MAX_AVP_SIZE = Integer.parseInt(
+            System.getProperty("diameter.decode.maxAvpSize", "1048576")
+    );
 
     /**
      * Constructor.
@@ -139,6 +145,16 @@ public class XmlDecoder extends Decoder {
     }
 
     private void parseContent(byte[] message, final StringBuilder decodedMessage) {
+        // If we enter the method but nothing to parse - log it and go away
+        if (message.length <= 8) {
+            if (message.length > 0) {
+                LOGGER.debug("No complete AVP found, remaining bytes: {}", message.length);
+            } else {
+                LOGGER.debug("No AVP found, message is empty");
+            }
+            return;
+        }
+
         int avpId;
         int length;
         int vendorId;
@@ -149,7 +165,30 @@ public class XmlDecoder extends Decoder {
                 byte[] avpLengthBytes = getAvpLengthBytes(message, QUARTER, QUARTER * 2);
                 avpId = ByteBuffer.wrap(avpCodeBytes).getInt();
                 length = ByteBuffer.wrap(avpLengthBytes).getInt();
-                vendorId = isVendorSpecificFlag(message, QUARTER, QUARTER * 2) ? getVendorId(message) : 0;
+
+                boolean vendorSpecific = isVendorSpecificFlag(message, QUARTER, QUARTER * 2);
+
+                int minAvpLength = vendorSpecific ? QUARTER * 3 : QUARTER * 2;
+                // Check #1: Minimum AVP length
+                if (length < minAvpLength) {
+                    throw new DecodeException("Invalid AVP: length " + length + " is less than minimum "
+                            + minAvpLength + " (AVP code: " + avpId + ")");
+                }
+
+                // Check #2: AVP length not more than message length
+                if (length > message.length) {
+                    throw new DecodeException("AVP length exceeds message: " + length + " > " + message.length
+                            + " (AVP code: " + avpId + ")");
+                }
+
+                // Check #3: Maximum size of AVP
+                if (length > MAX_AVP_SIZE) {
+                    throw new DecodeException("AVP size exceeds limit: " + length + " > " + MAX_AVP_SIZE
+                            + " (AVP code: " + avpId + ")");
+                }
+
+                // Now it's safe to get vendorId, avp and body
+                vendorId = vendorSpecific ? getVendorId(message) : 0;
                 AVPEntity avp = getAvp(avpId, vendorId);
                 byte[] avpBody = getBody(avp, message, length);
                 if (avpBody.length != 0) {
@@ -173,6 +212,11 @@ public class XmlDecoder extends Decoder {
                             .append(END);
                 }
                 message = slice(message, roundLength(length), message.length);
+            }
+
+            // Log "missed" bytes (if any)
+            if (message.length > 0) {
+                LOGGER.warn("Unprocessed bytes remaining after parsing: {} bytes", message.length);
             }
         } catch (Exception e) {
             throw new DecodeException("Failed parsing AVPs: ", decodedMessage.toString(), message, e);

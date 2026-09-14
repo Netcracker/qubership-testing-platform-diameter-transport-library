@@ -17,22 +17,19 @@
 
 package org.qubership.automation.diameter.command;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * diameter-transport
+ * Diameter-transport test of Command Dictionary
  */
-public class CommandDictionaryTest {
+class CommandDictionaryTest {
     private Command ccr;
     private Command raa;
     private CommandDictionary commandDictionary;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.commandDictionary = new CommandDictionary();
         ccr = new Command(272, 4);
@@ -46,38 +43,38 @@ public class CommandDictionaryTest {
         raa.setRequestTag(true);
 
         commandDictionary.add(ccr);
-                
         commandDictionary.add(raa);
     }
 
     @Test
-    public void testCommandDictionaryReturnsCommandById() {
+    void testCommandDictionaryReturnsCommandById() {
         Command command = commandDictionary.getRequest(272);
-        assertEquals(ccr, command);
+        Assertions.assertEquals(ccr, command);
     }
 
     @Test
-    public void testCommandDictionaryReturnsCommandByName() {
+    void testCommandDictionaryReturnsCommandByName() {
         Command command = commandDictionary.getRequest("CCR");
-        assertEquals(ccr, command);
+        Assertions.assertEquals(ccr, command);
     }
 
     @Test
-    public void giveRAACommandByName() {
+    void giveRAACommandByName() {
         Command command = commandDictionary.getRequest("RAA");
-        assertTrue(!command.isRequest());
-        assertEquals(raa, command);
-    }
-    
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void testCommandDictionaryThrowsException() throws Exception {
-        commandDictionary.getRequest("Exception");
+        Assertions.assertFalse(command.isRequest());
+        Assertions.assertEquals(raa, command);
     }
 
     @Test
-    public void testCommandCCRIsConvertedToBytesValid() {
+    void testCommandDictionaryThrowsException() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> commandDictionary.getRequest("Exception"));
+    }
+
+    @Test
+    void testCommandCCRIsConvertedToBytesValid() {
         Command command = commandDictionary.getRequest(272);
-        assertArrayEquals(new byte[]{-128, 0, 1, 16}, command.convertToBytesAndSetFlags());
+        Assertions.assertArrayEquals(new byte[]{-128, 0, 1, 16}, command.convertToBytesAndSetFlags());
     }
 }

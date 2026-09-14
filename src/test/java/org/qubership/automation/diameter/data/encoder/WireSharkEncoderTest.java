@@ -17,8 +17,6 @@
 
 package org.qubership.automation.diameter.data.encoder;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.StringReader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -28,10 +26,10 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.StandardConfigProvider;
 import org.qubership.automation.diameter.data.Decoder;
 import org.qubership.automation.diameter.data.XmlDecoder;
@@ -51,36 +49,39 @@ public class WireSharkEncoderTest extends StandardConfigProvider {
         return builder.parse(source);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         encoder = new WireSharkEncoder(DICTIONARY_CONFIG);
     }
 
     @Test
-    public void testParseWireSharkHeader() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/wireshark/CCR.wireshark")),
-                StandardCharsets.UTF_8);
+    void testParseWireSharkHeader() throws Exception {
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/wireshark/CCR.wireshark")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
         ByteBuffer encode = encoder.encode(message);
         byte[] array = encode.array();
-        assertEquals(0x1, array[0]);
-        assertEquals(0x4, array[11]);
+        Assertions.assertEquals(0x1, array[0]);
+        Assertions.assertEquals(0x4, array[11]);
     }
 
     @Test
-    public void givenCCRwithSGSN_andSGSNHasHumanValue_andSGSNHasHexValue_andFormatIsWireShark_whenWeEncodeThisMessage_thenAVPConverted2Byte_andUsedHexValue()
+    void givenCCRwithSGSN_andSGSNHasHumanValue_andSGSNHasHexValue_andFormatIsWireShark_whenWeEncodeThisMessage_thenAVPConverted2Byte_andUsedHexValue()
             throws Exception {
-        String message = IOUtils.toString(Objects.requireNonNull(
-                getClass().getResourceAsStream("/wireshark/givenCCR_andAVPwithOriginalValue.txt")),
-                StandardCharsets.UTF_8);
+        String message = new String(Objects.requireNonNull(
+                getClass().getResourceAsStream("/wireshark/givenCCR_andAVPwithOriginalValue.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
         ByteBuffer encode = encoder.encode(message);
         byte[] actual = encode.array();
         String actualStr = new String(actual, StandardCharsets.UTF_8);
         byte[] expected = new byte[]{0, 1, -39, 72, -24, 3};
         String expectedStr = new String(expected, StandardCharsets.UTF_8);
-        assertEquals(String.format("message \n %s \n does not contain value \n %s \n for AVP %s ",
-                        ArrayUtils.toString(actual), ArrayUtils.toString(expected), "SGSN"), 608,
-                actualStr.indexOf(expectedStr));
+        Assertions.assertEquals(608,
+                actualStr.indexOf(expectedStr),
+                String.format("message \n %s \n does not contain value \n %s \n for AVP %s ",
+                        ArrayUtils.toString(actual), ArrayUtils.toString(expected), "SGSN"));
     }
 
     private void encodeDecodeAndCheck(String message, String tagName, String expectedNodeName) throws Exception {
@@ -88,34 +89,39 @@ public class WireSharkEncoderTest extends StandardConfigProvider {
         String actual = decoder.decode(encode);
         Pattern p = Pattern.compile("[^\\u0009\\u000A\\u000D\\u0020-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFF]+");
         String actual2XmlString = p.matcher(actual).replaceAll("");
-        assertEquals(tagName + " AVP should be on a first level", expectedNodeName,
-                loadXML(actual2XmlString).getElementsByTagName(tagName).item(0).getParentNode()
-                        .getNodeName());
+        Assertions.assertEquals(expectedNodeName,
+                loadXML(actual2XmlString).getElementsByTagName(tagName).item(0).getParentNode().getNodeName(),
+                tagName + " AVP should be on a first level");
     }
 
     @Test
-    public void givenCCR_andEventTimestampIsOnFirstLevel_andEventTimeStampIsAfterServiceInfo_whenWeEncodeThisMessage_andWeDecodeIt_thenEventTimestampIsOnFirstLevel()
+    void givenCCR_andEventTimestampIsOnFirstLevel_andEventTimeStampIsAfterServiceInfo_whenWeEncodeThisMessage_andWeDecodeIt_thenEventTimestampIsOnFirstLevel()
             throws Exception {
-        String message = IOUtils.toString(Objects.requireNonNull(getClass().getResourceAsStream(
-                "/wireshark/givenCCR_andEventTimestampIsOnFirstLevel_andEventTimeStampIsAfterServiceInfo.wireshark")),
-                StandardCharsets.UTF_8);
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream(
+                        "/wireshark/givenCCR_andEventTimestampIsOnFirstLevel_andEventTimeStampIsAfterServiceInfo.wireshark"))
+                .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
         encodeDecodeAndCheck(message, "Event-Timestamp", "CCR");
     }
 
     @SuppressWarnings("NonAsciiCharacters")
     @Test
-    public void givenCCR_andUserEquipmentOnFirstLevel_andAVPBeforeEquipmentContainsEmptyData_whenWeEncodeThisMessage_andWeDecodeIt_thenEquipmentIsOnFirstLevel()
+    void givenCCR_andUserEquipmentOnFirstLevel_andAVPBeforeEquipmentContainsEmptyData_whenWeEncodeThisMessage_andWeDecodeIt_thenEquipmentIsOnFirstLevel()
             throws Exception {
-        String message = IOUtils.toString(Objects.requireNonNull(getClass().getResourceAsStream(
-                "/wireshark/givenCCR_andUserEquipmentOnFirstLevel_andAVPBeforeEquipmentContainsEmptyData.wireshark")),
-                StandardCharsets.UTF_8);
+        String message = new String(Objects.requireNonNull(getClass().getResourceAsStream(
+                "/wireshark/givenCCR_andUserEquipmentOnFirstLevel_andAVPBeforeEquipmentContainsEmptyData.wireshark"))
+                .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
         encodeDecodeAndCheck(message, "User-Equipment-Info", "CCR");
     }
 
     @Test
-    public void givenCER_whenWeEncode_thenItConvertsToBytes() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/wireshark/CER.wireshark")),
+    void givenCER_whenWeEncode_thenItConvertsToBytes() throws Exception {
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/wireshark/CER.wireshark")).readAllBytes(),
                 StandardCharsets.UTF_8);
         ByteBuffer encode = encoder.encode(message);
         byte[] actual = encode.array();
@@ -131,8 +137,9 @@ public class WireSharkEncoderTest extends StandardConfigProvider {
                 0, 0, 1, 2, 64, 0, 0, 12, 0, 0, 0, 4, 0, 0, 1, 43, 64, 0,
                 0, 12, 0, 0, 0, 0, 0, 0, 1, 11, 64, 0, 0, 12, 0, 0, 0, 1};
         String expectedStr = new String(expected, StandardCharsets.UTF_8);
-        assertEquals(String.format("message \n %s \n does not contain value \n %s \n for AVP %s ",
-                ArrayUtils.toString(actual), ArrayUtils.toString(expected), "SGSN"), 0,
-                actualStr.indexOf(expectedStr));
+        Assertions.assertEquals(0,
+                actualStr.indexOf(expectedStr),
+                String.format("message \n %s \n does not contain value \n %s \n for AVP %s ",
+                        ArrayUtils.toString(actual), ArrayUtils.toString(expected), "SGSN"));
     }
 }

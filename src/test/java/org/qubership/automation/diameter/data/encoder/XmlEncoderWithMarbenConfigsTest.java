@@ -17,19 +17,18 @@
 
 package org.qubership.automation.diameter.data.encoder;
 
-import static org.junit.Assert.assertEquals;
-
 import java.nio.ByteBuffer;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.MarbenConfigProvider;
 
 public class XmlEncoderWithMarbenConfigsTest extends MarbenConfigProvider {
 
     XmlEncoder encoder;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         encoder = new XmlEncoder(DICTIONARY_CONFIG);
     }
@@ -37,40 +36,40 @@ public class XmlEncoderWithMarbenConfigsTest extends MarbenConfigProvider {
     @Test
     public void testEncodeCommandCER() throws Exception {
         ByteBuffer encode = encoder.encode(XMLMessages.CER);
-        assertEquals(204, encode.array().length);
+        Assertions.assertEquals(204, encode.array().length);
     }
 
     @Test
     public void testEncodeCommandCCR() throws Exception {
         ByteBuffer encode = encoder.encode(XMLMessages.CCR);
-        assertEquals(-128, encode.array()[4]);
-        assertEquals(876, encode.array().length);
+        Assertions.assertEquals(-128, encode.array()[4]);
+        Assertions.assertEquals(876, encode.array().length);
     }
 
     @Test
     public void testEncodeCommandSNA() throws Exception {
         ByteBuffer encode = encoder.encode(XMLMessages.SNA);
-        assertEquals(0, encode.array()[4]);
+        Assertions.assertEquals(0, encode.array()[4]);
     }
 
     @Test
     public void testEncodeCommandSLR() throws Exception {
         ByteBuffer encode = encoder.encode(XMLMessages.SLR);
-        assertEquals(-128, encode.array()[4]);
-        assertEquals(256, encode.array().length);
+        Assertions.assertEquals(-128, encode.array()[4]);
+        Assertions.assertEquals(256, encode.array().length);
     }
 
     @Test
     public void testEncodeCommandSTR() throws Exception {
         ByteBuffer encode = encoder.encode(XMLMessages.STR);
-        assertEquals(-128, encode.array()[4]);
-        assertEquals(184, encode.array().length);
+        Assertions.assertEquals(-128, encode.array()[4]);
+        Assertions.assertEquals(184, encode.array().length);
     }
 
     @Test
     public void testEncodeCommandDWA() throws Exception {
         ByteBuffer encode = encoder.encode(XMLMessages.DWA);
-        assertEquals(0, encode.array()[4]);
-        assertEquals(88, encode.array().length);
+        Assertions.assertEquals(0, encode.array()[4]);
+        Assertions.assertEquals(88, encode.array().length);
     }
 }

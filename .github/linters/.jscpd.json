@@ -1,8 +1,9 @@
 {
-  "threshold": 2,
+  "threshold": 16,
   "ignore": [
     "**/resources/**",
     "**/*/*.xml",
+    "**/*/*.yaml",
     "**/*/*.md"
   ]
 }

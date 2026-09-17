@@ -338,7 +338,6 @@
             <version>3.0.1</version>
         </dependency>
     </dependencies>
-
     <pluginRepositories>
         <pluginRepository>
             <id>oss.sonatype.org</id>

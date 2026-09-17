@@ -2,6 +2,7 @@
   "threshold": 16,
   "ignore": [
     "**/resources/**",
+    "**/src/test/**",
     "**/*/*.xml",
     "**/*/*.yaml",
     "**/*/*.md"

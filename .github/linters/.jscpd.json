@@ -1,5 +1,6 @@
 {
-  "threshold": 16,
+  "threshold": 5,
+  "mode": "weak",
   "ignore": [
     "**/resources/**",
     "**/src/test/**",

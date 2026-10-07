@@ -1,5 +1,5 @@
 {
-  "threshold": 5,
+  "threshold": 3,
   "mode": "weak",
   "ignore": [
     "**/resources/**",

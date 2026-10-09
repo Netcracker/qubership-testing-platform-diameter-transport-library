@@ -90,10 +90,10 @@ public class ResponseListenerSctpTest {
 
     @Test
     public void ccaLongerThanReadBufferIsDecodedWhole() throws IOException, URISyntaxException, InterruptedException {
-        ByteBuffer dump = HexDumpReader.read(HEX_DUMP_RESOURCE, "cca1.hexdump.txt");
+        ByteBuffer dump = HexDumpReader.read(HEX_DUMP_RESOURCE, "cca_big.hexdump.txt");
         byte[] cca = new byte[dump.remaining()];
         dump.get(cca);
-        assertEquals("cca1.hexdump.txt must hold the 612-byte CCA", 612, cca.length);
+        assertEquals("cca_big.hexdump.txt must hold the 612-byte CCA", 612, cca.length);
 
         awaitDecoded(1, () -> association.deliver(cca));
 

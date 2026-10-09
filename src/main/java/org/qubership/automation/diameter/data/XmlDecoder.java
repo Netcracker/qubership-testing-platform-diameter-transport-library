@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.qubership.automation.diameter.avp.AVPDictionary;
 import org.qubership.automation.diameter.avp.AVPEntity;
 import org.qubership.automation.diameter.avp.AVPProvider;
@@ -159,9 +160,16 @@ public class XmlDecoder extends Decoder {
                             decodedMessage.append(" vendor=\"").append(avp.getVendorId()).append("\"");
                         }
                     }
+                    decodedMessage.append(END);
+
+                    // Escape AVP value before appending
+                    Object decodedValue = decode(avp, avpBody, decodedMessage);
+                    String valueStr = decodedValue != null ? decodedValue.toString() : "";
+                    decodedMessage.append(XMLStringDataProcessor.escapeXmlMinimal(valueStr));
+
                     decodedMessage
-                            .append(END).append(decode(avp, avpBody, decodedMessage))
-                            .append(CLOSE).append(avp.getName())
+                            .append(CLOSE)
+                            .append(avp.getName())
                             .append(END);
                 }
                 message = slice(message, roundLength(length), message.length);

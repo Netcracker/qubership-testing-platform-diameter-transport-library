@@ -133,7 +133,8 @@ public class AvpFormatter {
     private static void format(final String row, final AVPEntity avpEntity, final StringBuilder result) {
         String avpName = avpEntity.getName();
         String s = row.replaceFirst(avpName,
-                avpName + String.format(" code=\"%d\" vendor=\"%d\"", avpEntity.getId(), avpEntity.getVendorId()));
+                avpName
+                        + String.format(" code=\"%d\" vendor=\"%d\"", avpEntity.getId(), avpEntity.getVendorId()));
         result.append(s).append("\n");
     }
 

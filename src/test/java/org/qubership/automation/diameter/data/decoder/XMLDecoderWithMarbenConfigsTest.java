@@ -17,16 +17,13 @@
 
 package org.qubership.automation.diameter.data.decoder;
 
-import static org.junit.Assert.assertThat;
-
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import org.apache.commons.io.IOUtils;
-import org.hamcrest.Matcher;
-import org.hamcrest.core.StringContains;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.HexDumpReader;
 import org.qubership.automation.diameter.MarbenConfigProvider;
 import org.qubership.automation.diameter.data.Decoder;
@@ -38,182 +35,204 @@ public class XMLDecoderWithMarbenConfigsTest extends MarbenConfigProvider {
 
     private XmlDecoder decoder;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         decoder = new XmlDecoder(DICTIONARY_CONFIG);
     }
 
     @Test
     public void testDecodeSNRFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/snr.bytes.txt")));
-        validate(message, StringContains.containsString("<SNR>"), StringContains.containsString("</SNR>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/snr.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<SNR>", "</SNR>");
     }
 
     @Test
     public void testDecodeSNRFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "snr.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<SNR>"));
-        assertThat(message, StringContains.containsString("</SNR>"));
+        Assertions.assertTrue(message.contains("<SNR>"));
+        Assertions.assertTrue(message.contains("</SNR>"));
     }
 
     @Test
     public void testDecodeSNAFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "sna.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<SNA>"));
-        assertThat(message, StringContains.containsString("</SNA>"));
+        Assertions.assertTrue(message.contains("<SNA>"));
+        Assertions.assertTrue(message.contains("</SNA>"));
     }
 
     @Test
     public void testDecodeSNAFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/sna.bytes.txt")));
-        validate(message, StringContains.containsString("<SNA>"), StringContains.containsString("</SNA>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/sna.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<SNA>", "</SNA>");
     }
 
     @Test
     public void testDecodeCCRFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/ccr.bytes.txt")));
-        validate(message, StringContains.containsString("<CCR>"), StringContains.containsString("</CCR>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/ccr.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<CCR>", "</CCR>");
     }
 
     @Test
     public void testDecodeCCRFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "ccr.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<CCR>"));
-        assertThat(message, StringContains.containsString("</CCR>"));
+        Assertions.assertTrue(message.contains("<CCR>"));
+        Assertions.assertTrue(message.contains("</CCR>"));
     }
 
     @Test
     public void testDecodeCCAFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/cca.bytes.txt")));
-        validate(message, StringContains.containsString("<CCA>"), StringContains.containsString("</CCA>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/cca.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<CCA>", "</CCA>");
     }
 
     @Test
     public void testDecodeCCAFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "cca.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<CCA>"));
-        assertThat(message, StringContains.containsString("</CCA>"));
+        Assertions.assertTrue(message.contains("<CCA>"));
+        Assertions.assertTrue(message.contains("</CCA>"));
     }
 
     @Test
     public void testDecodeDWRFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/dwr.bytes.txt")));
-        validate(message, StringContains.containsString("<DWR>"), StringContains.containsString("</DWR>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/dwr.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<DWR>", "</DWR>");
     }
 
     @Test
     public void testDecodeDWRFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "dwr.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<DWR>"));
-        assertThat(message, StringContains.containsString("</DWR>"));
+        Assertions.assertTrue(message.contains("<DWR>"));
+        Assertions.assertTrue(message.contains("</DWR>"));
     }
 
     @Test
     public void testDecodeDWAFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/dwa.bytes.txt")));
-        validate(message, StringContains.containsString("<DWA>"), StringContains.containsString("</DWA>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/dwa.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<DWA>", "</DWA>");
     }
 
     @Test
     public void testDecodeDWAFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "dwa.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<DWA>"));
-        assertThat(message, StringContains.containsString("</DWA>"));
+        Assertions.assertTrue(message.contains("<DWA>"));
+        Assertions.assertTrue(message.contains("</DWA>"));
     }
 
     @Test
     public void testDecodeCERFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/cer.bytes.txt")));
-        validate(message, StringContains.containsString("<CER>"), StringContains.containsString("</CER>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/cer.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<CER>", "</CER>");
     }
 
     @Test
     public void testDecodeCERFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "cer.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<CER>"));
-        assertThat(message, StringContains.containsString("</CER>"));
+        Assertions.assertTrue(message.contains("<CER>"));
+        Assertions.assertTrue(message.contains("</CER>"));
     }
 
     @Test
     public void testDecodeCEAFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/cea.bytes.txt")));
-        validate(message, StringContains.containsString("<CEA>"), StringContains.containsString("</CEA>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/cea.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<CEA>", "</CEA>");
     }
 
     @Test
     public void testDecodeCEAFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "cea.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<CEA>"));
-        assertThat(message, StringContains.containsString("</CEA>"));
+        Assertions.assertTrue(message.contains("<CEA>"));
+        Assertions.assertTrue(message.contains("</CEA>"));
     }
 
     @Test
     public void testDecodeSTRFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/str.bytes.txt")));
-        validate(message, StringContains.containsString("<STR>"), StringContains.containsString("</STR>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/str.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<STR>", "</STR>");
     }
 
     @Test
     public void testDecodeSTRFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "str.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<STR>"));
-        assertThat(message, StringContains.containsString("</STR>"));
+        Assertions.assertTrue(message.contains("<STR>"));
+        Assertions.assertTrue(message.contains("</STR>"));
     }
 
     @Test
     public void testDecodeSLRFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/slr.bytes.txt")));
-        validate(message, StringContains.containsString("<SLR>"), StringContains.containsString("</SLR>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/slr.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<SLR>", "</SLR>");
     }
 
     @Test
     public void testDecodeSLRFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "slr.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<SLR>"));
-        assertThat(message, StringContains.containsString("</SLR>"));
+        Assertions.assertTrue(message.contains("<SLR>"));
+        Assertions.assertTrue(message.contains("</SLR>"));
     }
 
     @Test
     public void testDecodeSLAFromBytesAndMarbenConfigs() throws Exception {
-        String message = IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/sla.bytes.txt")));
-        validate(message, StringContains.containsString("<SLA>"), StringContains.containsString("</SLA>"));
+        String message = new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/bytes/sla.bytes.txt")).readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        validate(message, "<SLA>", "</SLA>");
     }
 
     @Test
     public void testDecodeSLAFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "sla.hexdump.txt");
         String message = decoder.decode(buffer);
-        assertThat(message, StringContains.containsString("<SLA>"));
-        assertThat(message, StringContains.containsString("</SLA>"));
+        Assertions.assertTrue(message.contains("<SLA>"));
+        Assertions.assertTrue(message.contains("</SLA>"));
     }
 
-    private void validate(String string, Matcher<String> firstMatcher, Matcher<String> secondMatcher) {
+    private void validate(String string, String firstMatcher, String secondMatcher) {
         Decoder decoder = new XmlDecoder(DICTIONARY_CONFIG);
         byte[] buffer = getBytesFromString(string);
         String decode = decoder.decode(ByteBuffer.wrap(buffer));
-        assertThat(decode, firstMatcher);
-        assertThat(decode, secondMatcher);
+        Assertions.assertTrue(decode.contains(firstMatcher));
+        Assertions.assertTrue(decode.contains(secondMatcher));
     }
 
     private byte[] getBytesFromString(String string) {

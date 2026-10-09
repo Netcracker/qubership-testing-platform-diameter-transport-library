@@ -17,27 +17,28 @@
 
 package org.qubership.automation.diameter.config;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.StandardConfigProvider;
 import org.qubership.automation.diameter.command.Command;
 import org.qubership.automation.diameter.dictionary.DiameterDictionaryHolder;
 import org.qubership.automation.diameter.dictionary.DictionaryConfig;
 
-public class ConfigReaderTest extends StandardConfigProvider {
+class ConfigReaderTest extends StandardConfigProvider {
 
     @Test
-    public void givenConfigForStandardFormat_whenWeReadItAndParse_thenConfigIsReadAndItGeneratesCommandById() {
+    void givenConfigForStandardFormat_whenWeReadItAndParse_thenConfigIsReadAndItGeneratesCommandById() {
         Command request = DiameterDictionaryHolder.getInstance().getDictionary(DICTIONARY_CONFIG).getCommandDictionary()
                 .getRequest(257);
-        assertNotNull(request);
+        Assertions.assertNotNull(request);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testConfigIsNotReadAndThrowsException() throws Exception {
+    @Test
+    void testConfigIsNotReadAndThrowsException() {
         String path = "src/test/resources/avp_base.xml";
         DictionaryConfig dictionaryConfig = new DictionaryConfig(path, StandardParser.class, null);
-        ConfigReader.read(dictionaryConfig, false);
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> ConfigReader.read(dictionaryConfig, false));
     }
 }

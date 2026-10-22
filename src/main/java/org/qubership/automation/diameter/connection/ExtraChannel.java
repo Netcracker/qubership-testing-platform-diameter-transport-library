@@ -52,6 +52,12 @@ public class ExtraChannel {
     private static final long MINUTE = 60 * 1000;
 
     /**
+     * Largest SCTP message, in bytes, that {@link #receiveSctpMessage(int)} accepts: 16 MiB
+     * ({@value #MAX_SCTP_MESSAGE_SIZE} bytes), which exceeds any value the 3-byte Diameter message length can hold.
+     */
+    private static final int MAX_SCTP_MESSAGE_SIZE = 1 << 24;
+
+    /**
      * Diameter Connection Timeout (milliseconds).
      */
     private static final int CONNECTION_TIMEOUT = Integer.parseInt(
@@ -67,6 +73,11 @@ public class ExtraChannel {
      * SCTP Channel.
      */
     private SctpChannel sctpChannel;
+
+    /**
+     * Receives one SCTP packet into a buffer; reads from {@link #sctpChannel} unless a test replaces it.
+     */
+    private SctpReceiver sctpReceiver = (dst, handler) -> this.sctpChannel.receive(dst, null, handler);
 
     /**
      * Socket Channel.
@@ -127,6 +138,19 @@ public class ExtraChannel {
     }
 
     /**
+     * Creates a channel that reads SCTP messages through the given receiver instead of a real association.
+     *
+     * @param receiver source of SCTP packets.
+     * @return channel with SCTP transport.
+     */
+    static ExtraChannel withSctpReceiver(final SctpReceiver receiver) {
+        ExtraChannel result = new ExtraChannel();
+        result.transport = TransportType.SCTP;
+        result.sctpReceiver = receiver;
+        return result;
+    }
+
+    /**
      * Close the channel.
      *
      * @throws IOException - in case errors while closing of the channel.
@@ -148,20 +172,63 @@ public class ExtraChannel {
      */
     public int read(final ByteBuffer allocate) throws IOException {
         if (this.transport == TransportType.SCTP) {
-            messageInfo = null;
-            ReceiveNotificationHandler receive = new ReceiveNotificationHandler(this.sctpChannel);
-            LOGGER.debug("Reading message by sctp");
-            do {
-                messageInfo = this.sctpChannel.receive(allocate, null, receive);
-                LOGGER.debug("Reading [{}]", messageInfo.isComplete());
-            } while (!messageInfo.isComplete());
-            LOGGER.debug("Reading message by sctp size [{}]", messageInfo.bytes());
-            return messageInfo.bytes();
+            ByteBuffer message = receiveSctpMessage(allocate.remaining());
+            if (message == null) {
+                return -1;
+            }
+            int size = message.position();
+            if (size > allocate.remaining()) {
+                throw new IOException("SCTP message of " + size + " bytes does not fit into the buffer of "
+                        + allocate.remaining() + " bytes; use receiveSctpMessage(int) to read it");
+            }
+            allocate.put(message.array(), 0, size);
+            return size;
         } else {
             int size = this.socketChannel.read(allocate);
             LOGGER.debug("Reading message by tcp size [{}]", size);
             return size;
         }
+    }
+
+    /**
+     * Reads one whole SCTP message, enlarging the buffer for as long as the message is incomplete.
+     *
+     * <p>The message occupies the returned buffer from index 0 up to its {@code position()}; the buffer
+     * is not flipped and always has a backing array.</p>
+     *
+     * @param initialCapacity - size of the first buffer, in bytes; must be positive.
+     * @return buffer holding the message, or {@code null} if the association was shut down.
+     * @throws IOException - in case errors while reading from the channel
+     *                       or if the message is longer than {@value #MAX_SCTP_MESSAGE_SIZE} bytes.
+     */
+    ByteBuffer receiveSctpMessage(final int initialCapacity) throws IOException {
+        ReceiveNotificationHandler handler = new ReceiveNotificationHandler(this.sctpChannel);
+        ByteBuffer buffer = ByteBuffer.allocate(initialCapacity);
+        LOGGER.debug("Reading message by sctp");
+        do {
+            if (!buffer.hasRemaining()) {
+                buffer = enlarge(buffer);
+            }
+            messageInfo = this.sctpReceiver.receive(buffer, handler);
+            if (messageInfo == null) {
+                LOGGER.debug("Reading message by sctp is interrupted by association shutdown");
+                return null;
+            }
+            LOGGER.debug("Reading [{}]", messageInfo.isComplete());
+        } while (!messageInfo.isComplete());
+        LOGGER.debug("Reading message by sctp size [{}]", buffer.position());
+        return buffer;
+    }
+
+    private static ByteBuffer enlarge(final ByteBuffer full) throws IOException {
+        int capacity = full.capacity();
+        if (capacity >= MAX_SCTP_MESSAGE_SIZE) {
+            throw new IOException("SCTP message is longer than " + MAX_SCTP_MESSAGE_SIZE + " bytes");
+        }
+        ByteBuffer larger = ByteBuffer.allocate((int) Math.min(MAX_SCTP_MESSAGE_SIZE, Math.max(1L, 2L * capacity)));
+        full.flip();
+        larger.put(full);
+        return larger;
     }
 
     /**
@@ -237,6 +304,23 @@ public class ExtraChannel {
      */
     public boolean isOpen() {
         return lastDwrTime == 0L || lastDwrTime + MINUTE > System.currentTimeMillis();
+    }
+
+    /**
+     * Receives a single SCTP packet, as {@link SctpChannel#receive} does.
+     */
+    @FunctionalInterface
+    interface SctpReceiver {
+
+        /**
+         * Copies the next part of the current message into {@code dst}, up to its remaining space.
+         *
+         * @param dst     buffer to fill.
+         * @param handler handler of SCTP notifications.
+         * @return info about the received part; {@code isComplete()} is false until the whole message is delivered.
+         * @throws IOException in case of read errors.
+         */
+        MessageInfo receive(ByteBuffer dst, ReceiveNotificationHandler handler) throws IOException;
     }
 
     class SendNotificationHandler extends AbstractNotificationHandler<Void> {

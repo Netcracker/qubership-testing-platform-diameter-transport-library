@@ -104,6 +104,14 @@ public class XMLDecoderWithMarbenConfigsTest extends MarbenConfigProvider {
     }
 
     @Test
+    public void testDecodeBigCCAFromHexAndMarbenConfigs() throws Exception {
+        ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "cca_big.hexdump.txt");
+        String message = decoder.decode(buffer);
+        assertThat(message, StringContains.containsString("<CCA>"));
+        assertThat(message, StringContains.containsString("</CCA>"));
+    }
+
+    @Test
     public void testDecodeDWRFromBytesAndMarbenConfigs() throws Exception {
         String message = IOUtils.toString(
                 Objects.requireNonNull(getClass().getResourceAsStream("/bytes/dwr.bytes.txt")));

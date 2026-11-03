@@ -17,6 +17,7 @@
 
 package org.qubership.automation.diameter.data;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.qubership.automation.diameter.data.constants.CommandXmlTags;
 import org.qubership.automation.diameter.interceptor.InterceptorTypes;
 
@@ -93,5 +94,50 @@ public class XMLStringDataProcessor {
             return InterceptorTypes.ASR;
         }
         return "";
+    }
+
+    public static String escapeXmlMinimal(String input) {
+        /*
+            The 1st variant: simply use StringEscapeUtils.escapeXml10 to perform full escaping.
+            But, taking into account that we encode only AVP values, I decide
+            to perform minimal escaping: & and < only:
+              - Escape & to defend on XML injections
+              - Escape < to defend on XML syntax breaking.
+              - Escape > as pair character for < (because it's very strange to see &lt;user>)
+            Other characters - \", ' and > - left unchanged during escaping/un-escaping.
+            So, next command is commented.
+         */
+        //return StringEscapeUtils.escapeXml10(input);
+
+        if (input == null) {
+            return "";
+        }
+
+        // Escape only <, > and &
+        return input
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
+    }
+
+    public static String unescapeXmlMinimal(String input) {
+        /*
+            The 1st variant: simply use StringEscapeUtils.unescapeXml to perform full unescaping.
+            But, this method is pair method for 'escapeXmlMinimal' above.
+            So, once escapeXmlMinimal now escapes & and <, > only,
+              this method should do opposite conversion.
+            So, next command is commented.
+         */
+        //return StringEscapeUtils.unescapeXml(input);
+
+        if (input == null) {
+            return "";
+        }
+
+        // Unescape only <, > and &
+        return input
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&amp;", "&");
     }
 }

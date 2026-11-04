@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ public class ExtraChannel {
     private static final long MINUTE = 60 * 1000;
 
     /**
-     * Largest SCTP message, in bytes, that {@link #receiveSctpMessage(int)} accepts: 16 MiB
-     * ({@value #MAX_SCTP_MESSAGE_SIZE} bytes), which exceeds any value the 3-byte Diameter message length can hold.
+     * Largest SCTP message, in bytes, that {@link #receiveSctpMessage(int)} accepts: 16 MiB,
+     * which exceeds any value the 3-byte Diameter message length can hold.
      */
     private static final int MAX_SCTP_MESSAGE_SIZE = 1 << 24;
 

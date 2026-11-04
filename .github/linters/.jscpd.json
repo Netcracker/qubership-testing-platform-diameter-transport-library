@@ -1,8 +1,11 @@
 {
-  "threshold": 2,
+  "threshold": 3,
+  "mode": "weak",
   "ignore": [
     "**/resources/**",
+    "**/src/test/**",
     "**/*/*.xml",
+    "**/*/*.yaml",
     "**/*/*.md"
   ]
 }

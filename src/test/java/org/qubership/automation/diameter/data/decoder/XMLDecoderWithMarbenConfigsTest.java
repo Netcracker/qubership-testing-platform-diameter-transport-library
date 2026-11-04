@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -98,6 +98,14 @@ public class XMLDecoderWithMarbenConfigsTest extends MarbenConfigProvider {
     @Test
     public void testDecodeCCAFromHexAndMarbenConfigs() throws Exception {
         ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "cca.hexdump.txt");
+        String message = decoder.decode(buffer);
+        assertThat(message, StringContains.containsString("<CCA>"));
+        assertThat(message, StringContains.containsString("</CCA>"));
+    }
+
+    @Test
+    public void testDecodeBigCCAFromHexAndMarbenConfigs() throws Exception {
+        ByteBuffer buffer = HexDumpReader.read(HEX_DUMP_RESOURCE, "cca_big.hexdump.txt");
         String message = decoder.decode(buffer);
         assertThat(message, StringContains.containsString("<CCA>"));
         assertThat(message, StringContains.containsString("</CCA>"));

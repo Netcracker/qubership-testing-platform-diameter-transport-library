@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -133,16 +133,16 @@ public class ResponseListener implements Runnable {
 
     private void runSctp(final ByteBuffer allocate) {
         while (!Thread.interrupted() && !stopped) {
-            int read = readSctp(allocate);
-            if (read < 0) {
+            ByteBuffer message = readSctp(allocate.capacity());
+            if (message == null) {
                 LOGGER.info("Socket is closed, thread will be interrupted");
                 return;
             }
-            if (read == 0) {
+            if (message.position() == 0) {
                 waitTimeout();
                 continue;
             }
-            processData(allocate, read);
+            processData(message, message.position());
         }
         try {
             channel.close();
@@ -334,12 +334,12 @@ public class ResponseListener implements Runnable {
         }
     }
 
-    private int readSctp(final ByteBuffer allocate) {
+    private ByteBuffer readSctp(final int initialCapacity) {
         try {
-            return channel.read(allocate);
+            return channel.receiveSctpMessage(initialCapacity);
         } catch (IOException e) {
             if (stopped) {
-                return -1;
+                return null;
             }
             throw new RuntimeException("Unable to read data from socket", e);
         }

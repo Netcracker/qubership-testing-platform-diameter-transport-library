@@ -17,33 +17,34 @@
 
 package org.qubership.automation.diameter.data.encoder;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class UtilsTest {
     @Test
-    public void testParseInt() {
-        assertEquals(3, Utils.parseInt("3"));
+    void testParseInt() {
+        Assertions.assertEquals(3, Utils.parseInt("3"));
     }
 
     @Test
-    public void testParseInt16() {
-        assertEquals(255, Utils.parseInt("Ff", 16));
+    void testParseInt16() {
+        Assertions.assertEquals(255, Utils.parseInt("Ff", 16));
     }
 
     @Test
-    public void testParseInt16NumberWithoutHex() {
-        assertEquals(5, Utils.parseInt("5", 16));
+    void testParseInt16NumberWithoutHex() {
+        Assertions.assertEquals(5, Utils.parseInt("5", 16));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testParseIntFailIfValueIsNotNumber() {
-        Utils.parseInt(" ");
+    @Test
+    void testParseIntFailIfValueIsNotNumber() {
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Utils.parseInt(" "));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testParseInt16FailIfValueIsNotNumber() {
-        Utils.parseInt("X");
+    @Test
+    void testParseInt16FailIfValueIsNotNumber() {
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Utils.parseInt("X"));
     }
 }

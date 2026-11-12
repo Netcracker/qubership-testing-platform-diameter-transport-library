@@ -17,11 +17,9 @@
 
 package org.qubership.automation.diameter.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.MarbenConfigProvider;
 import org.qubership.automation.diameter.avp.AVPDictionary;
 import org.qubership.automation.diameter.avp.AVPEntity;
@@ -36,64 +34,64 @@ public class MarbenParserTest extends MarbenConfigProvider {
     private AVPDictionary avpDictionary;
     private CommandDictionary commandDictionary;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         avpDictionary = DictionaryService.getInstance().getAvpDictionary(DICTIONARY_CONFIG);
         commandDictionary = DictionaryService.getInstance().getCommandDictionary(DICTIONARY_CONFIG);
     }
 
     @Test
-    public void testParseCommands() {
+    void testParseCommands() {
         Command request = commandDictionary.getRequest(272);
-        assertNotNull(request);
-        assertEquals(272, request.getId());
-        assertEquals("CCR", request.getShortName());
-        assertEquals(request, commandDictionary.getRequest("CCR"));
+        Assertions.assertNotNull(request);
+        Assertions.assertEquals(272, request.getId());
+        Assertions.assertEquals("CCR", request.getShortName());
+        Assertions.assertEquals(request, commandDictionary.getRequest("CCR"));
         Command answer = commandDictionary.getAnswer(272);
-        assertNotNull(answer);
-        assertEquals("CCA", answer.getShortName());
-        assertEquals(answer, commandDictionary.getAnswer("CCA"));
+        Assertions.assertNotNull(answer);
+        Assertions.assertEquals("CCA", answer.getShortName());
+        Assertions.assertEquals(answer, commandDictionary.getAnswer("CCA"));
     }
 
     @Test
-    public void testParseAvpsWithVendorId() {
+    void testParseAvpsWithVendorId() {
         AVPEntity avp = avpDictionary.getVendor(10415).getById(2);
-        assertNotNull(avp);
-        assertEquals(2, avp.getId());
-        assertEquals(AVPRule.MUSTNOT, avp.getMandatory());
-        assertEquals(AVPRule.MAY, avp.getProtect());
-        assertEquals(10415, avp.getVendorId());
-        assertEquals("TGPP-Charging-Id", avp.getName());
+        Assertions.assertNotNull(avp);
+        Assertions.assertEquals(2, avp.getId());
+        Assertions.assertEquals(AVPRule.MUSTNOT, avp.getMandatory());
+        Assertions.assertEquals(AVPRule.MAY, avp.getProtect());
+        Assertions.assertEquals(10415, avp.getVendorId());
+        Assertions.assertEquals("TGPP-Charging-Id", avp.getName());
     }
 
     @Test
-    public void testParseAvpWithEnumeratedType() {
+    void testParseAvpWithEnumeratedType() {
         AVPEntity avp = avpDictionary.getById(295);
-        assertEquals(AVPType.ENUMERATE, avp.getType());
-        assertEquals("LOST_SERVICE".toLowerCase(), avp.getEnumerated(13).toLowerCase());
+        Assertions.assertEquals(AVPType.ENUMERATE, avp.getType());
+        Assertions.assertEquals("LOST_SERVICE".toLowerCase(), avp.getEnumerated(13).toLowerCase());
     }
 
     @Test
-    public void testParseAvpWithGroupedType() {
+    void testParseAvpWithGroupedType() {
         AVPEntity avp = avpDictionary.getById(458);
-        assertEquals(AVPType.GROUPED, avp.getType());
+        Assertions.assertEquals(AVPType.GROUPED, avp.getType());
     }
 
     @Test
-    public void testParseUnsigned32Type() {
+    void testParseUnsigned32Type() {
         AVPEntity avp = avpDictionary.getVendor(10415).getById(869);
-        assertEquals(AVPType.UNSIGNED32, avp.getType());
+        Assertions.assertEquals(AVPType.UNSIGNED32, avp.getType());
     }
 
     @Test
-    public void testParseOctetString() {
+    void testParseOctetString() {
         AVPEntity avp = avpDictionary.getVendor(10415).getById(2);
-        assertEquals(AVPType.OCTET_STRING, avp.getType());
+        Assertions.assertEquals(AVPType.OCTET_STRING, avp.getType());
     }
 
     @Test
-    public void testParseApplicationId() {
+    void testParseApplicationId() {
         Command request = commandDictionary.getRequest(272);
-        assertEquals(4, request.getApplicationId());
+        Assertions.assertEquals(4, request.getApplicationId());
     }
 }

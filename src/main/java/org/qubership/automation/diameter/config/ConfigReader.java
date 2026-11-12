@@ -29,11 +29,15 @@ import javax.xml.parsers.SAXParserFactory;
 import org.qubership.automation.diameter.dictionary.DiameterDictionary;
 import org.qubership.automation.diameter.dictionary.DiameterDictionaryHolder;
 import org.qubership.automation.diameter.dictionary.DictionaryConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import jakarta.annotation.Nonnull;
 
 public final class ConfigReader {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigReader.class);
 
     /**
      * Instance object link.
@@ -92,8 +96,8 @@ public final class ConfigReader {
             throw new IllegalArgumentException("Directory with configuration doesn't exist: " + path);
         }
         if (directory.isFile()) {
-            throw new IllegalArgumentException(
-                    "Path to directory with config xmls should be specified, instead of path to single file:" + path);
+            throw new IllegalArgumentException("Path to directory with XML config files should be specified, "
+                    + "instead of path to single file: " + path);
         }
         readFiles(directory, diameterParser, dictionaryConfig);
     }
@@ -103,12 +107,26 @@ public final class ConfigReader {
                                         final DictionaryConfig dictionaryConfig)
             throws ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
+
+        // Defense against XXE
+        try {
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        } catch (ParserConfigurationException | SAXException e) {
+            LOGGER.warn("Could not set XXE protection features on SAXParserFactory", e);
+
+            // To be decided: if we can proceed with security features not set, or should throw below exception
+            // throw new IllegalStateException("Failed to configure SAXParserFactory with security features", e);
+        }
+
         SAXParser saxParser = factory.newSAXParser();
         File[] files = directory.listFiles(XML_FILTER);
         String dictionaryPath = dictionaryConfig.getDictionaryPath();
         if (files == null) {
             throw new IllegalArgumentException(
-                    "Directory '" + dictionaryPath + "' doesn't contain xml config files for diameter.");
+                    "Directory '" + dictionaryPath + "' doesn't contain XML config files for diameter.");
         }
         initDictionary(dictionaryConfig);
         for (File file : files) {

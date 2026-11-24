@@ -4,6 +4,10 @@
 Diameter Transport Library is designed to send and receive messages via Diameter protocol.
 It is used by Qubership Testing Platform ITF-Executor Service.
 
+> **Two release lines.** `main` is the Spring Boot 3.5.x line (`v3.x`). Production also runs the pre-upgrade line
+> (`v2.2.x`), which is maintained on the `old-main-before-springboot-upgrade` branch. See
+> [Branches and releases](CONTRIBUTING.md#branches-and-releases) before you start a change.
+
 ## Functionality description
 
 - The library provides Diameter Outbound Synchronous Transport implementation only.

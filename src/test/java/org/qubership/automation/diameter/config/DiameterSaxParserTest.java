@@ -17,10 +17,8 @@
 
 package org.qubership.automation.diameter.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.StandardConfigProvider;
 import org.qubership.automation.diameter.avp.AVPDictionary;
 import org.qubership.automation.diameter.avp.AVPEntity;
@@ -36,15 +34,15 @@ public class DiameterSaxParserTest extends StandardConfigProvider {
         CommandDictionary commandDictionary = DiameterDictionaryHolder.getInstance().getDictionary(DICTIONARY_CONFIG)
                 .getCommandDictionary();
         Command command = commandDictionary.getRequest("CCR");
-        assertNotNull(command);
-        assertEquals(272, command.getId());
+        Assertions.assertNotNull(command);
+        Assertions.assertEquals(272, command.getId());
         command = commandDictionary.getAnswer("CEA");
-        assertNotNull(command);
-        assertEquals(257, command.getId());
-        assertEquals(0, command.getApplicationId());
+        Assertions.assertNotNull(command);
+        Assertions.assertEquals(257, command.getId());
+        Assertions.assertEquals(0, command.getApplicationId());
         command = commandDictionary.getAnswer(282);
-        assertNotNull(command);
-        assertEquals("DPA", command.getShortName());
+        Assertions.assertNotNull(command);
+        Assertions.assertEquals("DPA", command.getShortName());
     }
 
     @Test
@@ -52,8 +50,8 @@ public class DiameterSaxParserTest extends StandardConfigProvider {
         CommandDictionary commandDictionary = DiameterDictionaryHolder.getInstance().getDictionary(DICTIONARY_CONFIG)
                 .getCommandDictionary();
         Command command = commandDictionary.getRequest("RAA");
-        assertNotNull(command);
-        assertEquals(258, command.getId());
+        Assertions.assertNotNull(command);
+        Assertions.assertEquals(258, command.getId());
     }
 
     @Test
@@ -61,11 +59,11 @@ public class DiameterSaxParserTest extends StandardConfigProvider {
         AVPDictionary avpDictionary = DiameterDictionaryHolder.getInstance().getDictionary(DICTIONARY_CONFIG)
                 .getAvpDictionary();
         AVPEntity avp = avpDictionary.getVendor(3868).getById(50001);
-        assertNotNull(avp);
-        assertEquals("CVG-Event-Source", avp.getName());
-        assertEquals(3868, avp.getVendorId());
-        assertEquals(50001, avp.getId());
-        assertEquals(AVPType.UNSIGNED32, avp.getType());
+        Assertions.assertNotNull(avp);
+        Assertions.assertEquals("CVG-Event-Source", avp.getName());
+        Assertions.assertEquals(3868, avp.getVendorId());
+        Assertions.assertEquals(50001, avp.getId());
+        Assertions.assertEquals(AVPType.UNSIGNED32, avp.getType());
     }
 
     @Test
@@ -73,9 +71,9 @@ public class DiameterSaxParserTest extends StandardConfigProvider {
         AVPDictionary avpDictionary = DiameterDictionaryHolder.getInstance().getDictionary(DICTIONARY_CONFIG)
                 .getAvpDictionary();
         AVPEntity avp = avpDictionary.getById(416);
-        assertNotNull(avp);
-        assertEquals("CC-Request-Type", avp.getName());
-        assertEquals(416, avp.getId());
-        assertEquals(AVPType.ENUMERATE, avp.getType());
+        Assertions.assertNotNull(avp);
+        Assertions.assertEquals("CC-Request-Type", avp.getName());
+        Assertions.assertEquals(416, avp.getId());
+        Assertions.assertEquals(AVPType.ENUMERATE, avp.getType());
     }
 }

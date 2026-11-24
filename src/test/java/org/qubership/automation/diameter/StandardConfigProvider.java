@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.qubership.automation.diameter.config.ConfigReader;
 import org.qubership.automation.diameter.config.StandardParser;
 import org.qubership.automation.diameter.dictionary.DictionaryConfig;
@@ -33,7 +33,7 @@ public abstract class StandardConfigProvider {
     public static final DictionaryConfig DICTIONARY_CONFIG = new DictionaryConfig(DICTIONARY_PATH,
             StandardParser.class, null);
 
-    @BeforeClass
+    @BeforeAll
     public static void prepare() throws ParserConfigurationException, SAXException, IOException {
         ConfigReader.read(DICTIONARY_CONFIG, false);
     }

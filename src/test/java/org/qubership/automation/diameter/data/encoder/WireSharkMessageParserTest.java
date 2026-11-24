@@ -17,16 +17,15 @@
 
 package org.qubership.automation.diameter.data.encoder;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.data.encoder.wireshark.AvpRecord;
 import org.qubership.automation.diameter.data.encoder.wireshark.WireSharkMessage;
 import org.qubership.automation.diameter.data.encoder.wireshark.WireSharkMessageParser;
@@ -58,7 +57,7 @@ public class WireSharkMessageParserTest {
             "    AVP: Auth-Application-Id(258) l=12 f=-M- val=Diameter Credit Control Application (4)";
     private WireSharkMessageParser parser;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         parser = new WireSharkMessageParser();
     }
@@ -68,32 +67,33 @@ public class WireSharkMessageParserTest {
         AvpRecord avp = parser.parseAvp(
                 "AVP: Origin-Host(264) l=32 f=-M- val=some-address.our-company.com",
                 "").getRight();
-        assertEquals("some-address.our-company.com", avp.getValue());
-        assertEquals("264", avp.getCode());
-        assertEquals("32", avp.getLength());
-        assertEquals("-M-", avp.getFlags());
+        Assertions.assertEquals("some-address.our-company.com", avp.getValue());
+        Assertions.assertEquals("264", avp.getCode());
+        Assertions.assertEquals("32", avp.getLength());
+        Assertions.assertEquals("-M-", avp.getFlags());
     }
-
 
     @Test
     public void testParseMessage() {
         WireSharkMessage message = parser.parse(this.CEA);
-        assertEquals("0x00", message.getFlag());
-        assertEquals("257", message.getCommand());
-        assertEquals("0x01", message.getVersion());
-        assertEquals("0", message.getApplicationId());
+        Assertions.assertEquals("0x00", message.getFlag());
+        Assertions.assertEquals("257", message.getCommand());
+        Assertions.assertEquals("0x01", message.getVersion());
+        Assertions.assertEquals("0", message.getApplicationId());
         List<Pair<Integer, AvpRecord>> records = message.getAvpRecords();
-        assertAVP(records.get(0).getRight(), "268", "12", "-M-", "DIAMETER_SUCCESS (2001)");
+        assertAVP(records.getFirst().getRight(), "268", "12", "-M-", "DIAMETER_SUCCESS (2001)");
         assertAVP(records.get(records.size() / 2).getRight(), "265", "12", "-M-", "13019");
-        assertAVP(records.get(records.size() - 1).getRight(), "258", "12", "-M-", "Diameter Credit Control Application (4)");
+        assertAVP(records.getLast().getRight(), "258", "12", "-M-", "Diameter Credit Control Application (4)");
     }
 
     @Test
     public void testParseAvpWithIncludedMessage() throws IOException {
-        WireSharkMessage parse = parser.parse(IOUtils.toString(
-                Objects.requireNonNull(getClass().getResourceAsStream("/wireshark/CCR.wireshark"))));
-        assertEquals("272", parse.getCommand());
-        assertEquals(26, parse.getAvpRecords().size());
+        WireSharkMessage parse = parser.parse(new String(
+                Objects.requireNonNull(getClass().getResourceAsStream("/wireshark/CCR.wireshark"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8));
+        Assertions.assertEquals("272", parse.getCommand());
+        Assertions.assertEquals(26, parse.getAvpRecords().size());
     }
 
     @Test
@@ -110,15 +110,17 @@ public class WireSharkMessageParserTest {
             Padding: 0000
      */
     public void givenCCRWithSGSN_andSGSNHasHexValue_whenWeParseThisMessage_thenAVPHasHexValue() throws IOException {
-        WireSharkMessage parse = parser.parse(IOUtils.toString(Objects.requireNonNull(
-                        getClass().getResourceAsStream("/wireshark/givenCCR_andAVPwithOriginalValue.txt"))));
-        assertEquals("0001d948e803", parse.getAvpRecords().get(35).getValue().getHexValue());
+        WireSharkMessage parse = parser.parse(new String(Objects.requireNonNull(
+                        getClass().getResourceAsStream("/wireshark/givenCCR_andAVPwithOriginalValue.txt"))
+                .readAllBytes(),
+                StandardCharsets.UTF_8));
+        Assertions.assertEquals("0001d948e803", parse.getAvpRecords().get(35).getValue().getHexValue());
     }
 
     private void assertAVP(AvpRecord avpRecord, String code, String length, String flags, String value) {
-        assertEquals(flags, avpRecord.getFlags());
-        assertEquals(code, avpRecord.getCode());
-        assertEquals(length, avpRecord.getLength());
-        assertEquals(value, avpRecord.getValue());
+        Assertions.assertEquals(flags, avpRecord.getFlags());
+        Assertions.assertEquals(code, avpRecord.getCode());
+        Assertions.assertEquals(length, avpRecord.getLength());
+        Assertions.assertEquals(value, avpRecord.getValue());
     }
 }

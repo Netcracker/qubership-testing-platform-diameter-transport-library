@@ -17,10 +17,9 @@
 
 package org.qubership.automation.diameter.config;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.qubership.automation.diameter.command.Command;
 import org.qubership.automation.diameter.command.CommandDictionary;
 import org.qubership.automation.diameter.dictionary.DictionaryConfig;
@@ -32,7 +31,7 @@ public class MarbenConfigReaderTest {
             MarbenParser.class, null);
     private CommandDictionary commandDictionary;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         ConfigReader.read(DICTIONARY_CONFIG, false);
         commandDictionary = DictionaryService.getInstance().getCommandDictionary(DICTIONARY_CONFIG);
@@ -41,16 +40,16 @@ public class MarbenConfigReaderTest {
     @Test
     public void testReadingMarbenDictionaryTwiceAndCheckCCRApplicationId() throws Exception {
         Command request = commandDictionary.getRequest(272);
-        assertEquals(4, request.getApplicationId());
+        Assertions.assertEquals(4, request.getApplicationId());
         ConfigReader.read(DICTIONARY_CONFIG, true);
         Command request1 = commandDictionary.getRequest(272);
-        assertEquals(4, request1.getApplicationId());
+        Assertions.assertEquals(4, request1.getApplicationId());
     }
 
     @Test
     public void testReadingMarbenDictionaryToCheckSNRApplicationId() {
         Command request = commandDictionary.getRequest(8388636);
-        assertEquals(16777302, request.getApplicationId());
-        assertEquals("SNR", request.getShortName());
+        Assertions.assertEquals(16777302, request.getApplicationId());
+        Assertions.assertEquals("SNR", request.getShortName());
     }
 }
